@@ -55,3 +55,6 @@ html {
 .scroll_blocked {
   overflow: hidden;
 }
+#root {
+  background: linear-gradient(180deg, transparent 0%, $purple-light 100%);
+}
