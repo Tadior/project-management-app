@@ -1,15 +1,15 @@
 import { Outlet } from 'react-router-dom';
+import { Footer } from '../components/Footer/Footer';
 import { Header } from '../components/Header/Header';
-import { Menu } from '../components/NavMenu/NavMenu';
 
 export const MainLayouts = () => {
   return (
     <>
       <Header />
-      <main>
+      <main className="main">
         <Outlet />
       </main>
-      <footer>rss 2022</footer>
+      <Footer />
     </>
   );
 };

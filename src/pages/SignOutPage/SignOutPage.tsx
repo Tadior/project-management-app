@@ -1,5 +1,5 @@
 import React from 'react';
 
 export const SignOutPage = () => {
-  return <div>SignOutPage</div>;
+  return <h1>SignOutPage</h1>;
 };

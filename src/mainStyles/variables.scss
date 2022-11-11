@@ -9,10 +9,18 @@ $white-text: #FFFFFF;
 $grey-text: #97989F;
 $grey-transperent: rgba(151, 152, 159, 0.52);
 $grey-cards: #F5F6F8;
+$background-footer: #050000;
+;
 
 
 @mixin flex-center {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+@mixin flex-center-space-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
