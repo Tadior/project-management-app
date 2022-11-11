@@ -1,13 +1,11 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Menu } from '../components/Menu/Menu';
+import { Header } from '../components/Header/Header';
+import { Menu } from '../components/NavMenu/NavMenu';
 
 export const MainLayouts = () => {
   return (
     <>
-      <header>
-        <Menu />
-      </header>
+      <Header />
       <main>
         <Outlet />
       </main>

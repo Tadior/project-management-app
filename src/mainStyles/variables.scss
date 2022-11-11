@@ -5,6 +5,14 @@ $yellow: #F7D56E;
 $red: rgba(240, 49, 49, 0.52);
 $black-title: #000000;
 $black-text: #191919;
+$white-text: #FFFFFF;
 $grey-text: #97989F;
 $grey-transperent: rgba(151, 152, 159, 0.52);
 $grey-cards: #F5F6F8;
+
+
+@mixin flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

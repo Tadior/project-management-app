@@ -1,0 +1,28 @@
+  .header__wrapper {
+  	display: flex;
+  	align-items: center;
+  	justify-content: space-between;
+  	padding: 40px 90px;
+  }
+
+  .logo {
+  	@include flex-center;
+  	font-weight: 700;
+  	font-size: 20px;
+  	line-height: 24px;
+
+  	.logo__text {
+  		padding-top: 14px;
+  		padding-bottom: 8px;
+  	}
+  }
+
+
+  .button-black {
+  	width: 108px;
+  	height: 39px;
+  	padding: 10px 24px;
+  	background: $black-text;
+  	border-radius: 8px;
+  	color: $white-text;
+  }

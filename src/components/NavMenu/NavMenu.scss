@@ -1,0 +1,20 @@
+ .menu-lang__wrapper {
+ 	@include flex-center;
+ }
+
+ .menu {
+ 	margin-right: 30px;
+ }
+
+ .link-signIn {
+ 	margin-right: 10px;
+ }
+
+ .lang {
+ 	@include flex-center;
+
+ 	.lang__img {
+ 		margin-right: 5px;
+ 	}
+
+ }
