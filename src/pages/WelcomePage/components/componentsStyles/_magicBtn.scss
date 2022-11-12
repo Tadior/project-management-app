@@ -19,6 +19,7 @@
   a {
     position: relative;
     font-size: 20px;
+    font-family: 'Inter-Medium';
     font-weight: 500;
     color: $black-text;
     z-index: 1;
@@ -40,7 +41,7 @@
     &::before {
       content: '';
       width: 200%;
-      height: 200%;
+      height: 120%;
       position: absolute;
       top: 0;
       left: 50%;

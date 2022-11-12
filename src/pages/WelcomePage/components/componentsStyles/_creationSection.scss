@@ -1,0 +1,32 @@
+.creation {
+  background-color: white;
+  padding: 40px 0;
+
+  &__title {
+    margin-bottom: 30px;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 90px;
+  }
+
+  &__img {
+    width: 350px;
+    height: 350px;
+    background-image: url('../../../../assets/images/cauldron.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  &__info {
+    width: 560px;
+
+    &-text {
+      margin-bottom: 30px;
+    }
+  }
+}

@@ -9,6 +9,7 @@
 
   &__info {
     &-title {
+      font-family: 'Playfair-Bold';
       font-size: 54px;
       line-height: 64px;
       letter-spacing: -0.7px;
@@ -17,11 +18,7 @@
       margin-bottom: 35px;
     }
     &-details {
-      font-size: 24px;
-      line-height: 30px;
-      color: $black-text;
-      text-align: justify;
-      width: 595px;
+      width: 520px;
       margin-bottom: 35px;
     }
   }
