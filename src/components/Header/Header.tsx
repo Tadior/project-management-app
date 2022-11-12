@@ -1,3 +1,4 @@
+import React from 'react';
 import { Menu } from '../NavMenu/NavMenu';
 
 export const Header = () => {
@@ -20,4 +21,13 @@ export const Header = () => {
       </div>
     </header>
   );
+};
+
+document.body.onscroll = () => {
+  const header = document.querySelector('.header');
+  if (window.scrollY > 0) {
+    header?.classList.add('active-header');
+  } else {
+    header?.classList.remove('active-header');
+  }
 };

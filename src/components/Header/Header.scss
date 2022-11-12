@@ -1,6 +1,21 @@
-  .header__wrapper {
+  .header {
+		position: sticky;
+		top: 0;
+		left: 0;
+		z-index: 5;
+		padding: 40px 0;
+		transition: 0.3s;
+	}
+
+	.active-header {
+		background-color: white;
+		padding: 20px 0;
+		border-radius: 0 0 20px 20px;
+		filter: drop-shadow(0px 8px 6px $purple-light); 
+	}
+	
+	.header__wrapper {
   	@include flex-center-space-between;
-  	padding: 40px 0;
   }
 
   .logo {
