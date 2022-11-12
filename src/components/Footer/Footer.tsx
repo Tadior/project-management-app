@@ -9,7 +9,7 @@ export const Footer = () => {
     <footer className="footer">
       <div className="footer-wrapper container">
         <div className="logo-RSS">
-          <img src="logo-Rss.svg" />
+          <img src="icons/logo-Rss.svg" />
         </div>
         <p className="date">2022</p>
         <ul className="links-gitHub-command__list">

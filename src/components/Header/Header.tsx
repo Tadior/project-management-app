@@ -5,7 +5,7 @@ export const Header = () => {
     <header className="header">
       <div className="header__wrapper container">
         <div className="logo">
-          <img className="logo__img" src="logo.png" alt="logo" />
+          <img className="logo__img" src="icons/logo.png" alt="logo" />
           <p className="logo__text">
             Mana <br /> Projects
           </p>
@@ -13,7 +13,7 @@ export const Header = () => {
         <div className="menu-lang__wrapper">
           <Menu />
           <div className="lang">
-            <img className="lang__img" src="lang.svg"></img>
+            <img className="lang__img" src="icons/lang.svg"></img>
             <span className="lang__text">EN</span>
           </div>
         </div>
