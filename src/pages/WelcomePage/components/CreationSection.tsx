@@ -16,7 +16,7 @@ const CreationSection = () => {
               Everyone can study at RSSchool, regardless of age, professional employment, or place
               of residence.
             </p>
-            <MagicBtn text="Join" />
+            <MagicBtn href="https://rs.school/react/" text="Join" />
           </div>
         </div>
       </div>

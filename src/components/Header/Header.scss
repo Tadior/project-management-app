@@ -5,6 +5,27 @@
 		z-index: 5;
 		padding: 40px 0;
 		transition: 0.3s;
+
+		&__wrapper {
+			@include flex-center-space-between;
+		}
+
+		.logo {
+			@include flex-center;
+			font-size: 20px;
+			line-height: 24px;
+	
+			&__text {
+				padding-top: 14px;
+				padding-bottom: 8px;
+				color: $black-title;
+				font-family: 'Inter-Bold';
+			}
+		}
+
+		.lang {
+			cursor: pointer;
+		}
 	}
 
 	.active-header {
@@ -13,19 +34,3 @@
 		border-radius: 0 0 20px 20px;
 		filter: drop-shadow(0px 8px 6px $purple-light); 
 	}
-	
-	.header__wrapper {
-  	@include flex-center-space-between;
-  }
-
-  .logo {
-  	@include flex-center;
-  	font-size: 20px;
-  	line-height: 24px;
-
-  	.logo__text {
-  		padding-top: 14px;
-  		padding-bottom: 8px;
-			font-family: 'Inter-Bold';
-  	}
-  }

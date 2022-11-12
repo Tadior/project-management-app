@@ -16,7 +16,7 @@ const PromoSection = () => {
             be customized to suit your needs. Mana Projects is a handy web application that will
             make even the most complex project magically simple.
           </p>
-          <MagicBtn text="Start magic" />
+          <MagicBtn to="/signUp" text="Start magic" />
         </div>
         <div className="promo__img"></div>
       </div>
