@@ -8,6 +8,10 @@
   overflow: hidden;
   cursor: url('../../../../assets/icons/stick_icon.png'), auto;
 
+  &:active {
+    transform: translateY(3px);
+  }
+
   &:hover .magic{
     top: -150px;
   }

@@ -78,13 +78,24 @@ html {
 }
 
 .button-black {
+  transition: 0.4s;
   width: 108px;
   height: 39px;
   padding: 10px 24px;
   background: $black-text;
+  border: 1px solid $black-text;
   border-radius: 8px;
   color: $white-text;
   font-size: 16px;
   font-family: 'Inter-Medium';
   text-transform: capitalize;
+
+  &:active {
+    transform: translateY(3px);
+  }
+
+  &:hover {
+    background-color: white;
+    color: $black-text;
+  }
 }
