@@ -1,12 +1,15 @@
 @import 'components/componentsStyles/magicBtn';
+@import 'components/componentsStyles/teamCard';
 @import 'components/componentsStyles/promoSection';
 @import 'components/componentsStyles/creationSection';
+@import 'components/componentsStyles/teamSection';
 
 .section-title {
   font-family: 'Playfair-Medium';
   font-size: 42px;
   color: $black-title;
   text-align: center;
+  text-transform: capitalize;
 }
 
 .section-text {
