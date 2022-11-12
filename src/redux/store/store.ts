@@ -1,13 +1,15 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import ExampleReducer from '../reducer/ExampleSlice';
-
+import { manaApi } from '../query/Query';
 export const rootReducer = combineReducers({
   ExampleReducer,
+  [manaApi.reducerPath]: manaApi.reducer,
 });
 
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(manaApi.middleware),
   });
 };
 

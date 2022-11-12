@@ -21,6 +21,13 @@ export const ExampleSlice = createSlice({
     increment(state, action: PayloadAction<number>) {
       state.count += action.payload;
     },
+    setTokenToCookie(state, action: PayloadAction<{ token: string }>) {
+      document.cookie = `token=${action.payload.token}; path=/;`;
+    },
+    // getUsers(state, action: PayloadAction<{ token: string }>) {
+    //   console.log('--------------------');
+    //   console.log(action.payload);
+    // },
   },
 });
 
