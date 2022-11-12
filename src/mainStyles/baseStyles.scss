@@ -42,6 +42,14 @@ html {
   scroll-behavior: smooth;
 }
 
+button {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 #root {
   height: 100%;
 }
@@ -79,10 +87,20 @@ html {
 }
 
 .button-black {
-  width: 108px;
-  height: 39px;
+  border: 1px solid rgba(0, 0, 0, 0.85);
   padding: 10px 24px;
-  background: $black-text;
+  background-color: $black-text;
   border-radius: 8px;
   color: $white-text;
+}
+
+.button-border {
+  padding: 10px 24px;
+  border: 1px solid rgba(0, 0, 0, 0.85);
+  background-color: $white-text ;
+}
+
+.active {
+  background-color: $white-text;
+  color: $black-text;
 }
