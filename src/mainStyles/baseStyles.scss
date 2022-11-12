@@ -6,17 +6,21 @@
   border: 0;
   box-sizing: border-box;
 }
+
 a {
   text-decoration: none;
 }
+
 ul,
 ol,
 li {
   list-style: none;
 }
+
 img {
   vertical-align: top;
 }
+
 h1,
 h2,
 h3,
@@ -27,31 +31,58 @@ h6 {
   font-size: inherit;
   margin: 0;
 }
+
 html,
 body {
   height: 100%;
   font-family: "Jost-Regular", serif;
 }
+
 html {
   scroll-behavior: smooth;
 }
-.wrapper {
+
+#root {
+  height: 100%;
+}
+
+.App {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  background: linear-gradient(180deg, rgba(209, 194, 228, 0) 0%, #D1C2E4 100%);
+  ;
 }
+
 .main {
   flex: 1 1 auto;
   position: relative;
   overflow: hidden;
   min-height: fit-content;
 }
+
 .container {
   margin: 0 auto;
   max-width: 1260px;
   padding: 0 20px;
   width: 100%;
 }
+
 .scroll_blocked {
   overflow: hidden;
+}
+
+.footer {
+  background-color: $background-footer;
+  color: $white-text;
+  flex: 0 0 auto;
+}
+
+.button-black {
+  width: 108px;
+  height: 39px;
+  padding: 10px 24px;
+  background: $black-text;
+  border-radius: 8px;
+  color: $white-text;
 }

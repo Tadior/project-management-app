@@ -1,0 +1,30 @@
+// .footer {
+// 	background-color: $background-footer;
+// 	color: $white-text
+// }
+
+.footer-wrapper {
+	@include flex-center-space-between;
+	padding: 8px 90px;
+}
+
+.link-gitHub {
+	color: $white-text;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 19px;
+}
+
+.date {
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 24px;
+}
+
+.links-gitHub-command__item {
+	list-style: none;
+	background: url(../../../public/icons/logo-github.svg) no-repeat 0px 0px;
+	/* Параметры фона */
+	padding-left: 24px;
+	margin-bottom: 9px;
+}
