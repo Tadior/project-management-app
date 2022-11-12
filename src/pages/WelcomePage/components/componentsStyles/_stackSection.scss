@@ -1,0 +1,16 @@
+.stack {
+  padding: 40px 0;
+
+  &__title {
+    margin-bottom: 40px;
+  }
+  &__imgs {
+    @include flex-center;
+    gap: 100px;
+
+    img {
+      display: block;
+      height: 70px;
+    }
+  }
+}

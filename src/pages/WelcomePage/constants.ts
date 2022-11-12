@@ -23,3 +23,11 @@ export const TEAM: teamMember[] = [
     role: 'text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am ',
   },
 ];
+
+export const STACK = [
+  'icons/stack/webpack_icon.png',
+  'icons/stack/react_icon.png',
+  'icons/stack/ts_icon.png',
+  'icons/stack/redux_icon.png',
+  'icons/stack/mui_icon.png',
+];

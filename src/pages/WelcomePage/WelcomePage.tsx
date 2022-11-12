@@ -2,7 +2,8 @@ import React from 'react';
 
 import CreationSection from './components/CreationSection';
 import PromoSection from './components/PromoSection';
-import TeamSection from './components/teamSection';
+import StackSection from './components/StackSection';
+import TeamSection from './components/TeamSection';
 
 const WelcomePage = () => {
   return (
@@ -10,6 +11,7 @@ const WelcomePage = () => {
       <PromoSection />
       <CreationSection />
       <TeamSection />
+      <StackSection />
     </>
   );
 };

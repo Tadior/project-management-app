@@ -5,9 +5,7 @@
   border-radius: 12px;
 
   &__info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include flex-center-space-between;
     margin-bottom: 20px;
 
     &-img {

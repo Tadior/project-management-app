@@ -1,9 +1,7 @@
 .promo {
   padding: 80px 0;
   .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex-center;
     gap: 120px;
   }
 

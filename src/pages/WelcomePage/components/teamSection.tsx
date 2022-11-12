@@ -6,7 +6,7 @@ const TeamSection = () => {
   return (
     <section className="team">
       <div className="container">
-        <h3 className="team__title section-title">Our team</h3>
+        <h3 className="team__title section-title">Main wizards</h3>
         <div className="team__cards">
           {TEAM.map((member) => (
             <TeamCard key={member.name} card={member} />
