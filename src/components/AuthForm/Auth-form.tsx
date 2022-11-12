@@ -6,9 +6,13 @@ import { loginValidation, passwordValidation } from './validation';
 interface ISignInForm {
   login: string;
   password: string;
+  name: string;
+}
+interface ISignInFormProps {
+  user: boolean;
 }
 
-export const AuthForm: React.FC = () => {
+export const AuthForm: React.FC<ISignInFormProps> = ({ user }) => {
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({
     control,
@@ -19,8 +23,30 @@ export const AuthForm: React.FC = () => {
   return (
     <div className="auth-form">
       <h2 className="auth-form_title">Welcome, Wizard!</h2>
-      <p className="auth-form__subtitle">Sign In</p>
+      <p className="auth-form__subtitle"> {user ? `Sign up` : `Sign in`}</p>
       <form className="auth-form__form" onSubmit={handleSubmit(onSubmit)}>
+        {user && (
+          <Controller
+            control={control}
+            name="name"
+            rules={loginValidation}
+            render={({ field }) => (
+              <TextField
+                color="secondary"
+                variant="outlined"
+                label="NAME"
+                onChange={(e) => field.onChange(e)}
+                value={field.value}
+                fullWidth={true}
+                size="small"
+                className="auth-form__input"
+                error={!!errors.login?.message}
+                helperText={errors?.login?.message}
+              />
+            )}
+          />
+        )}
+
         <Controller
           control={control}
           name="login"
@@ -61,12 +87,18 @@ export const AuthForm: React.FC = () => {
           )}
         />
         <button className="button-border" type="submit">
-          Sign in
+          {user ? `Sign up` : `Sign in`}
         </button>
         <div className="dividing-line"></div>
-        <a href="#" className="sign-up-link">
-          Don’t have an accout yet? Sign up
-        </a>
+        {user ? (
+          <a href="#" className="sign-up-link">
+            Don’t have an account yet? Sign up
+          </a>
+        ) : (
+          <a href="#" className="sign-up-link">
+            Already have an account? Sign in
+          </a>
+        )}
       </form>
       <div className="auth-form__footer"></div>
     </div>
