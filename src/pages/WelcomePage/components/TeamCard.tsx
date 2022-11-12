@@ -22,7 +22,7 @@ const TeamCard = (props: TeamCardProps) => {
         href={props.card.github}
         rel="noreferrer"
         target="_blank"
-        className="memeber-btn black-btn"
+        className="member-btn button-black"
       >
         GitHub
       </a>

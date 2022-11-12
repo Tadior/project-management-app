@@ -8,10 +8,10 @@ export const Menu = () => {
         Home
       </NavLink> */}
       <NavLink className="link-signIn button-black" to="signIn">
-        sign in
+        Sign in
       </NavLink>
       <NavLink className="link-signOut button-black" to="signOut">
-        sign out
+        Sign out
       </NavLink>
     </nav>
   );

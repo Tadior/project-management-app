@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
-import { MainLayouts } from '../ Layouts/MainLayouts';
+import { MainLayouts } from '../ layouts/MainLayouts';
 import { NotFound } from '../pages/NotFoundPage/NotFound';
 import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { SignOutPage } from '../pages/SignOutPage/SignOutPage';
-import { WelcomePage } from '../pages/WelcomePage/WelcomePage';
+import WelcomePage from '../pages/WelcomePage/WelcomePage';
 
 export const AppRoutes = () => {
   return (

@@ -43,7 +43,6 @@ html {
 }
 
 #root {
-  background: linear-gradient(180deg, transparent 0%, $purple-light 100%);
   height: 100%;
 }
 
@@ -51,8 +50,7 @@ html {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, rgba(209, 194, 228, 0) 0%, #D1C2E4 100%);
-  ;
+  background: linear-gradient(180deg, transparent 0%, $purple-light 100%);
 }
 
 .main {
@@ -86,4 +84,7 @@ html {
   background: $black-text;
   border-radius: 8px;
   color: $white-text;
+  font-size: 16px;
+  font-family: 'Inter-Medium';
+  text-transform: capitalize;
 }
