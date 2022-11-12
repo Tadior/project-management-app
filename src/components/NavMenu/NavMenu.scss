@@ -1,0 +1,26 @@
+ .menu-lang__wrapper {
+ 	@include flex-center;
+ }
+
+ .menu {
+ 	margin-right: 30px;
+ }
+
+ .link-signIn {
+ 	margin-right: 10px;
+ }
+
+ .lang {
+ 	@include flex-center;
+
+ 	.lang__img {
+ 		margin-right: 5px;
+ 	}
+
+ 	.lang__text {
+ 		font-weight: 500;
+ 		font-size: 16px;
+ 		line-height: 19px;
+ 	}
+
+ }
