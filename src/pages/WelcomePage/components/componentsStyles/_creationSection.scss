@@ -1,0 +1,45 @@
+.creation {
+  background-color: white;
+  padding: 4rem 0;
+
+  &__title {
+    margin-bottom: 3rem;
+  }
+
+  &__content {
+    @include flex-center;
+    gap: 9rem;
+  }
+
+  &__img {
+    width: 35rem;
+    height: 35rem;
+    background-image: url('../../../../assets/images/cauldron.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  &__info {
+    width: 59rem;
+
+    &-text {
+      margin-bottom: 3rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  .creation {
+    &__content {
+      flex-wrap: wrap;
+      gap: 4rem;
+    }
+
+    &__info {
+      width: auto;
+      @include flex-center;
+      flex-direction: column;
+    }
+  }
+}

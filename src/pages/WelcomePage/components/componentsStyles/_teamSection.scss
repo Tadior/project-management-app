@@ -1,0 +1,22 @@
+.team {
+  padding: 4rem 0;
+
+  &__title {
+    margin-bottom: 4rem;
+  }
+
+  &__cards {
+    @include flex-center-space-between;
+    flex-wrap: wrap;
+    gap: 3rem;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .team {
+    &__cards {
+      @include flex-center;
+      gap: 3rem;
+    }
+  }
+}

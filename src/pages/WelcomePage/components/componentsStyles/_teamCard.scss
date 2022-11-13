@@ -1,0 +1,53 @@
+.member {
+  background-color: $grey-cards;
+  width: 36rem;
+  padding: 3rem 2rem;
+  border-radius: 1.2rem;
+
+  &__info {
+    @include flex-center-space-between;
+    margin-bottom: 2rem;
+
+    &-img {
+      width: 12rem;
+      height: 12rem;
+      border-radius: 50%;
+      overflow: hidden;
+
+      img {
+        width: 12rem;
+      }
+    }
+
+    &-details {
+      .member-name {
+        font-family: 'Inter-SemiBold';
+        font-size: 2rem;
+        line-height: 2.4rem;
+        color: black;
+      }
+
+      .member-position {
+        font-family: 'Inter-Regular';
+        font-size: 1.8rem;
+        line-height: 2.4rem;
+        color: $grey-text;
+      }
+    }
+  }
+
+  &__role {
+    font-family: 'Inter-Regular';
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+    color: $black-text;
+    text-align: justify;
+    margin-bottom: 3rem;
+  }
+
+  .member-btn {
+    margin: 0 auto;
+    display: block;
+    width: fit-content;
+  }
+}

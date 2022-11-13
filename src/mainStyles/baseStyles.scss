@@ -35,11 +35,12 @@ h6 {
 html,
 body {
   height: 100%;
-  font-family: "Jost-Regular", serif;
 }
 
 html {
   scroll-behavior: smooth;
+  font-family: 'Inter-Regular';
+  font-size: 10px;
 }
 
 #root {
@@ -50,8 +51,7 @@ html {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, rgba(209, 194, 228, 0) 0%, #D1C2E4 100%);
-  ;
+  background: linear-gradient(180deg, transparent 0%, $purple-light 100%);
 }
 
 .main {
@@ -79,10 +79,35 @@ html {
 }
 
 .button-black {
-  width: 108px;
-  height: 39px;
-  padding: 10px 24px;
+  transition: 0.4s;
+  height: 3.9rem;
+  padding: 1rem 2.4rem;
   background: $black-text;
-  border-radius: 8px;
+  border: 1px solid $black-text;
+  border-radius: 0.8rem;
   color: $white-text;
+  font-size: 1.6rem;
+  font-family: 'Inter-Medium';
+  text-transform: capitalize;
+
+  &:active {
+    transform: translateY(3px);
+  }
+
+  &:hover {
+    background-color: white;
+    color: $black-text;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  html {
+    font-size: 7px;
+  }
 }
