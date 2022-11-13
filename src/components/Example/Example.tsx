@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { ExampleSlice } from '../../redux/reducer/ExampleSlice';
-// import './Example.scss';
+
 const Example = () => {
   const { lastName, firstName, age, count } = useAppSelector((state) => state.ExampleReducer);
   const { increment } = ExampleSlice.actions;
