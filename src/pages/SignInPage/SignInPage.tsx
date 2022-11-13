@@ -1,11 +1,12 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { AuthForm } from '../../components/AuthForm/Auth-form';
 
 export const SignInPage = () => {
-  const user = true;
+  const { pathname } = useLocation();
   return (
     <section className="sign-in__wrapper">
-      <AuthForm user={user} />
+      <AuthForm page={pathname} />
     </section>
   );
 };

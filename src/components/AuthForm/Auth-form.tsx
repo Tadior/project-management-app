@@ -9,10 +9,10 @@ interface ISignInForm {
   name: string;
 }
 interface ISignInFormProps {
-  user: boolean;
+  page: string;
 }
 
-export const AuthForm: React.FC<ISignInFormProps> = ({ user }) => {
+export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({
     control,
@@ -23,9 +23,9 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ user }) => {
   return (
     <div className="auth-form">
       <h2 className="auth-form_title">Welcome, Wizard!</h2>
-      <p className="auth-form__subtitle"> {user ? `Sign up` : `Sign in`}</p>
+      <p className="auth-form__subtitle"> {page === '/signUp' ? `Sign up` : `Sign in`}</p>
       <form className="auth-form__form" onSubmit={handleSubmit(onSubmit)}>
-        {user && (
+        {page === '/signUp' && (
           <Controller
             control={control}
             name="name"
@@ -87,10 +87,10 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ user }) => {
           )}
         />
         <button className="button-border" type="submit">
-          {user ? `Sign up` : `Sign in`}
+          {page === '/signUp' ? `Sign up` : `Sign in`}
         </button>
         <div className="dividing-line"></div>
-        {user ? (
+        {page === '/signUp' ? (
           <a href="#" className="sign-up-link">
             Don’t have an account yet? Sign up
           </a>
