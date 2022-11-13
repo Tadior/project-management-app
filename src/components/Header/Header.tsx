@@ -1,6 +1,6 @@
+import { NavMenu } from '../NavMenu/NavMenu';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Menu } from '../NavMenu/NavMenu';
 
 export const Header = () => {
   return (
@@ -15,7 +15,7 @@ export const Header = () => {
           </div>
         </Link>
         <div className="menu-lang__wrapper">
-          <Menu />
+          <NavMenu />
           <div className="lang">
             <img className="lang__img" src="icons/lang.svg"></img>
             <span className="lang__text">EN</span>

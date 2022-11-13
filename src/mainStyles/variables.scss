@@ -1,5 +1,6 @@
 $purple-light: #D1C2E4;
 $purple-bright: #BB9CE3;
+$purple-input: #9c27b0;
 $green: #78FF8E;
 $yellow: #F7D56E;
 $red: rgba(240, 49, 49, 0.52);
@@ -21,4 +22,11 @@ $background-footer: #050000;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+@mixin flex-column-center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }

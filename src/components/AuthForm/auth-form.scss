@@ -1,0 +1,83 @@
+.auth-form {
+	@include flex-column-center;
+	background-color: $white-text;
+	width: 35rem;
+	padding: 2rem 4rem 4rem 4rem;
+	text-align: center;
+	box-shadow: 0.5rem 0.4rem 1rem #97989F;
+	border-radius: 0.8rem;
+	margin: 3rem 0;
+
+	.auth-form_title {
+		font-family: 'Playfair-Medium';
+		font-size: 2.4rem;
+		line-height: 3.2rem;
+		margin-bottom: 2rem;
+	}
+
+	.auth-form__subtitle {
+		color: $grey-text;
+		font-family: 'Inter-Medium';
+		font-size: 2rem;
+		line-height: 2.7rem;
+		margin-bottom: 2.8rem;
+		text-transform: capitalize;
+	}
+
+	.auth-form__form {
+		max-width: 36rem;
+	}
+
+	.auth-form__footer {
+		margin-top: 0.8rem;
+	}
+
+	.auth-form__input {
+		margin-bottom: 3rem !important;
+		width: 27rem;
+		font-size: 3rem;
+		
+		label {
+			font-family: 'Inter-SemiBold';
+			font-size: 1.4rem;
+			background-color: white;
+			padding: 0 0.5rem;
+		}
+
+		div {
+			height: 4rem;
+		}
+
+		input {
+			font-family: 'Inter-SemiBold';
+			color: $grey-text;
+			font-size: 1.6rem;
+
+			&:focus {
+				color: $purple-input;
+			}
+		}
+	}
+
+	.dividing-line {
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+		border: 1px solid #D1C2E4;
+	}
+
+	.sign-up-link {
+		font-family: 'Inter-Regular';
+		font-size: 1.6rem;
+		color: $purple-bright;
+
+		&:hover {
+			color: $black-text;
+		}
+	}
+
+}
+
+.css-k4qjio-MuiFormHelperText-root {
+	font-family: 'Inter-regular' !important;
+	font-size: 1rem !important;
+}
