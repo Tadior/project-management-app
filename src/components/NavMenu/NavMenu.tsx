@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 export const NavMenu = () => {
-  const user = false;
+  const user = true;
   return (
     <nav className="menu">
       {user ? (
