@@ -1,0 +1,21 @@
+@import 'components/componentsStyles/magicBtn';
+@import 'components/componentsStyles/teamCard';
+@import 'components/componentsStyles/promoSection';
+@import 'components/componentsStyles/creationSection';
+@import 'components/componentsStyles/teamSection';
+@import 'components/componentsStyles/stackSection';
+
+.section-title {
+  font-family: 'Playfair-Medium';
+  font-size: 4.2rem;
+  color: $black-title;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.section-text {
+  font-size: 2.4rem;
+  line-height: 3rem;
+  color: $black-text;
+  text-align: justify;
+}
