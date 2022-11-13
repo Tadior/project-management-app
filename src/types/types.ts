@@ -27,7 +27,7 @@ export interface createColumnSetApi {
   order: number;
   boardId: string;
 }
-export interface taskApi {
+export interface TaskApi {
   _id: string;
   title: string;
   order: number;
@@ -37,14 +37,14 @@ export interface taskApi {
   userId: string;
   users: string[];
 }
-export interface fileApi {
+export interface FileApi {
   _id: string;
   name: string;
   taskId: string;
   boardId: string;
   path: string;
 }
-export interface pointApi {
+export interface PointApi {
   _id: string;
   title: string;
   taskId: number;

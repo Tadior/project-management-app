@@ -6,9 +6,11 @@ const getCookieToken = (name = 'token') => {
 };
 
 const deleteCookieToken = (name = 'token') => {
-  console.log(document.cookie);
   document.cookie = encodeURIComponent(name) + '=; max-age: -1 ';
-  console.log(document.cookie);
 };
 
-export { getCookieToken, deleteCookieToken };
+const setTokenToCookie = (token: string) => {
+  document.cookie = `token=${token}; path=/;`;
+};
+
+export { getCookieToken, deleteCookieToken, setTokenToCookie };
