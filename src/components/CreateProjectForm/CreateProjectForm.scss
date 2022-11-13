@@ -1,35 +1,79 @@
 .create-project-form {
 	@include flex-column-center;
 	background-color: $white-text;
-	width: 350px;
-	padding: 20px 40px 40px 40px;
+	width: 35rem;
+	padding: 2rem 4rem 4rem 4rem;
 	text-align: center;
-	box-shadow: 5px 4px 10px #97989F;
-	border-radius: 8px;
+	box-shadow: 0.5rem 0.4rem 1rem #97989F;
+	border-radius: 0.8rem;
 
 
 
 	.create-project-form__title {
-		font-family: 'Playfair Display';
+		font-family: 'Playfair-Medium';
 		color: $grey-text;
-		font-weight: 500;
-		font-size: 24px;
-		line-height: 32px;
-		margin-bottom: 20px;
+		font-size: 2.4rem;
+		line-height: 3.2rem;
+		margin-bottom: 2rem;
 	}
 
 	.create-project__form {
-		max-width: 360px;
+		max-width: 36rem;
 	}
 
 	.create-project-form__input {
-		margin-bottom: 28px !important;
-		width: 270px;
+		margin-bottom: 2.8rem !important;
+		width: 27rem;
+
+		label {
+			font-family: 'Inter-SemiBold';
+			font-size: 1.4rem;
+			background-color: white;
+			padding: 0 0.5rem;
+		}
+
+		div {
+			height: 4rem;
+		}
+
+		input {
+			font-family: 'Inter-SemiBold';
+			color: $grey-text;
+			font-size: 1.6rem;
+
+			&:focus {
+				color: $purple-input;
+			}
+		}
+	}
+
+	.create-project-form__textarea {
+		margin-bottom: 2.8rem !important;
+		width: 27rem;
+
+		label {
+			font-family: 'Inter-SemiBold';
+			font-size: 1.4rem;
+			background-color: white;
+			padding: 0 0.5rem;
+		}
+
+		div {
+			height: 17.5rem;
+		}
+
+		textarea {
+			font-family: 'Inter-SemiBold';
+			color: $grey-text;
+			font-size: 1.6rem;
+
+			&:focus {
+				color: $purple-input;
+			}
+		}
 	}
 
 	.button-create {
-		margin-left: 20px;
+		margin-left: 2rem;
 	}
-
-
 }

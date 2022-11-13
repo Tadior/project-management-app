@@ -52,12 +52,12 @@ export const CreateProjectForm: React.FC = () => {
               color="secondary"
               variant="outlined"
               multiline
-              rows={5}
+              rows={10}
               label="DESCRIPTION"
               onChange={(e) => field.onChange(e)}
               value={field.value}
               size="small"
-              className="create-project-form__input"
+              className="create-project-form__textarea"
               error={!!errors?.password?.message}
               helperText={errors?.password?.message}
             />

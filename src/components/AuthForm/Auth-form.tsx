@@ -92,11 +92,11 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
         <div className="dividing-line"></div>
         {page === '/signUp' ? (
           <a href="#" className="sign-up-link">
-            Don’t have an account yet? Sign up
+            Already have an account? Sign in
           </a>
         ) : (
           <a href="#" className="sign-up-link">
-            Already have an account? Sign in
+            Don’t have an account yet? Sign up
           </a>
         )}
       </form>

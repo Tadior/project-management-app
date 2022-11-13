@@ -67,6 +67,8 @@ button {
   position: relative;
   overflow: hidden;
   min-height: fit-content;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -84,6 +86,28 @@ button {
   background-color: $background-footer;
   color: $white-text;
   flex: 0 0 auto;
+}
+
+.button-border {
+  transition: 0.4s;
+  height: 3.9rem;
+  padding: 1rem 2.4rem;
+  background: white;
+  border: 1px solid $black-text;
+  border-radius: 0.8rem;
+  color: $black-text;
+  font-size: 1.6rem;
+  font-family: 'Inter-Medium';
+  text-transform: capitalize;
+
+  &:active {
+    transform: translateY(3px);
+  }
+
+  &:hover {
+    background-color: $black-text;
+    color: white;
+  }
 }
 
 .button-black {
@@ -106,6 +130,11 @@ button {
     background-color: white;
     color: $black-text;
   }
+}
+
+.active {
+  background-color: white;
+  color: $black-text;
 }
 
 @media only screen and (max-width: 768px) {
