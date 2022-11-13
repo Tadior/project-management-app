@@ -1,31 +1,69 @@
 .promo {
-  padding: 80px 0;
+  padding: 8rem 0;
   .container {
-    @include flex-center;
-    gap: 120px;
+    @include flex-center-space-between;
   }
 
   &__info {
     &-title {
       font-family: 'Playfair-Bold';
-      font-size: 54px;
-      line-height: 64px;
+      width: 43rem;
+      font-size: 5.4rem;
+      line-height:6.4rem;
       letter-spacing: -0.7px;
       font-weight: bold;
       color: $black-title;
-      margin-bottom: 35px;
+      margin-bottom: 3.5rem;
     }
     &-details {
-      width: 520px;
-      margin-bottom: 35px;
+      width: 52rem;
+      margin-bottom: 3.5rem;
     }
   }
   &__img {
-    width: 535px;
-    height: 535px;
-    background-image: url('../../../../assets/images/welcome_image.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    display: block;
+    width: 53.5rem;
+    height: 53.5rem;
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  .promo {
+    .container {
+      justify-content: center;
+      row-gap: 4rem;
+      flex-wrap: wrap;
+    }
+  
+    &__info {
+      @include flex-center;
+      flex-direction: column;
+      width: 100%;
+      &-title {
+        text-align: center;
+        width: 100%;
+      }
+      &-details {
+        width: 100%;
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 560px) {
+  .promo {
+    &__info {
+      &-title {
+        font-size: 4.2rem;
+        line-height:5rem;
+      }
+    }
+
+    &__img {
+      display: block;
+      width: 40rem;
+      height: 40rem;
+    }
   }
 }

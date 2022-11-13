@@ -3,7 +3,7 @@
 		top: 0;
 		left: 0;
 		z-index: 5;
-		padding: 40px 0;
+		padding: 4rem 0;
 		transition: 0.3s;
 
 		&__wrapper {
@@ -12,12 +12,12 @@
 
 		.logo {
 			@include flex-center;
-			font-size: 20px;
-			line-height: 24px;
+			font-size: 2rem;
+			line-height: 2.4rem;
 	
 			&__text {
-				padding-top: 14px;
-				padding-bottom: 8px;
+				padding-top: 1.4rem;
+				padding-bottom: 0.8rem;
 				color: $black-title;
 				font-family: 'Inter-Bold';
 			}
@@ -30,7 +30,7 @@
 
 	.active-header {
 		background-color: white;
-		padding: 20px 0;
-		border-radius: 0 0 20px 20px;
-		filter: drop-shadow(0px 8px 6px $purple-light); 
+		padding: 2rem 0;
+		border-radius: 0 0 2rem 2rem;
+		filter: drop-shadow(0px 0.8rem 0.6rem $purple-light); 
 	}

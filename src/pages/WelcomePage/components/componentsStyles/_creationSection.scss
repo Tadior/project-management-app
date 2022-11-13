@@ -1,19 +1,19 @@
 .creation {
   background-color: white;
-  padding: 40px 0;
+  padding: 4rem 0;
 
   &__title {
-    margin-bottom: 30px;
+    margin-bottom: 3rem;
   }
 
   &__content {
     @include flex-center;
-    gap: 90px;
+    gap: 9rem;
   }
 
   &__img {
-    width: 350px;
-    height: 350px;
+    width: 35rem;
+    height: 35rem;
     background-image: url('../../../../assets/images/cauldron.gif');
     background-repeat: no-repeat;
     background-position: center;
@@ -21,10 +21,25 @@
   }
 
   &__info {
-    width: 590px;
+    width: 59rem;
 
     &-text {
-      margin-bottom: 30px;
+      margin-bottom: 3rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  .creation {
+    &__content {
+      flex-wrap: wrap;
+      gap: 4rem;
+    }
+
+    &__info {
+      width: auto;
+      @include flex-center;
+      flex-direction: column;
     }
   }
 }

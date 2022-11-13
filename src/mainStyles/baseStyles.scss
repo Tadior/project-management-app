@@ -40,6 +40,7 @@ body {
 html {
   scroll-behavior: smooth;
   font-family: 'Inter-Regular';
+  font-size: 10px;
 }
 
 #root {
@@ -79,14 +80,13 @@ html {
 
 .button-black {
   transition: 0.4s;
-  width: 108px;
-  height: 39px;
-  padding: 10px 24px;
+  height: 3.9rem;
+  padding: 1rem 2.4rem;
   background: $black-text;
   border: 1px solid $black-text;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   color: $white-text;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-family: 'Inter-Medium';
   text-transform: capitalize;
 
@@ -97,5 +97,17 @@ html {
   &:hover {
     background-color: white;
     color: $black-text;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  html {
+    font-size: 7px;
   }
 }
