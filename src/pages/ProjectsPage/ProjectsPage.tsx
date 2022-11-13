@@ -1,5 +1,10 @@
 import React from 'react';
+import { CreateProjectForm } from './components/CreateProjectForm/CreateProjectForm';
 
 export const ProjectsPage = () => {
-  return <div>MainPage</div>;
+  return (
+    <div>
+      <CreateProjectForm />;
+    </div>
+  );
 };

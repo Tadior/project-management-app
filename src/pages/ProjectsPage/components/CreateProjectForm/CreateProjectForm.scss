@@ -1,0 +1,35 @@
+.create-project-form {
+	@include flex-column-center;
+	background-color: $white-text;
+	width: 350px;
+	padding: 20px 40px 40px 40px;
+	text-align: center;
+	box-shadow: 5px 4px 10px #97989F;
+	border-radius: 8px;
+
+
+
+	.create-project-form__title {
+		font-family: 'Playfair Display';
+		color: $grey-text;
+		font-weight: 500;
+		font-size: 24px;
+		line-height: 32px;
+		margin-bottom: 20px;
+	}
+
+	.create-project__form {
+		max-width: 360px;
+	}
+
+	.create-project-form__input {
+		margin-bottom: 28px !important;
+		width: 270px;
+	}
+
+	.button-create {
+		margin-left: 20px;
+	}
+
+
+}

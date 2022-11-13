@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-export const Menu = () => {
-  const user = true;
+export const NavMenu = () => {
+  const user = false;
   return (
     <nav className="menu">
       {user ? (
         <>
-          <NavLink className="link-project button-black" to="Project">
-            project
+          <NavLink className="link-project button-black" to="Projects">
+            projects
           </NavLink>
           <NavLink className="link-signOut button-black" to="signOut">
             sign out

@@ -1,4 +1,4 @@
-import { Menu } from '../NavMenu/NavMenu';
+import { NavMenu } from '../NavMenu/NavMenu';
 
 export const Header = () => {
   return (
@@ -11,7 +11,7 @@ export const Header = () => {
           </p>
         </div>
         <div className="menu-lang__wrapper">
-          <Menu />
+          <NavMenu />
           <div className="lang">
             <img className="lang__img" src="icons/lang.svg"></img>
             <span className="lang__text">EN</span>
