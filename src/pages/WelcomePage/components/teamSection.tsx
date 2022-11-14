@@ -1,5 +1,4 @@
 import React from 'react';
-import { TEAM } from '../constants';
 import TeamCard from './TeamCard';
 import { useTranslation } from 'react-i18next';
 import { teamMember } from '../../../types/types';

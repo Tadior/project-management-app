@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 export const NavMenu = () => {
   const { t } = useTranslation();
-  const user = true;
+  const user = false;
   return (
     <nav className="menu">
       {user ? (
