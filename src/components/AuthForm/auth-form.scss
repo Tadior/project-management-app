@@ -2,7 +2,7 @@
 	@include flex-column-center;
 	background-color: $white-text;
 	width: 35rem;
-	padding: 2rem 4rem 4rem 4rem;
+	padding: 2rem 3rem;
 	text-align: center;
 	box-shadow: 0.5rem 0.4rem 1rem #97989F;
 	border-radius: 0.8rem;
@@ -69,6 +69,7 @@
 		font-family: 'Inter-Regular';
 		font-size: 1.6rem;
 		color: $purple-bright;
+		text-align: center;
 
 		&:hover {
 			color: $black-text;
