@@ -1,8 +1,18 @@
 import { NavMenu } from '../NavMenu/NavMenu';
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
+  const languageRef = useRef<HTMLSpanElement>(null);
+  const { i18n, t } = useTranslation();
+  const handleChangeLang = () => {
+    if (languageRef!.current!.innerHTML === 'EN') {
+      i18n.changeLanguage('ru');
+    } else {
+      i18n.changeLanguage('en');
+    }
+  };
   return (
     <header className="header">
       <div className="header__wrapper container">
@@ -16,9 +26,11 @@ export const Header = () => {
         </Link>
         <div className="menu-lang__wrapper">
           <NavMenu />
-          <div className="lang">
+          <div onClick={handleChangeLang} className="lang en">
             <img className="lang__img" src="icons/lang.svg"></img>
-            <span className="lang__text">EN</span>
+            <span ref={languageRef} className="lang__text">
+              {t('header_lang')}
+            </span>
           </div>
         </div>
       </div>

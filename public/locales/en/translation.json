@@ -1,0 +1,54 @@
+{
+  "header_signIn": "Sign in",
+  "header_signUp": "Sign up",
+  "header_signOut": "Sign out",
+  "header_projects": "Projects",
+  "header_lang": "EN",
+  "welcome_promo_title_p1": "Your magic",
+  "welcome_promo_title_p2": "projects manager",
+  "welcome_promo_text": "Plan, organize and collaborate on any project with powerful projects management that can be customized to suit your needs. Mana Projects is a handy web application that will make even the most complex project magically simple.",
+  "welcome_promo_btn": "Start magic",
+  "welcome_creation_title": "App creation",
+  "welcome_creation_text": "This application was created by a small group of developers as part of The Rolling Scopes School's React course. RSSchool is free-of-charge and community-based education program conducted by The Rolling Scopes developer community since 2013. Everyone can study at RSSchool, regardless of age, professional employment, or place of residence.",
+  "welcome_creation_btn": "Join",
+  "welcome_team_title": "Main wizards",
+  "welcome_stack_title": "The stack we used",
+  "welcome_team": [
+    {
+      "img": "../images/Ilona.jpg",
+      "name": "Ilona Makhnach",
+      "position": "Frontend Developer",
+      "github": "https://github.com/IlonMakh",
+      "role": "text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am "
+    },
+
+    {
+      "img": "../images/Dmitriy.jpg",
+      "name": "Dmitriy Zamulin",
+      "position": "Frontend Developer",
+      "github": "https://github.com/tadior",
+      "role": "text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am "
+    },
+
+    {
+      "img": "../images/Andrei.jpg",
+      "name": "Andrei Matsiash",
+      "position": "Frontend Developer",
+      "github": "https://github.com/andrewmatsiash",
+      "role": "text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am "
+    }
+  ],
+  "sign_hello": "Hello, Wizard!",
+  "sign_name": "NAME",
+  "sign_login": "LOGIN",
+  "sign_password": "PASSWORD",
+  "sign_signIn": "Sign In",
+  "sign_signUp": "Sign Up",
+  "signIn_offer": "Already have an account? Sign in",
+  "signUp_offer": "Don’t have an account yet? Sign up",
+  "create_project": "Create project",
+  "create_title": "TITLE",
+  "create_desc": "DESCRIPTION",
+  "cancel_btn": "Cancel",
+  "create_btn": "Create"
+}
