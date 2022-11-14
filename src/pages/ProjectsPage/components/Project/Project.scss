@@ -1,0 +1,51 @@
+.project {
+  display: flex;
+  flex: 0 1 370px;
+  margin: 0 15px;
+  &__wrapper {
+    position: relative;
+    display: flex;
+    width: 100%;
+    padding: 40px 20px;
+    border-radius: 12px;
+    background: $grey-cards;
+  }
+  &__description {
+    font-family: 'Inter-Regular', serif;
+    margin-top: 10px;
+    color: $grey-text;
+    font-size: 16px;
+  }
+  &__picture {
+    max-width: 70px;
+    width: 100%;
+    transition: all ease 0.5s;
+  }
+  &__img {
+    width: 100%;
+  }
+  &__info {
+    margin-left: 20px;
+  }
+  &__title {
+    color: $black-text;
+    font-family: 'Inter-Medium', serif;
+    font-size: 20px;
+  }
+  &__trash {
+    position: absolute;
+    content: '';
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+    transition: all ease 0.5s;
+    &:hover {
+      transform: translateY(-3px);
+    }
+  }
+  :hover {
+    .project__picture {
+      transform: translateY(10px);
+    }
+  }
+}

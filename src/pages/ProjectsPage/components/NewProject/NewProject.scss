@@ -1,0 +1,26 @@
+.new-project {
+  @include flex-center;
+  flex: 0 1 370px;
+  border: 5px dashed $grey-cards;
+  border-radius: 12px;
+  margin: 0 15px;
+  cursor: pointer;
+  transition: all ease 0.5s;
+  &__symbol {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+    background-color: $grey-cards;
+    text-align: center;
+    align-items: center;
+    border-radius: 10px;
+    @include flex-center;
+    transition: inherit;
+  }
+  &:hover {
+    border-color: $purple-bright;
+    .new-project__symbol {
+      background-color: $purple-bright;
+    }
+  }
+}

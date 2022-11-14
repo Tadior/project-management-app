@@ -1,0 +1,17 @@
+@import './components/Project/Project.scss';
+@import './components/NewProject/NewProject.scss';
+.title {
+  font-family: 'Playfair-Bold', serif;
+  font-weight: 700;
+  font-size: 30px;
+  &__projects {
+    text-align: center;
+    margin-top: 40px;
+  }
+}
+.projects {
+  &__wrapper {
+    display: flex;
+    margin: 30px -15px 0;
+  }
+}
