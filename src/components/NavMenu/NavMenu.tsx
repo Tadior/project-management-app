@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 export const NavMenu = () => {
   const { t } = useTranslation();
-  const user = false;
+  const user = true;
   return (
     <nav className="menu">
       {user ? (
@@ -13,6 +13,9 @@ export const NavMenu = () => {
             {t('header_projects')}
           </NavLink>
           <button className="link-signOut button-black">{t('header_signOut')}</button>
+          <NavLink className="link-profile" to="profile">
+            <img className="lang__img" src="icons/user.svg" alt="user" />
+          </NavLink>
         </>
       ) : (
         <>
