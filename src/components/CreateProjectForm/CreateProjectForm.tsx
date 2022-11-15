@@ -13,7 +13,7 @@ interface ISignInFormProps {
   page: string;
 }
 
-export const CreateProjectForm: React.FC = () => {
+export const CreateProjectForm = ({ updateState }: { updateState: (value: boolean) => void }) => {
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({
     control,
@@ -63,7 +63,14 @@ export const CreateProjectForm: React.FC = () => {
             />
           )}
         />
-        <button className="button-border">Cancel</button>
+        <button
+          className="button-border"
+          onClick={() => {
+            updateState(false);
+          }}
+        >
+          Cancel
+        </button>
         <button className="button-create button-black" type="submit">
           Create
         </button>

@@ -3,17 +3,18 @@
   flex: 0 1 370px;
   border: 5px dashed $grey-cards;
   border-radius: 12px;
-  margin: 0 15px;
   cursor: pointer;
   transition: all ease 0.5s;
+  padding: 4.2rem;
+  margin: 3rem 1.5rem 0;
   &__symbol {
-    font-size: 60px;
+    font-size: 6rem;
     width: 60px;
     height: 60px;
     background-color: $grey-cards;
     text-align: center;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 1rem;
     @include flex-center;
     transition: inherit;
   }
