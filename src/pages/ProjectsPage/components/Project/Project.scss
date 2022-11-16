@@ -1,14 +1,25 @@
 .project {
   display: flex;
   flex: 0 1 370px;
+  height: 150px;
   margin: 3rem 1.5rem 0;
   &__wrapper {
+    // overflow: scroll;
     position: relative;
     display: flex;
     width: 100%;
     padding: 4rem 2rem;
     border-radius: 12px;
     background: $grey-cards;
+    // &::-webkit-scrollbar {
+    //   width: 5px;
+    //   height: 0;
+    //   background-color: $background-scrollbar;
+    // }
+    // &::-webkit-scrollbar-thumb {
+    //   background-color: $purple-bright;
+    //   border-radius: 0.5rem;
+    // }
   }
   &__description {
     font-family: 'Inter-Regular', serif;
@@ -17,15 +28,28 @@
     font-size: 16px;
   }
   &__picture {
+    display: flex;
+    align-items: center;
     max-width: 70px;
     width: 100%;
     transition: all ease 0.5s;
   }
   &__img {
-    width: 100%;
+    width: 7rem;
   }
   &__info {
+    overflow: auto;
     margin-left: 20px;
+    width: 100%;
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 0;
+      background-color: $background-scrollbar;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $purple-bright;
+      border-radius: 0.5rem;
+    }
   }
   &__title {
     color: $black-text;

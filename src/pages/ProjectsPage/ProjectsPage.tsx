@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { CreateProjectForm } from '../../components/CreateProjectForm/CreateProjectForm';
+import { CreateProjectForm } from './components/CreateProjectForm/CreateProjectForm';
 import DeleteModal from '../../components/DeleteModal/DeleteModal';
 import { setTokenToCookie } from '../../helper/Helper';
 import { useSignInMutation } from '../../redux/query/AuthQuery';
 import { useCreateBoardMutation, useGetBoardsMutation } from '../../redux/query/BoardsQuery';
 import NewProject from './components/NewProject/NewProject';
 import Project from './components/Project/Project';
+import { useGetUsersMutation } from '../../redux/query/UsersQuery';
 const PROJECT_INITIAL = [
   {
     _id: '',
@@ -22,6 +23,7 @@ export const ProjectsPage = () => {
   const [getProjects, projectsData] = useGetBoardsMutation();
   const [getToken, tokenData] = useSignInMutation();
   const [createBoard, boardData] = useCreateBoardMutation();
+  const [getUsers, usersData] = useGetUsersMutation();
   const handleProjectIsActive = (value: boolean) => {
     setisProjectModalActive(value);
   };
@@ -85,6 +87,15 @@ export const ProjectsPage = () => {
         >
           CreateBoard
         </button>
+        <button
+          className="button-black"
+          onClick={() => {
+            getUsers();
+            console.log(usersData);
+          }}
+        >
+          Get users
+        </button>
         <div className="projects__wrapper">
           <>
             {projectsState &&
@@ -102,7 +113,14 @@ export const ProjectsPage = () => {
                 );
               })}
             <NewProject updateState={handleProjectIsActive} />
-            {isProjectModalActive && <CreateProjectForm updateState={handleProjectIsActive} />}
+            {isProjectModalActive && (
+              <CreateProjectForm
+                projects={projectsState}
+                currentId={currentIdToDelete}
+                updateState={handleProjectIsActive}
+                updateProjects={setProjectsState}
+              />
+            )}
             {isDeleteActive && (
               <DeleteModal
                 projects={projectsState}

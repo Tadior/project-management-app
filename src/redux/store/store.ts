@@ -7,8 +7,10 @@ import { FilesQuery } from '../query/FilesQuery';
 import { TaskQuery } from '../query/TasksQuery';
 import { UsersQuery } from '../query/UsersQuery';
 import ExampleReducer from '../reducer/ExampleSlice';
+import UserReducer from '../reducer/UserSlice';
 export const rootReducer = combineReducers({
   ExampleReducer,
+  UserReducer,
   [AuthQuery.reducerPath]: AuthQuery.reducer,
   [BoardsQuery.reducerPath]: BoardsQuery.reducer,
   [ColumnsQuery.reducerPath]: ColumnsQuery.reducer,

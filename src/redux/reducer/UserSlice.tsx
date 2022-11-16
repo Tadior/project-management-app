@@ -13,7 +13,7 @@ const initialState: IState = {
   },
 };
 
-export const ExampleSlice = createSlice({
+export const UserSlice = createSlice({
   name: 'User',
   initialState,
   reducers: {
@@ -23,4 +23,4 @@ export const ExampleSlice = createSlice({
   },
 });
 
-export default ExampleSlice.reducer;
+export default UserSlice.reducer;

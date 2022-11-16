@@ -1,25 +1,40 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
 import { loginValidation, passwordValidation } from './CreateProjectValidation';
+import { useCreateBoardMutation } from '../../../../redux/query/BoardsQuery';
+import { useAppSelector } from '../../../../hooks/redux';
+import { boardsApi } from '../../../../types/types';
 
 interface ISignInForm {
-  login: string;
-  password: string;
-  name: string;
+  title: string;
   text: string;
 }
-interface ISignInFormProps {
-  page: string;
+interface ICreateProjectFormProps {
+  projects: boardsApi[];
+  updateState: (value: boolean) => void;
+  updateProjects: React.Dispatch<React.SetStateAction<boardsApi[]>>;
+  currentId: string;
 }
 
-export const CreateProjectForm = ({ updateState }: { updateState: (value: boolean) => void }) => {
+export const CreateProjectForm = (props: ICreateProjectFormProps) => {
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({
     control,
   });
+  const [createBoard, boardInfo] = useCreateBoardMutation();
+  const { login } = useAppSelector((state) => state.UserReducer.userData);
 
-  const onSubmit: SubmitHandler<ISignInForm> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
+    const newProject = await createBoard({
+      title: data.title,
+      owner: data.text,
+      users: [login],
+    }).unwrap();
+    const allProjects = [...props.projects].concat(newProject);
+    props.updateProjects(allProjects);
+    props.updateState(false);
+  };
 
   return (
     <div className="create-project-form">
@@ -27,7 +42,7 @@ export const CreateProjectForm = ({ updateState }: { updateState: (value: boolea
       <form className="create-project__form" onSubmit={handleSubmit(onSubmit)}>
         <Controller
           control={control}
-          name="login"
+          name="title"
           rules={loginValidation}
           render={({ field }) => (
             <TextField
@@ -38,8 +53,8 @@ export const CreateProjectForm = ({ updateState }: { updateState: (value: boolea
               value={field.value}
               size="small"
               className="create-project-form__input"
-              error={!!errors.login?.message}
-              helperText={errors?.login?.message}
+              error={!!errors.title?.message}
+              helperText={errors?.title?.message}
             />
           )}
         />
@@ -58,20 +73,27 @@ export const CreateProjectForm = ({ updateState }: { updateState: (value: boolea
               value={field.value}
               size="small"
               className="create-project-form__textarea"
-              error={!!errors?.password?.message}
-              helperText={errors?.password?.message}
+              error={!!errors?.text?.message}
+              helperText={errors?.text?.message}
             />
           )}
         />
         <button
           className="button-border"
           onClick={() => {
-            updateState(false);
+            props.updateState(false);
           }}
         >
           Cancel
         </button>
-        <button className="button-create button-black" type="submit">
+        <button
+          className="button-create button-black"
+          type="submit"
+          // onClick={(value) => {
+          // console.log(value);
+          // handleRequest(titleRef.current);
+          // }}
+        >
           Create
         </button>
       </form>

@@ -13,15 +13,18 @@ interface IDeleteModalProps {
 const DeleteModal = ({ projects, updateState, updateProjects, currentId }: IDeleteModalProps) => {
   const [deleteProject, deletedProject] = useDeleteBoardByIdMutation();
 
-  const handleDeleteProject = () => {
-    deleteProject({ id: currentId });
-    const newProjects = projects.filter((element) => {
-      if (element._id === currentId) {
+  const filterProjects = (projects: boardsApi[], id: string) => {
+    return projects.filter((element) => {
+      if (element._id === id) {
         return false;
       }
       return true;
     });
-    updateProjects(newProjects);
+  };
+
+  const handleDeleteProject = () => {
+    deleteProject({ id: currentId });
+    updateProjects(filterProjects(projects, currentId));
     updateState(false);
   };
 
