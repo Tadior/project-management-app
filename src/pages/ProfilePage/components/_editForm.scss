@@ -28,7 +28,7 @@
     background-position: right;
     padding-right: 3.5rem;
     background-repeat: no-repeat;
-    background-size: auto;
+    background-size: 2.5rem;
   }
 
   &__form {
@@ -80,6 +80,7 @@
     border-radius: 0.8rem;
     background-color: white;
     font-size: 1.6rem;
+    line-height: 1.9rem;
     font-family: 'Inter-Medium';
     color: $black-text;
     transition: 0.4s;
@@ -94,4 +95,39 @@
 .css-k4qjio-MuiFormHelperText-root {
   font-family: 'Inter-regular' !important;
   font-size: 1rem !important;
+}
+
+@media  screen and (max-width: 460px) {
+  .edit-form {
+    width: 41rem;
+    padding: 4rem 4rem;
+  
+    &__form {
+      max-width: 26rem;
+    }
+  
+    &__input {
+      width: 26rem;
+    }
+
+    &__action-btns {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+
+      .button-border {
+        order: 2;
+      }
+    }
+  }
+}
+
+@media  screen and (max-width: 380px) {
+  .edit-form {
+
+    &__hat {
+      display: none;
+    }
+  }
 }
