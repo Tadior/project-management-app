@@ -1,11 +1,12 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/redux';
 
 export const NavMenu = () => {
-  const user = false;
+  const { userData } = useAppSelector((state) => state.userReducer);
+
   return (
     <nav className="menu">
-      {user ? (
+      {userData._id ? (
         <>
           <NavLink className="link-project button-black" to="Projects">
             projects

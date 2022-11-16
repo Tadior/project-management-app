@@ -2,6 +2,13 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
 import { loginValidation, passwordValidation } from './validation';
+import { useSignInMutation, useSignUpMutation } from '../../redux/query/AuthQuery';
+import { useGetUsersMutation } from '../../redux/query/UsersQuery';
+import { setTokenToCookie } from '../../helper/Helper';
+import { useAppDispatch } from '../../hooks/redux';
+import { userSlice } from '../../redux/reducer/userSlice';
+import { userApi } from '../../types/types';
+import { useNavigate } from 'react-router-dom';
 
 interface ISignInForm {
   login: string;
@@ -13,12 +20,49 @@ interface ISignInFormProps {
 }
 
 export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { setUserData } = userSlice.actions;
+  const [createUser, resultCreateUser] = useSignUpMutation();
+  const [getToken, resultToken] = useSignInMutation();
+  const [getUsers, resultGetUsers] = useGetUsersMutation();
+
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({
     control,
   });
 
-  const onSubmit: SubmitHandler<ISignInForm> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<ISignInForm> = async ({ name, login, password }) => {
+    if (page === '/signUp') {
+      createUser({
+        name: name,
+        login: login,
+        password: password,
+      }).unwrap();
+    } else {
+      getToken({
+        login: login,
+        password: password,
+      })
+        .unwrap()
+        .then((data) => setTokenToCookie(data.token))
+        .then(() => getUsers())
+        .then((users) =>
+          (users as { data: userApi[] }).data.find((user: userApi) => user.login === login)
+        )
+        .then((user) =>
+          dispatch(
+            setUserData({
+              _id: user!._id,
+              login: user!.login,
+              name: user!.name,
+              password: password,
+            })
+          )
+        );
+    }
+    navigate('/projects');
+  };
 
   return (
     <div className="auth-form">

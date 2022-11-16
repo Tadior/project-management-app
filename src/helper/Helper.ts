@@ -12,5 +12,8 @@ const deleteCookieToken = (name = 'token') => {
 const setTokenToCookie = (token: string) => {
   document.cookie = `token=${token}; path=/;`;
 };
+// const handlerErrors = ({ statusCode, message }: { statusCode: number; message: string }) => {
+//   const navigate = useNavigate()
+// };
 
 export { getCookieToken, deleteCookieToken, setTokenToCookie };
