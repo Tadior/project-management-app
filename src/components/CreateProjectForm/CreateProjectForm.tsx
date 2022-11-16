@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
 import { loginValidation, passwordValidation } from './CreateProjectValidation';
+import { useTranslation } from 'react-i18next';
 
 interface ISignInForm {
   login: string;
@@ -14,6 +15,7 @@ interface ISignInFormProps {
 }
 
 export const CreateProjectForm: React.FC = () => {
+  const { t } = useTranslation();
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({
     control,
@@ -23,7 +25,7 @@ export const CreateProjectForm: React.FC = () => {
 
   return (
     <div className="create-project-form">
-      <h2 className="create-project-form__title">Create Project</h2>
+      <h2 className="create-project-form__title">{t('create_project')}</h2>
       <form className="create-project__form" onSubmit={handleSubmit(onSubmit)}>
         <Controller
           control={control}
@@ -33,7 +35,7 @@ export const CreateProjectForm: React.FC = () => {
             <TextField
               color="secondary"
               variant="outlined"
-              label="TITLE"
+              label={t('create_title')}
               onChange={(e) => field.onChange(e)}
               value={field.value}
               size="small"
@@ -53,7 +55,7 @@ export const CreateProjectForm: React.FC = () => {
               variant="outlined"
               multiline
               rows={10}
-              label="DESCRIPTION"
+              label={t('create_desc')}
               onChange={(e) => field.onChange(e)}
               value={field.value}
               size="small"
@@ -63,9 +65,9 @@ export const CreateProjectForm: React.FC = () => {
             />
           )}
         />
-        <button className="button-border">Cancel</button>
+        <button className="button-border">{t('cancel_btn')}</button>
         <button className="button-create button-black" type="submit">
-          Create
+          {t('create_btn')}
         </button>
       </form>
     </div>

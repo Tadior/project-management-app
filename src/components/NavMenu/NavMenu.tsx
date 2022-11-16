@@ -1,25 +1,26 @@
 import { NavLink } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
+import { useTranslation } from 'react-i18next';
 
 export const NavMenu = () => {
   const { userData } = useAppSelector((state) => state.userReducer);
-
+  const { t } = useTranslation();
   return (
     <nav className="menu">
       {userData._id ? (
         <>
           <NavLink className="link-project button-black" to="Projects">
-            projects
+            {t('header_projects')}
           </NavLink>
-          <button className="link-signOut button-black">Sign out</button>
+          <button className="link-signOut button-black">{t('header_signOut')}</button>
         </>
       ) : (
         <>
           <NavLink className="link-signIn button-black" to="signIn">
-            Sign in
+            {t('header_signIn')}
           </NavLink>
           <NavLink className="link-signUp button-black" to="signUp">
-            Sign up
+            {t('header_signUp')}
           </NavLink>
         </>
       )}

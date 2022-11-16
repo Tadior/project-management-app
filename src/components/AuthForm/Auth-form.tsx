@@ -9,6 +9,8 @@ import { useAppDispatch } from '../../hooks/redux';
 import { userSlice } from '../../redux/reducer/userSlice';
 import { userApi } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 interface ISignInForm {
   login: string;
@@ -20,13 +22,14 @@ interface ISignInFormProps {
 }
 
 export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { setUserData } = userSlice.actions;
   const [createUser, resultCreateUser] = useSignUpMutation();
   const [getToken, resultToken] = useSignInMutation();
   const [getUsers, resultGetUsers] = useGetUsersMutation();
-
+  const { t } = useTranslation();
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({
     control,
@@ -66,8 +69,11 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
 
   return (
     <div className="auth-form">
-      <h2 className="auth-form_title">Welcome, Wizard!</h2>
-      <p className="auth-form__subtitle"> {page === '/signUp' ? `Sign up` : `Sign in`}</p>
+      <h2 className="auth-form_title">{t('sign_hello')}</h2>
+      <p className="auth-form__subtitle">
+        {' '}
+        {page === '/signUp' ? t('header_signUp') : t('header_signIn')}
+      </p>
       <form className="auth-form__form" onSubmit={handleSubmit(onSubmit)}>
         {page === '/signUp' && (
           <Controller
@@ -78,7 +84,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
               <TextField
                 color="secondary"
                 variant="outlined"
-                label="NAME"
+                label={t('sign_name')}
                 onChange={(e) => field.onChange(e)}
                 value={field.value}
                 fullWidth={true}
@@ -99,7 +105,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
             <TextField
               color="secondary"
               variant="outlined"
-              label="LOGIN"
+              label={t('sign_login')}
               onChange={(e) => field.onChange(e)}
               value={field.value}
               fullWidth={true}
@@ -118,7 +124,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
             <TextField
               color="secondary"
               variant="outlined"
-              label="PASSWORD"
+              label={t('sign_password')}
               onChange={(e) => field.onChange(e)}
               value={field.value}
               fullWidth={true}
@@ -131,17 +137,17 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
           )}
         />
         <button className="button-border" type="submit">
-          {page === '/signUp' ? `Sign up` : `Sign in`}
+          {page === '/signUp' ? t('sign_signUp') : t('sign_signIn')}
         </button>
         <div className="dividing-line"></div>
         {page === '/signUp' ? (
-          <a href="#" className="sign-up-link">
-            Already have an account? Sign in
-          </a>
+          <Link to="/signIn" className="sign-up-link">
+            {t('signIn_offer')}
+          </Link>
         ) : (
-          <a href="#" className="sign-up-link">
-            Don’t have an account yet? Sign up
-          </a>
+          <Link to="/signUp" className="sign-up-link">
+            {t('signUp_offer')}
+          </Link>
         )}
       </form>
       <div className="auth-form__footer"></div>
