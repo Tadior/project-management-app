@@ -1,0 +1,38 @@
+.new-project {
+  @include flex-center;
+  flex: 0 1 37rem;
+  border: 0.5rem dashed $grey-cards;
+  border-radius: 1.2rem;
+  cursor: pointer;
+  transition: all ease 0.5s;
+  padding: 4.2rem;
+  margin: 3rem 1.5rem 0;
+  @media (min-width: 769px) and (max-width: 820px) {
+    margin: 3rem 0.5rem 0;
+  }
+  @media (max-width: 769px) {
+    margin: 3rem 1rem 0;
+  }
+  @media (max-width: 639px) {
+    flex: 1 1 auto;
+    max-width: 100%;
+    width: 100%;
+  }
+  &__symbol {
+    font-size: 6rem;
+    width: 6rem;
+    height: 6rem;
+    background-color: $grey-cards;
+    text-align: center;
+    align-items: center;
+    border-radius: 1rem;
+    @include flex-center;
+    transition: inherit;
+  }
+  &:hover {
+    border-color: $purple-bright;
+    .new-project__symbol {
+      background-color: $purple-bright;
+    }
+  }
+}

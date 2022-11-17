@@ -1,3 +1,5 @@
+import { boardsApi } from '../types/types';
+
 const getCookieToken = (name = 'token') => {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
