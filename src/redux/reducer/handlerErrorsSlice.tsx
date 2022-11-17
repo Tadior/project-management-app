@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IHandlerErrorsState {
   statusCode: number;
-  message: string;
+  message?: string;
 }
 
 const initialState: IHandlerErrorsState = {

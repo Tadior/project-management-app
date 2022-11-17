@@ -20,14 +20,6 @@ export const AuthQuery = createApi({
         method: 'POST',
         body,
       }),
-      async onQueryStarted({}, { dispatch, queryFulfilled }) {
-        try {
-          const resultToken = await queryFulfilled;
-          setTokenToCookie(resultToken.data.token);
-        } catch (e) {
-          console.error('userApi Authorization error', e);
-        }
-      },
     }),
     signUp: builder.mutation<userApi, { name: string; login: string; password: string }>({
       query: (body) => ({
