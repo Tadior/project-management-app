@@ -1,36 +1,39 @@
 .project {
   display: flex;
-  flex: 0 1 370px;
-  height: 150px;
+  flex: 0 1 37rem;
+  max-width: 37rem;
+  height: 15rem;
   margin: 3rem 1.5rem 0;
+  @media (min-width: 769px) and (max-width: 820px) {
+    margin: 3rem 0.5rem 0;
+  }
+  @media (max-width: 769px) {
+    margin: 3rem 1rem 0;
+  }
+  @media (max-width: 639px) {
+    flex: 1 1 auto;
+    max-width: 100%;
+    width: 100%;
+  }
   &__wrapper {
-    // overflow: scroll;
     position: relative;
     display: flex;
     width: 100%;
     padding: 4rem 2rem;
-    border-radius: 12px;
+    border-radius: 1.2rem;
     background: $grey-cards;
-    // &::-webkit-scrollbar {
-    //   width: 5px;
-    //   height: 0;
-    //   background-color: $background-scrollbar;
-    // }
-    // &::-webkit-scrollbar-thumb {
-    //   background-color: $purple-bright;
-    //   border-radius: 0.5rem;
-    // }
   }
   &__description {
     font-family: 'Inter-Regular', serif;
-    margin-top: 10px;
+    margin-top: 1rem;
     color: $grey-text;
-    font-size: 16px;
+    font-size: 1.6rem;
+    word-wrap: break-word;
   }
   &__picture {
     display: flex;
     align-items: center;
-    max-width: 70px;
+    max-width: 7rem;
     width: 100%;
     transition: all ease 0.5s;
   }
@@ -39,10 +42,10 @@
   }
   &__info {
     overflow: auto;
-    margin-left: 20px;
+    margin-left: 2rem;
     width: 100%;
     &::-webkit-scrollbar {
-      width: 5px;
+      width: 0.5rem;
       height: 0;
       background-color: $background-scrollbar;
     }
@@ -54,21 +57,25 @@
   &__title {
     color: $black-text;
     font-family: 'Inter-Medium', serif;
-    font-size: 20px;
+    font-size: 2rem;
   }
   &__trash {
     position: absolute;
     content: '';
-    top: 20px;
-    right: 20px;
+    top: 1rem;
+    right: 1rem;
     transition: all ease 0.5s;
+    @media (max-width: 639px) {
+      top: 0.5rem;
+      right: 0.5rem;
+    }
     &:hover {
-      transform: translateY(-3px);
+      transform: translateY(-0.3rem);
     }
   }
   :hover {
     .project__picture {
-      transform: translateY(10px);
+      transform: translateY(1rem);
     }
   }
 }
