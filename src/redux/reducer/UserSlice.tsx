@@ -21,6 +21,9 @@ export const userSlice = createSlice({
     setUserData(state, action: PayloadAction<userApiState>) {
       state.userData = action.payload;
     },
+    resetUserData(state) {
+      state.userData = initialState.userData;
+    },
   },
 });
 

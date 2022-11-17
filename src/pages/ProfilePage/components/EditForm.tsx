@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import { loginValidation } from '../../../components/AuthForm/validation';
+import { loginValidation, passwordValidation } from '../../../components/AuthForm/validation';
 import { useTranslation } from 'react-i18next';
 import MagicHat from '../../../assets/images/magic_hat.png';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -10,8 +10,10 @@ import {
   useDeleteUserByidMutation,
 } from '../../../redux/query/UsersQuery';
 import { userSlice } from '../../../redux/reducer/UserSlice';
+import { deleteCookieToken } from '../../../helper/Helper';
+import { useNavigate } from 'react-router-dom';
 
-interface ISignInForm {
+interface IEditForm {
   login: string;
   password: string;
   name: string;
@@ -21,36 +23,54 @@ export const EditForm = () => {
   const { _id, login, name, password } = useAppSelector((state) => state.userReducer.userData);
   const [updateUser, userData] = useUpdateUserByidMutation();
   const [deleteUser, deleteData] = useDeleteUserByidMutation();
-  const { setUserData } = userSlice.actions;
+  const { setUserData, resetUserData } = userSlice.actions;
   const { t } = useTranslation();
-  const { handleSubmit, control } = useForm<ISignInForm>();
+  const { handleSubmit, control } = useForm<IEditForm>({
+    defaultValues: { name, login, password },
+  });
   const { errors } = useFormState({
     control,
   });
   const dispatch = useAppDispatch();
-  console.log(userData);
-  console.log(deleteData);
+  const navigate = useNavigate();
 
-  const onSave: SubmitHandler<ISignInForm> = async (data) => {
-    updateUser({
-      id: _id,
-      body: { login: data.login, name: data.name, password: data.password },
-    }).then(() => {
-      if (userData.isSuccess) {
-        dispatch(
-          setUserData({
-            _id: _id,
-            login: data.login,
-            name: data.name,
-            password: data.password,
-          })
-        );
-      }
-    });
+  const onSave: SubmitHandler<IEditForm> = async (data) => {
+    try {
+      await updateUser({
+        id: _id,
+        body: { login: data.login, name: data.name, password: data.password },
+      })
+        .unwrap()
+        .then(() => {
+          console.log('success');
+          dispatch(
+            setUserData({
+              _id,
+              login: data.login,
+              name: data.name,
+              password: data.password,
+            })
+          );
+        });
+    } catch (error) {
+      console.log('show toast');
+    }
   };
+
   const onDelete = async (event: React.MouseEvent) => {
     event.preventDefault();
-    deleteUser({ id: _id });
+    try {
+      await deleteUser({ id: _id })
+        .unwrap()
+        .then(() => {
+          console.log('success delete');
+          dispatch(resetUserData());
+          deleteCookieToken();
+          navigate('/');
+        });
+    } catch (error) {
+      console.log('error toast');
+    }
   };
   const onCancel = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -65,7 +85,6 @@ export const EditForm = () => {
         <Controller
           control={control}
           name="name"
-          rules={loginValidation}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -78,7 +97,6 @@ export const EditForm = () => {
               className="edit-form__input"
               error={!!errors.login?.message}
               helperText={errors?.login?.message}
-              defaultValue={name}
             />
           )}
         />
@@ -99,7 +117,6 @@ export const EditForm = () => {
               className="edit-form__input"
               error={!!errors.login?.message}
               helperText={errors?.login?.message}
-              defaultValue={login}
             />
           )}
         />
@@ -107,7 +124,7 @@ export const EditForm = () => {
         <Controller
           control={control}
           name="password"
-          rules={loginValidation}
+          rules={passwordValidation}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -120,7 +137,6 @@ export const EditForm = () => {
               className="edit-form__input"
               error={!!errors.login?.message}
               helperText={errors?.login?.message}
-              defaultValue={password}
             />
           )}
         />
