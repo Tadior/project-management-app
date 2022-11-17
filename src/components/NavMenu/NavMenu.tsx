@@ -1,13 +1,13 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/redux';
 import { useTranslation } from 'react-i18next';
 
 export const NavMenu = () => {
+  const { userData } = useAppSelector((state) => state.userReducer);
   const { t } = useTranslation();
-  const user = true;
   return (
     <nav className="menu">
-      {user ? (
+      {userData._id ? (
         <>
           <NavLink className="link-project button-black" to="Projects">
             {t('header_projects')}

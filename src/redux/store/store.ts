@@ -6,12 +6,13 @@ import { PointsQuery } from '../query/PointsQuery';
 import { FilesQuery } from '../query/FilesQuery';
 import { TaskQuery } from '../query/TasksQuery';
 import { UsersQuery } from '../query/UsersQuery';
-import ExampleReducer from '../reducer/ExampleSlice';
-import UserReducer from '../reducer/UserSlice';
+import { rtkQueryErrorLogger } from '../query/RtkQueryErrors';
+import handlerErrorsReducer from '../reducer/handlerErrorsSlice';
+import userReducer from '../reducer/UserSlice';
 
 export const rootReducer = combineReducers({
-  ExampleReducer,
-  UserReducer,
+  handlerErrorsReducer,
+  userReducer,
   [AuthQuery.reducerPath]: AuthQuery.reducer,
   [BoardsQuery.reducerPath]: BoardsQuery.reducer,
   [ColumnsQuery.reducerPath]: ColumnsQuery.reducer,
@@ -29,6 +30,7 @@ const middlewareItems = [
   PointsQuery.middleware,
   TaskQuery.middleware,
   UsersQuery.middleware,
+  rtkQueryErrorLogger,
 ];
 
 export const setupStore = () => {

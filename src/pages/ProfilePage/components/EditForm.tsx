@@ -18,7 +18,7 @@ interface ISignInForm {
 }
 
 export const EditForm = () => {
-  const { _id, login, name, password } = useAppSelector((state) => state.UserReducer.userData);
+  const { _id, login, name, password } = useAppSelector((state) => state.userReducer.userData);
   const [updateUser, userData] = useUpdateUserByidMutation();
   const [deleteUser, deleteData] = useDeleteUserByidMutation();
   const { setUserData } = userSlice.actions;
