@@ -3,7 +3,8 @@ import { setupStore } from './redux/store/store';
 import { Provider } from 'react-redux';
 import { AppRoutes } from './routes/AppRoute';
 
-const store = setupStore();
+export const store = setupStore();
+
 function App() {
   return (
     <div className="App">
