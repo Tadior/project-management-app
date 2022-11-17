@@ -10,6 +10,20 @@ export interface userApi {
   name: string;
   _id: string;
 }
+
+export interface userProfileApi {
+  login: string;
+  name: string;
+  password: string;
+}
+
+export interface userApiState {
+  login: string;
+  name: string;
+  password: string;
+  _id: string;
+}
+
 export interface boardsApi extends boardApi {
   _id: string;
 }

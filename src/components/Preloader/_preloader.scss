@@ -1,0 +1,15 @@
+.preloader {
+  font-size: 2.4rem;
+  text-align: center;
+  font-family: 'Playfair-Medium';
+  color: $grey-text;
+
+  &__text {
+    margin-top: -1.5rem;
+  }
+
+  img {
+    display: block;
+    width: 12rem;
+  }
+}

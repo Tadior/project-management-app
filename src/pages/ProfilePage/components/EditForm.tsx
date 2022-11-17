@@ -4,6 +4,12 @@ import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-for
 import { loginValidation } from '../../../components/AuthForm/validation';
 import { useTranslation } from 'react-i18next';
 import MagicHat from '../../../assets/images/magic_hat.png';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import {
+  useUpdateUserByidMutation,
+  useDeleteUserByidMutation,
+} from '../../../redux/query/UsersQuery';
+import { userSlice } from '../../../redux/reducer/UserSlice';
 
 interface ISignInForm {
   login: string;
@@ -12,19 +18,50 @@ interface ISignInForm {
 }
 
 export const EditForm = () => {
+  const { _id, login, name, password } = useAppSelector((state) => state.UserReducer.userData);
+  const [updateUser, userData] = useUpdateUserByidMutation();
+  const [deleteUser, deleteData] = useDeleteUserByidMutation();
+  const { setUserData } = userSlice.actions;
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({
     control,
   });
+  const dispatch = useAppDispatch();
+  console.log(userData);
+  console.log(deleteData);
 
-  const onSubmit: SubmitHandler<ISignInForm> = (data) => console.log(data);
+  const onSave: SubmitHandler<ISignInForm> = async (data) => {
+    updateUser({
+      id: _id,
+      body: { login: data.login, name: data.name, password: data.password },
+    }).then(() => {
+      if (userData.isSuccess) {
+        dispatch(
+          setUserData({
+            _id: _id,
+            login: data.login,
+            name: data.name,
+            password: data.password,
+          })
+        );
+      }
+    });
+  };
+  const onDelete = async (event: React.MouseEvent) => {
+    event.preventDefault();
+    deleteUser({ id: _id });
+  };
+  const onCancel = (event: React.MouseEvent) => {
+    event.preventDefault();
+    window.history.back();
+  };
 
   return (
     <div className="edit-form">
       <img className="edit-form__hat" src={MagicHat} />
       <h2 className="edit-form__title">{t('profile_edit')}</h2>
-      <form className="edit-form__form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="edit-form__form" onSubmit={handleSubmit(onSave)}>
         <Controller
           control={control}
           name="name"
@@ -41,6 +78,7 @@ export const EditForm = () => {
               className="edit-form__input"
               error={!!errors.login?.message}
               helperText={errors?.login?.message}
+              defaultValue={name}
             />
           )}
         />
@@ -61,17 +99,43 @@ export const EditForm = () => {
               className="edit-form__input"
               error={!!errors.login?.message}
               helperText={errors?.login?.message}
+              defaultValue={login}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="password"
+          rules={loginValidation}
+          render={({ field }) => (
+            <TextField
+              color="secondary"
+              variant="outlined"
+              label={t('sign_password')}
+              onChange={(e) => field.onChange(e)}
+              value={field.value}
+              fullWidth={true}
+              size="small"
+              className="edit-form__input"
+              error={!!errors.login?.message}
+              helperText={errors?.login?.message}
+              defaultValue={password}
             />
           )}
         />
         <div className="edit-form__btns">
           <div className="edit-form__action-btns">
-            <button className="edit__cancel button-border">{t('cancel_btn')}</button>
+            <button onClick={onCancel} className="edit__cancel button-border">
+              {t('cancel_btn')}
+            </button>
             <button className="edit__save button-black" type="submit">
               {t('save_btn')}
             </button>
           </div>
-          <button className="edit-form__delete-btn">{t('delete_account_btn')}</button>
+          <button onClick={onDelete} className="edit-form__delete-btn">
+            {t('delete_account_btn')}
+          </button>
         </div>
       </form>
     </div>

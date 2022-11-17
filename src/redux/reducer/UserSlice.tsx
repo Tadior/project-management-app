@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { userApi } from '../../types/types';
+import { userApiState } from '../../types/types';
 
 interface IState {
-  userData: userApi;
+  userData: userApiState;
 }
 
 const initialState: IState = {
@@ -10,17 +10,18 @@ const initialState: IState = {
     _id: '',
     name: '',
     login: '',
+    password: '',
   },
 };
 
-export const ExampleSlice = createSlice({
+export const userSlice = createSlice({
   name: 'User',
   initialState,
   reducers: {
-    setUserData(state, action: PayloadAction<userApi>) {
+    setUserData(state, action: PayloadAction<userApiState>) {
       state.userData = action.payload;
     },
   },
 });
 
-export default ExampleSlice.reducer;
+export default userSlice.reducer;
