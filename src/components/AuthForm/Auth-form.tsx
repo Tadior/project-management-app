@@ -58,7 +58,8 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
 
   const onSubmit: SubmitHandler<ISignInForm> = async ({ name, login, password }) => {
     if (page === '/signUp') {
-      registration(name, login, password);
+      await registration(name, login, password);
+      navigate('/signIn');
     } else {
       await authorization(login, password);
       const user = await getUserByLogin(login);
@@ -71,8 +72,8 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
             password: password,
           })
         );
+      navigate('/projects');
     }
-    navigate('/projects');
   };
 
   return (
