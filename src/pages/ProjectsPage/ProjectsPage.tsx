@@ -7,6 +7,8 @@ import { useCreateBoardMutation, useGetBoardsMutation } from '../../redux/query/
 import NewProject from './components/NewProject/NewProject';
 import Project from './components/Project/Project';
 import { useGetUsersMutation } from '../../redux/query/UsersQuery';
+import { useTranslation } from 'react-i18next';
+
 const PROJECT_INITIAL = [
   {
     _id: '',
@@ -16,6 +18,7 @@ const PROJECT_INITIAL = [
   },
 ];
 export const ProjectsPage = () => {
+  const { t } = useTranslation();
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [currentIdToDelete, setCurrentIdToDelete] = useState('');
@@ -57,7 +60,7 @@ export const ProjectsPage = () => {
   return (
     <section className="projects">
       <div className="container">
-        <h2 className="title title__projects">Your Magic Projects</h2>
+        <h2 className="title title__projects">{t('main_title')}</h2>
         <button
           className="button-black"
           onClick={async () => {

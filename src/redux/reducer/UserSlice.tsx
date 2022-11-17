@@ -10,10 +10,11 @@ const initialState: IState = {
     _id: '',
     name: '',
     login: '',
+    password: '',
   },
 };
 
-export const UserSlice = createSlice({
+export const userSlice = createSlice({
   name: 'User',
   initialState,
   reducers: {
@@ -23,4 +24,4 @@ export const UserSlice = createSlice({
   },
 });
 
-export default UserSlice.reducer;
+export default userSlice.reducer;

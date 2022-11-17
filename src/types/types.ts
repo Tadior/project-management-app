@@ -9,6 +9,7 @@ export interface userApi {
   login: string;
   name: string;
   _id: string;
+  password: string;
 }
 export interface boardsApi extends boardApi {
   _id: string;

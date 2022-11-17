@@ -2,6 +2,7 @@ import react from 'react';
 import dangerImg from '../../assets/images/danger.png';
 import { useDeleteBoardByIdMutation } from '../../redux/query/BoardsQuery';
 import { boardsApi } from '../../types/types';
+import { useTranslation } from 'react-i18next';
 
 interface IDeleteModalProps {
   projects: boardsApi[];
@@ -11,6 +12,7 @@ interface IDeleteModalProps {
 }
 
 const DeleteModal = ({ projects, updateState, updateProjects, currentId }: IDeleteModalProps) => {
+  const { t } = useTranslation();
   const [deleteProject, deletedProject] = useDeleteBoardByIdMutation();
 
   const filterProjects = (projects: boardsApi[], id: string) => {
@@ -37,10 +39,10 @@ const DeleteModal = ({ projects, updateState, updateProjects, currentId }: IDele
         }}
       >
         <img src={dangerImg} alt="warning" className="delete-modal__img" />
-        <div className="delete-modal__info">Are you sure, that you want to delete this?</div>
+        <div className="delete-modal__info">{t('delete_confirm')}</div>
         <div className="delete-modal__buttons">
           <button className="button-border" onClick={() => updateState(false)}>
-            Cancel
+            {t('cancel_btn')}
           </button>
           <button
             className="button-black"
@@ -48,7 +50,7 @@ const DeleteModal = ({ projects, updateState, updateProjects, currentId }: IDele
               handleDeleteProject();
             }}
           >
-            Delete
+            {t('delete_btn')}
           </button>
         </div>
       </div>

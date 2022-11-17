@@ -5,6 +5,8 @@ import { loginValidation, passwordValidation } from './CreateProjectValidation';
 import { useCreateBoardMutation } from '../../../../redux/query/BoardsQuery';
 import { useAppSelector } from '../../../../hooks/redux';
 import { boardsApi } from '../../../../types/types';
+import { useTranslation } from 'react-i18next';
+import userReducer from '../../../../redux/reducer/UserSlice';
 
 interface ISignInForm {
   title: string;
@@ -18,12 +20,13 @@ interface ICreateProjectFormProps {
 }
 
 export const CreateProjectForm = (props: ICreateProjectFormProps) => {
+  const { t } = useTranslation();
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({
     control,
   });
   const [createBoard, boardInfo] = useCreateBoardMutation();
-  const { login } = useAppSelector((state) => state.UserReducer.userData);
+  const { login } = useAppSelector((state) => state.userReducer.userData);
 
   const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
     const newProject = await createBoard({
@@ -38,7 +41,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
 
   return (
     <div className="create-project-form">
-      <h2 className="create-project-form__title">Create Project</h2>
+      <h2 className="create-project-form__title">{t('create_project')}</h2>
       <form className="create-project__form" onSubmit={handleSubmit(onSubmit)}>
         <Controller
           control={control}
@@ -48,7 +51,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
             <TextField
               color="secondary"
               variant="outlined"
-              label="TITLE"
+              label={t('create_title')}
               onChange={(e) => field.onChange(e)}
               value={field.value}
               size="small"
@@ -68,7 +71,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
               variant="outlined"
               multiline
               rows={10}
-              label="DESCRIPTION"
+              label={t('create_desc')}
               onChange={(e) => field.onChange(e)}
               value={field.value}
               size="small"
@@ -84,7 +87,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
             props.updateState(false);
           }}
         >
-          Cancel
+          {t('cancel_btn')}
         </button>
         <button
           className="button-create button-black"
@@ -94,7 +97,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
           // handleRequest(titleRef.current);
           // }}
         >
-          Create
+          {t('create_btn')}
         </button>
       </form>
     </div>

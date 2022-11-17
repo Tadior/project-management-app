@@ -1,22 +1,18 @@
 import React from 'react';
 import MagicBtn from './magicBtn';
+import { useTranslation } from 'react-i18next';
 
 const CreationSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="creation">
       <div className="container">
-        <h3 className="creation__title section-title">App creation</h3>
+        <h3 className="creation__title section-title">{t('welcome_creation_title')}</h3>
         <div className="creation__content">
           <div className="creation__img"></div>
           <div className="creation__info">
-            <p className="creation__info-text section-text">
-              This application was created by a small group of developers as part of The Rolling
-              Scopes School&apos;s React course. RSSchool is free-of-charge and community-based
-              education program conducted by The Rolling Scopes developer community since 2013.
-              Everyone can study at RSSchool, regardless of age, professional employment, or place
-              of residence.
-            </p>
-            <MagicBtn href="https://rs.school/react/" text="Join" />
+            <p className="creation__info-text section-text">{t('welcome_creation_text')}</p>
+            <MagicBtn href="https://rs.school/react/" text={t('welcome_creation_btn')} />
           </div>
         </div>
       </div>
