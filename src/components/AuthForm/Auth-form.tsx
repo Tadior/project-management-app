@@ -41,6 +41,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
         login: login,
         password: password,
       }).unwrap();
+      navigate('/signIn');
     } else {
       getToken({
         login: login,
@@ -52,7 +53,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
         .then((users) =>
           (users as { data: userApi[] }).data.find((user: userApi) => user.login === login)
         )
-        .then((user) =>
+        .then((user) => {
           dispatch(
             setUserData({
               _id: user!._id,
@@ -60,10 +61,10 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
               name: user!.name,
               password: password,
             })
-          )
-        );
+          );
+          navigate('/projects');
+        });
     }
-    navigate('/projects');
   };
 
   return (

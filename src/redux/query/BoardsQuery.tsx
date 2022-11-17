@@ -13,6 +13,7 @@ export const BoardsQuery = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Boards'],
   endpoints: (builder) => ({
     getBoards: builder.mutation<boardsApi[], void>({
       query: () => ({
@@ -44,6 +45,7 @@ export const BoardsQuery = createApi({
       query: (args) => ({
         url: `boards/${args.id}`,
         method: 'DELETE',
+        invalidatesTags: ['Boards'],
       }),
     }),
     getBoardsSet: builder.mutation<boardsApi[], { ids: string[] }>({
@@ -54,8 +56,9 @@ export const BoardsQuery = createApi({
     }),
     getBoardsSetById: builder.mutation<boardsApi[], { id: string }>({
       query: (args) => ({
-        url: `boardsSet/ids=${args.id}`,
+        url: `boardsSet/${args.id}`,
         method: 'GET',
+        providesTags: ['Boards'],
       }),
     }),
   }),
