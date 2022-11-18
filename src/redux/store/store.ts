@@ -6,9 +6,10 @@ import { PointsQuery } from '../query/PointsQuery';
 import { FilesQuery } from '../query/FilesQuery';
 import { TaskQuery } from '../query/TasksQuery';
 import { UsersQuery } from '../query/UsersQuery';
-import { rtkQueryErrorLogger } from '../query/RtkQueryErrors';
 import handlerErrorsReducer from '../reducer/handlerErrorsSlice';
 import userReducer from '../reducer/UserSlice';
+import { rtkQueryErrorLogger } from '../query/RtkQueryErrors';
+
 
 export const rootReducer = combineReducers({
   handlerErrorsReducer,

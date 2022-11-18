@@ -64,7 +64,6 @@ button {
 
 .main {
   flex: 1 1 auto;
-  position: relative;
   overflow: hidden;
   min-height: fit-content;
   display: flex;
@@ -100,6 +99,7 @@ button {
   font-family: 'Inter-Medium';
   line-height: 1.9rem;
   text-transform: capitalize;
+  line-height: 1.9rem;
 
   &:active {
     transform: translateY(3px);
@@ -123,6 +123,7 @@ button {
   line-height: 1.9rem;
   font-family: 'Inter-Medium';
   text-transform: capitalize;
+  line-height: 1.9rem;
 
   &:active {
     transform: translateY(3px);

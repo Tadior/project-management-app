@@ -1,0 +1,41 @@
+.delete-modal {
+  position: fixed;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(240, 49, 49, 0.52) 0%,
+    rgba(240, 49, 49, 0) 100%
+  );
+  z-index: 3;
+  text-align: center;
+  &__wrapper {
+    padding: 4rem 8rem;
+    flex: 0 1 50rem;
+    margin: auto;
+    background-color: $white-text;
+    box-shadow: 5px 4px 10px #97989f;
+    border-radius: 1rem;
+  }
+  &__img {
+    max-width: 12rem;
+    width: 100%;
+  }
+  &__info {
+    font-family: 'Inter-SemiBold', serif;
+    font-size: 2.4rem;
+    margin-top: 2rem;
+  }
+  &__buttons {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    .button-black {
+      margin: 0 1.5rem;
+    }
+  }
+}
