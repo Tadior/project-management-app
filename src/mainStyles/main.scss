@@ -2,10 +2,11 @@
 @import 'variables.scss';
 @import 'baseStyles.scss';
 @import '../pages/WelcomePage/welcomePage';
+@import '../pages/ProjectPage/ProjectPage.scss';
+@import '../pages/SignInPage/SignInPage.scss';
+@import '../pages/ProjectsPage/ProjectsPage.scss';
 @import '../components/Header/Header.scss';
 @import '../components/NavMenu/NavMenu.scss';
 @import '../components/Footer/Footer.scss';
 @import '../components/AuthForm/auth-form.scss';
-@import '../pages/SignInPage/SignInPage.scss';
-@import '../pages/ProjectsPage/ProjectsPage.scss';
 @import '../components/DeleteModal/DeleteModal.scss';
