@@ -19,7 +19,7 @@ interface ICreateProjectFormProps {
 }
 
 export const CreateProjectForm = (props: ICreateProjectFormProps) => {
-  const { _id, login, name } = useAppSelector((state) => state.userReducer.userData);
+  const { _id } = useAppSelector((state) => state.userReducer.userData);
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({

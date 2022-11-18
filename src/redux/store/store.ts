@@ -10,7 +10,6 @@ import handlerErrorsReducer from '../reducer/handlerErrorsSlice';
 import userReducer from '../reducer/UserSlice';
 import { rtkQueryErrorLogger } from '../query/RtkQueryErrors';
 
-
 export const rootReducer = combineReducers({
   handlerErrorsReducer,
   userReducer,

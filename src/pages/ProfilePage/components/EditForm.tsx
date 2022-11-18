@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
 import { loginValidation, passwordValidation } from '../../../components/AuthForm/validation';
@@ -12,6 +12,7 @@ import {
 import { userSlice } from '../../../redux/reducer/UserSlice';
 import { deleteCookieToken } from '../../../helper/Helper';
 import { useNavigate } from 'react-router-dom';
+import DeleteModal from '../../../components/DeleteModal/DeleteModal';
 
 interface IEditForm {
   login: string;
@@ -20,6 +21,7 @@ interface IEditForm {
 }
 
 export const EditForm = () => {
+  const [confirmStatus, setConfirmStatus] = useState(false);
   const { _id, login, name, password } = useAppSelector((state) => state.userReducer.userData);
   const [updateUser, userData] = useUpdateUserByidMutation();
   const [deleteUser, deleteData] = useDeleteUserByidMutation();
@@ -57,8 +59,16 @@ export const EditForm = () => {
     }
   };
 
-  const onDelete = async (event: React.MouseEvent) => {
+  const onDelete = (event: React.MouseEvent) => {
     event.preventDefault();
+    setConfirmStatus(true);
+  };
+  const onCancel = (event: React.MouseEvent) => {
+    event.preventDefault();
+    window.history.back();
+  };
+
+  const deleteAccount = async () => {
     try {
       await deleteUser({ id: _id })
         .unwrap()
@@ -72,13 +82,12 @@ export const EditForm = () => {
       console.log('error toast');
     }
   };
-  const onCancel = (event: React.MouseEvent) => {
-    event.preventDefault();
-    window.history.back();
-  };
 
   return (
     <div className="edit-form">
+      {confirmStatus && (
+        <DeleteModal callbackDelete={deleteAccount} closeModal={() => setConfirmStatus(false)} />
+      )}
       <img className="edit-form__hat" src={MagicHat} />
       <h2 className="edit-form__title">{t('profile_edit')}</h2>
       <form className="edit-form__form" onSubmit={handleSubmit(onSave)}>
