@@ -1,2 +1,11 @@
-@import 'components/Column/Column.tsx';
-@import 'components/Task/Task.scss';
+@import './components/Column/Column.scss';
+@import './components/Task/Task.scss';
+@import './components/NewColumnBtn/NewColumnBtn.scss';
+
+.project-page {
+  &__title {
+    text-align: center;
+  }
+  &__wrapper {
+  }
+}

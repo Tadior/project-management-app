@@ -1,8 +1,9 @@
-import react from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import projectImg from '../../../../assets/images/save-add.png';
 import trashCan from '../../../../assets/icons/trash_icon.png';
-
+import { userSlice } from '../../../../redux/reducer/UserSlice';
+import { useAppDispatch } from '../../../../hooks/redux';
 interface IProjectProps {
   updateState: (value: boolean) => void;
   updateId: React.Dispatch<React.SetStateAction<string>>;
@@ -12,6 +13,8 @@ interface IProjectProps {
 }
 
 const Project = ({ updateState, title, description, id, updateId }: IProjectProps) => {
+  const dispatch = useAppDispatch();
+  const { setActiveProjectId } = userSlice.actions;
   const handleClick = () => {
     updateState(true);
     {
@@ -20,7 +23,12 @@ const Project = ({ updateState, title, description, id, updateId }: IProjectProp
   };
 
   return (
-    <NavLink className="project" to="qwe" id={id}>
+    <NavLink
+      className="project"
+      to={`/projects/${title}`}
+      id={id}
+      onClick={() => dispatch(setActiveProjectId(id!))}
+    >
       <div className="project__wrapper">
         <div className="project__picture">
           <img src={projectImg} alt="project picture" className="project__img" />

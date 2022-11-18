@@ -3,6 +3,7 @@ import { userApi } from '../../types/types';
 
 interface IState {
   userData: userApi;
+  activeProjectId: string;
 }
 
 const initialState: IState = {
@@ -12,6 +13,7 @@ const initialState: IState = {
     login: '',
     password: '',
   },
+  activeProjectId: '',
 };
 
 export const userSlice = createSlice({
@@ -20,6 +22,9 @@ export const userSlice = createSlice({
   reducers: {
     setUserData(state, action: PayloadAction<userApi>) {
       state.userData = action.payload;
+    },
+    setActiveProjectId(state, action: PayloadAction<string>) {
+      state.activeProjectId = action.payload;
     },
   },
 });
