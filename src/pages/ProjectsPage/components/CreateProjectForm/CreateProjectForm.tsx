@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import { loginValidation, passwordValidation } from './CreateProjectValidation';
+import { titleValidation, descriptionValidation } from '../../../../helper/validation';
 import { useCreateBoardMutation } from '../../../../redux/query/BoardsQuery';
 import { useAppSelector } from '../../../../hooks/redux';
 import { boardsApi } from '../../../../types/types';
@@ -46,7 +46,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
         <Controller
           control={control}
           name="title"
-          rules={loginValidation}
+          rules={titleValidation}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -64,7 +64,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
         <Controller
           control={control}
           name="text"
-          rules={passwordValidation}
+          rules={descriptionValidation}
           render={({ field }) => (
             <TextField
               color="secondary"

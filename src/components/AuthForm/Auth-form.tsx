@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import { loginValidation, passwordValidation } from './validation';
+import { loginValidation, passwordValidation, nameValidation } from '../../helper/validation';
 import { useSignInMutation, useSignUpMutation } from '../../redux/query/AuthQuery';
 import { useGetUsersMutation } from '../../redux/query/UsersQuery';
 import { setTokenToCookie } from '../../helper/Helper';
@@ -79,7 +79,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
           <Controller
             control={control}
             name="name"
-            rules={loginValidation}
+            rules={nameValidation}
             render={({ field }) => (
               <TextField
                 color="secondary"
@@ -90,8 +90,8 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
                 fullWidth={true}
                 size="small"
                 className="auth-form__input"
-                error={!!errors.login?.message}
-                helperText={errors?.login?.message}
+                error={!!errors.name?.message}
+                helperText={errors?.name?.message}
               />
             )}
           />

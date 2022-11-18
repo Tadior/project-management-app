@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import { loginValidation, passwordValidation } from '../../../components/AuthForm/validation';
+import { loginValidation, passwordValidation, nameValidation } from '../../../helper/validation';
 import { useTranslation } from 'react-i18next';
 import MagicHat from '../../../assets/images/magic_hat.png';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -94,6 +94,7 @@ export const EditForm = () => {
         <Controller
           control={control}
           name="name"
+          rules={nameValidation}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -104,8 +105,8 @@ export const EditForm = () => {
               fullWidth={true}
               size="small"
               className="edit-form__input"
-              error={!!errors.login?.message}
-              helperText={errors?.login?.message}
+              error={!!errors.name?.message}
+              helperText={errors?.name?.message}
             />
           )}
         />
@@ -144,8 +145,8 @@ export const EditForm = () => {
               fullWidth={true}
               size="small"
               className="edit-form__input"
-              error={!!errors.login?.message}
-              helperText={errors?.login?.message}
+              error={!!errors.password?.message}
+              helperText={errors?.password?.message}
             />
           )}
         />
