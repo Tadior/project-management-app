@@ -1,0 +1,15 @@
+@import 'components/editForm';
+
+.profile {
+  @include flex-column-center;
+  flex: 1 1;
+
+  &__title {
+    font-family: 'Playfair-Bold';
+    font-size: 3rem;
+    line-height: 6.4rem;
+    letter-spacing: 0.07rem;
+    text-align: center;
+    text-transform: capitalize;
+  }
+}

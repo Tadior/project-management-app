@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import { MainLayouts } from '../ layouts/MainLayouts';
 import { NotFound } from '../pages/NotFoundPage/NotFound';
+import { ProfilePage } from '../pages/ProfilePage/ProfilePage';
 import { ProjectsPage } from '../pages/ProjectsPage/ProjectsPage';
 import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
       <Route path="signIn" element={<SignInPage />} />
       <Route path="signUp" element={<SignUpPage />} />
       <Route path="projects" element={<ProjectsPage />} loader={projectsLoader} />
+      <Route path="profile" element={<ProfilePage />} />
       <Route path="*" element={<NotFound />} />
     </Route>
   )

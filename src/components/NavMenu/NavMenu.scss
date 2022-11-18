@@ -7,8 +7,16 @@
  }
 
  .link-signIn,
- .link-project {
- 	margin-right: 10px;
+ .link-project,
+ .link-signOut,
+ .link-profile {
+ 	margin-right:10px;
+ }
+
+ .link-profile {
+	img {
+		height: 4rem;
+	}
  }
 
  .lang {
