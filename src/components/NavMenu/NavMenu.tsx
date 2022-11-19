@@ -1,10 +1,11 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { getCookieToken } from '../../helper/Helper';
 import { useAppSelector } from '../../hooks/redux';
 
 export const NavMenu = () => {
-  const { userData } = useAppSelector((state) => state.userReducer);
-  const isUser = userData._id;
   const { pathname } = useLocation();
+  // const { userData } = useAppSelector((state) => state.userReducer);
+  const isUser = getCookieToken();
 
   return (
     <nav className="menu">
