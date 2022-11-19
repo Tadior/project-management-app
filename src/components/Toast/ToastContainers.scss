@@ -1,0 +1,11 @@
+.warnToastContainer,
+.errorToastContainer,
+.successToastContainer {
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 20px;
+}
+
+.Toastify__toast-icon {
+	margin-right: 15px !important;
+}

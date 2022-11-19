@@ -10,9 +10,17 @@ import handlerErrorsReducer from '../reducer/handlerErrorsSlice';
 import userReducer from '../reducer/userSlice';
 import { rtkQueryErrorLogger } from '../query/RtkQueryErrors';
 
+import { createReduxHistoryContext } from 'redux-first-history';
+import { createBrowserHistory } from 'history';
+
+const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext({
+  history: createBrowserHistory(),
+});
+
 export const rootReducer = combineReducers({
   handlerErrorsReducer,
   userReducer,
+  routerReducer,
   [AuthQuery.reducerPath]: AuthQuery.reducer,
   [BoardsQuery.reducerPath]: BoardsQuery.reducer,
   [ColumnsQuery.reducerPath]: ColumnsQuery.reducer,
@@ -31,6 +39,7 @@ const middlewareItems = [
   TaskQuery.middleware,
   UsersQuery.middleware,
   rtkQueryErrorLogger,
+  routerMiddleware,
 ];
 
 export const setupStore = () => {
@@ -43,3 +52,5 @@ export const setupStore = () => {
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof setupStore>;
 export type AppDispatch = AppStore['dispatch'];
+const store = setupStore();
+export const history = createReduxHistory(store);
