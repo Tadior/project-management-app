@@ -1,13 +1,19 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import { titleValidation, descriptionValidation } from '../../../../helper/validation';
+import {
+  titleValidation,
+  descriptionValidation,
+  titleValidationRu,
+  descriptionValidationRu,
+} from '../../../../helper/validation';
 import { useCreateBoardMutation } from '../../../../redux/query/BoardsQuery';
 import { useAppSelector } from '../../../../hooks/redux';
 import { boardsApi } from '../../../../types/types';
 import { useTranslation } from 'react-i18next';
+import { getCookieToken } from '../../../../helper/Helper';
 
-interface ISignInForm {
+interface CreateForm {
   title: string;
   text: string;
 }
@@ -21,13 +27,16 @@ interface ICreateProjectFormProps {
 export const CreateProjectForm = (props: ICreateProjectFormProps) => {
   const { _id } = useAppSelector((state) => state.userReducer.userData);
   const { t } = useTranslation();
-  const { handleSubmit, control } = useForm<ISignInForm>();
+  const { handleSubmit, control } = useForm<CreateForm>({
+    reValidateMode: 'onBlur',
+    mode: 'all',
+  });
   const { errors } = useFormState({
     control,
   });
   const [createBoard, boardInfo] = useCreateBoardMutation();
 
-  const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
+  const onSubmit: SubmitHandler<CreateForm> = async (data) => {
     const newProject = await createBoard({
       title: data.title,
       owner: _id,
@@ -39,6 +48,8 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
     props.updateState(false);
   };
 
+  const lang = getCookieToken('i18next');
+
   return (
     <div className="create-project-form">
       <h2 className="create-project-form__title">{t('create_project')}</h2>
@@ -46,7 +57,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
         <Controller
           control={control}
           name="title"
-          rules={titleValidation}
+          rules={lang === 'en' ? titleValidation : titleValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -64,7 +75,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
         <Controller
           control={control}
           name="text"
-          rules={descriptionValidation}
+          rules={lang === 'en' ? descriptionValidation : descriptionValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"

@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import { loginValidation, passwordValidation, nameValidation } from '../../../helper/validation';
+import {
+  loginValidation,
+  passwordValidation,
+  nameValidation,
+  nameValidationRu,
+  loginValidationRu,
+  passwordValidationRu,
+} from '../../../helper/validation';
 import { useTranslation } from 'react-i18next';
 import MagicHat from '../../../assets/images/magic_hat.png';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -10,7 +17,7 @@ import {
   useDeleteUserByidMutation,
 } from '../../../redux/query/UsersQuery';
 import { userSlice } from '../../../redux/reducer/UserSlice';
-import { deleteCookieToken } from '../../../helper/Helper';
+import { deleteCookieToken, getCookieToken } from '../../../helper/Helper';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
 
@@ -29,6 +36,8 @@ export const EditForm = () => {
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm<IEditForm>({
     defaultValues: { name, login, password },
+    reValidateMode: 'onBlur',
+    mode: 'all',
   });
   const { errors } = useFormState({
     control,
@@ -83,6 +92,8 @@ export const EditForm = () => {
     }
   };
 
+  const lang = getCookieToken('i18next');
+
   return (
     <div className="edit-form">
       {confirmStatus && (
@@ -94,7 +105,7 @@ export const EditForm = () => {
         <Controller
           control={control}
           name="name"
-          rules={nameValidation}
+          rules={lang === 'en' ? nameValidation : nameValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -114,7 +125,7 @@ export const EditForm = () => {
         <Controller
           control={control}
           name="login"
-          rules={loginValidation}
+          rules={lang === 'en' ? loginValidation : loginValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -134,7 +145,7 @@ export const EditForm = () => {
         <Controller
           control={control}
           name="password"
-          rules={passwordValidation}
+          rules={lang === 'en' ? passwordValidation : passwordValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"
