@@ -1,0 +1,40 @@
+.column {
+  position: relative;
+  background-color: $grey-cards;
+  border-radius: 1.2rem;
+  width: 37rem;
+  padding: 3rem 2.5rem;
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__title {
+    font-size: 2rem;
+    color: $black-text;
+    font-family: 'Inter-Medium', serif;
+  }
+  .btn__column {
+    color: $white-text;
+    padding: 0.4rem 1.5rem;
+    font-size: 1.6rem;
+    background-color: $purple-light;
+    border-radius: 0.8rem;
+    transition: all ease 0.5s;
+    &:hover {
+      background-color: $purple-bright;
+    }
+  }
+  &__delete {
+    position: absolute;
+    content: '';
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: transparent;
+  }
+  &__content {
+  }
+  &_active {
+    background: red;
+  }
+}

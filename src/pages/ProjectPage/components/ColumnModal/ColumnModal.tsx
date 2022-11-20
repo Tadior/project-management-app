@@ -31,7 +31,7 @@ const ColumnModal = (props: IColumnModalProps) => {
       id: props.currentId,
       body: {
         title: data.title,
-        order: 0,
+        order: props.columns.length,
       },
     }).unwrap();
     const allColumns = [...props.columns].concat(newColumn);

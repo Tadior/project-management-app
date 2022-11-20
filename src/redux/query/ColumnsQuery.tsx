@@ -55,7 +55,7 @@ export const ColumnsQuery = createApi({
         method: 'GET',
       }),
     }),
-    updateColumnSet: builder.mutation<columnApi[], { body: { _id: string; order: number } }>({
+    updateColumnSet: builder.mutation<columnApi[], { body: { _id: string; order: number }[] }>({
       query: (args) => ({
         url: `columnsSet`,
         method: 'PATCH',

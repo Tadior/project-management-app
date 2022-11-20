@@ -16,6 +16,7 @@ const PROJECT_INITIAL: boardsApi[] = [
     users: [''],
   },
 ];
+
 export const ProjectsPage = () => {
   const projects = useLoaderData() as boardsApi[];
   const { t } = useTranslation();

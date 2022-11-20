@@ -1,5 +1,8 @@
 .new-column-btn {
-  width: 8.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 8.3rem;
   height: 8.3rem;
   background-color: rgba($purple-bright, 0.4);
   border-radius: 50%;

@@ -4,6 +4,7 @@ import projectImg from '../../../../assets/images/save-add.png';
 import trashCan from '../../../../assets/icons/trash_icon.png';
 import { userSlice } from '../../../../redux/reducer/UserSlice';
 import { useAppDispatch } from '../../../../hooks/redux';
+
 interface IProjectProps {
   updateState: (value: boolean) => void;
   updateId: React.Dispatch<React.SetStateAction<string>>;
