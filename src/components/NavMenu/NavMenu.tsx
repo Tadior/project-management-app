@@ -18,6 +18,9 @@ export const NavMenu = () => {
             {pathname === '/' ? t('go_to_main-page') : t('header_projects')}
           </NavLink>
           <button className="link-signOut button-black">{t('header_signOut')}</button>
+          <NavLink className="link-profile" to="profile">
+            <img className="lang__img" src="icons/user.svg" alt="user" />
+          </NavLink>
         </>
       ) : (
         <>

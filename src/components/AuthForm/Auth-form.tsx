@@ -6,7 +6,7 @@ import { useSignInMutation, useSignUpMutation } from '../../redux/query/AuthQuer
 import { useGetUsersMutation } from '../../redux/query/UsersQuery';
 import { setTokenToCookie } from '../../helper/Helper';
 import { useAppDispatch } from '../../hooks/redux';
-import { userSlice } from '../../redux/reducer/userSlice';
+import { userSlice } from '../../redux/reducer/UserSlice';
 import { userApi } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

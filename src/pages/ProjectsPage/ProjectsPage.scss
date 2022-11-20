@@ -1,0 +1,22 @@
+@import './components/Project/Project.scss';
+@import './components/NewProject/NewProject.scss';
+@import './components/CreateProjectForm/CreateProjectForm.scss';
+.title {
+  font-family: 'Playfair-Bold', serif;
+  font-weight: 700;
+  font-size: 3rem;
+  text-transform: capitalize;
+  &__projects {
+    text-align: center;
+  }
+}
+.projects {
+  margin: 4rem 0;
+  &__wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 0 -1.5rem;
+  }
+}

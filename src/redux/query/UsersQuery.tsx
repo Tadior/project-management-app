@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getCookieToken } from '../../helper/Helper';
-import { userApi } from '../../types/types';
+import { userApi, userProfileApi } from '../../types/types';
 export const UsersQuery = createApi({
   reducerPath: 'User',
   baseQuery: fetchBaseQuery({
@@ -26,7 +26,7 @@ export const UsersQuery = createApi({
         method: 'GET',
       }),
     }),
-    updateUserByid: builder.mutation<userApi, { id: string; body: userApi }>({
+    updateUserByid: builder.mutation<userProfileApi, { id: string; body: userProfileApi }>({
       query: (args) => ({
         url: `/${args.id}`,
         method: 'PUT',
