@@ -33,8 +33,8 @@ export const ToastContainers = () => {
         autoClose={5000}
         closeOnClick
         enableMultiContainer
-        toastStyle={{ border: '2px solid rgba(240, 49, 49, 0.52)' }}
-        progressStyle={{ background: 'rgba(240, 49, 49, 0.52)' }}
+        toastStyle={{ border: '2px solid #f0313185 ' }}
+        progressStyle={{ background: '#f0313185' }}
         containerId={'error'}
         icon={() => <img src={errorIcon} />}
         className="errorToastContainer"
