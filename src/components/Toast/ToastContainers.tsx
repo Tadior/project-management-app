@@ -19,14 +19,14 @@ export const ToastContainers = () => {
       />
       <ToastContainer
         position="bottom-right"
-        autoClose={5000}
+        autoClose={false}
         closeOnClick
         enableMultiContainer
         toastStyle={{ border: '2px solid #78FF8F' }}
         containerId={'success'}
         progressStyle={{ background: '#78FF8F' }}
         icon={() => <img src={successIcon} />}
-        className="successTostContainer"
+        className="successToastContainer"
       />
       <ToastContainer
         position="bottom-right"
