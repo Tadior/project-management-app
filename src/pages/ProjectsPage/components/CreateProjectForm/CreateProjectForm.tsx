@@ -33,7 +33,6 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
       owner: _id,
       users: [data.text],
     }).unwrap();
-    console.log(newProject);
     const allProjects = [...props.projects].concat(newProject);
     props.updateProjects(allProjects);
     props.updateState(false);
