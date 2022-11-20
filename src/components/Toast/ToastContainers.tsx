@@ -19,7 +19,7 @@ export const ToastContainers = () => {
       />
       <ToastContainer
         position="bottom-right"
-        autoClose={false}
+        autoClose={5000}
         closeOnClick
         enableMultiContainer
         toastStyle={{ border: '2px solid #78FF8F' }}

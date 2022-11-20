@@ -37,7 +37,7 @@ export const CreateProjectForm: React.FC = () => {
               variant="outlined"
               label={t('create_title')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               size="small"
               className="create-project-form__input"
               error={!!errors.login?.message}
@@ -57,7 +57,7 @@ export const CreateProjectForm: React.FC = () => {
               rows={10}
               label={t('create_desc')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               size="small"
               className="create-project-form__textarea"
               error={!!errors?.password?.message}

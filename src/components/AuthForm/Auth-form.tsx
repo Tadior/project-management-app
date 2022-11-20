@@ -103,7 +103,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
                 variant="outlined"
                 label={t('sign_name')}
                 onChange={(e) => field.onChange(e)}
-                value={field.value}
+                value={field.value || ''}
                 fullWidth={true}
                 size="small"
                 className="auth-form__input"
@@ -124,7 +124,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
               variant="outlined"
               label={t('sign_login')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               fullWidth={true}
               size="small"
               className="auth-form__input"
@@ -143,7 +143,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
               variant="outlined"
               label={t('sign_password')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               fullWidth={true}
               size="small"
               type="password"
