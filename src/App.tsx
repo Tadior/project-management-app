@@ -7,8 +7,8 @@ import { ToastContainers } from './components/Toast/ToastContainers';
 import { toast } from 'react-toastify';
 
 export const store = setupStore();
-toast('fdfd', {
-  containerId: 'success',
+toast('fdfdfdfdf', {
+  containerId: 'error',
 });
 function App() {
   return (
