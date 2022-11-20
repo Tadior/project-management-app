@@ -9,9 +9,9 @@ import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 import WelcomePage from '../pages/WelcomePage/WelcomePage';
 import { handlerErrorsSlice } from '../redux/reducer/handlerErrorsSlice';
+import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 
 export const AppRoutes = () => {
-  const isUser = getCookieToken();
   // const { statusCode } = useAppSelector((state) => state.handlerErrorsReducer);
   // const { handlerErrors } = handlerErrorsSlice.actions;
   // const dispatch = useAppDispatch();
@@ -29,9 +29,11 @@ export const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<MainLayouts />}>
         <Route index element={<WelcomePage />} />
-        <Route path="signIn" element={<SignInPage />} />
-        <Route path="signUp" element={isUser ? <WelcomePage /> : <SignUpPage />} />
-        <Route path="projects" element={isUser ? <ProjectsPage /> : <WelcomePage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="signIn" element={<SignUpPage />} />
+          <Route path="signUp" element={<SignUpPage />} />
+        </Route>
+        <Route path="projects" element={<ProjectsPage />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

@@ -8,30 +8,33 @@ export const ToastContainers = () => {
     <>
       <ToastContainer
         position="bottom-right"
-        autoClose={3000}
+        autoClose={5000}
         closeOnClick
         enableMultiContainer
         toastStyle={{ border: '2px solid #F7D56E' }}
         containerId={'warning'}
+        progressStyle={{ background: '#F7D56E' }}
         className="warnToastContainer"
         icon={() => <img src={warnIcon} />}
       />
       <ToastContainer
         position="bottom-right"
-        autoClose={3000}
+        autoClose={5000}
         closeOnClick
         enableMultiContainer
         toastStyle={{ border: '2px solid #78FF8F' }}
         containerId={'success'}
+        progressStyle={{ background: '#78FF8F' }}
         icon={() => <img src={successIcon} />}
         className="successTostContainer"
       />
       <ToastContainer
         position="bottom-right"
-        autoClose={3000}
+        autoClose={5000}
         closeOnClick
         enableMultiContainer
         toastStyle={{ border: '2px solid rgba(240, 49, 49, 0.52)' }}
+        progressStyle={{ background: 'rgba(240, 49, 49, 0.52)' }}
         containerId={'error'}
         icon={() => <img src={errorIcon} />}
         className="errorToastContainer"

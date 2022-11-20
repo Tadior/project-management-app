@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import CreationSection from './components/CreationSection';
 import PromoSection from './components/PromoSection';

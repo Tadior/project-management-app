@@ -4,8 +4,12 @@ import { Provider } from 'react-redux';
 import { AppRoutes } from './routes/AppRoute';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainers } from './components/Toast/ToastContainers';
+import { toast } from 'react-toastify';
 
 export const store = setupStore();
+toast('fdfd', {
+  containerId: 'success',
+});
 function App() {
   return (
     <div className="App">

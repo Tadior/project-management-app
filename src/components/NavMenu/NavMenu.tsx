@@ -14,7 +14,7 @@ export const NavMenu = () => {
     <nav className="menu">
       {isUser ? (
         <>
-          <NavLink className="link-project button-black" to="Projects">
+          <NavLink className="link-project button-black" to="projects">
             {pathname === '/' ? 'Go to main page' : 'projects'}
             {t('header_projects')}
           </NavLink>
