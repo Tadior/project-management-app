@@ -53,7 +53,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
               variant="outlined"
               label={t('create_title')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               size="small"
               className="create-project-form__input"
               error={!!errors.title?.message}
@@ -73,7 +73,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
               rows={10}
               label={t('create_desc')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               size="small"
               className="create-project-form__textarea"
               error={!!errors?.text?.message}
