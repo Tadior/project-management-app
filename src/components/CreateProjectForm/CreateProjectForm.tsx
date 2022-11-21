@@ -2,46 +2,29 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
 import { loginValidation, passwordValidation } from './CreateProjectValidation';
-import { useCreateBoardMutation } from '../../../../redux/query/BoardsQuery';
-import { useAppSelector } from '../../../../hooks/redux';
-import { boardsApi } from '../../../../types/types';
+import { boardsApi } from '../../types/types';
 import { useTranslation } from 'react-i18next';
+import { ICreateForm } from '../../types/types';
 
-interface ISignInForm {
-  title: string;
-  text: string;
-}
 interface ICreateProjectFormProps {
-  projects: boardsApi[];
-  updateState: (value: boolean) => void;
-  updateProjects: React.Dispatch<React.SetStateAction<boardsApi[]>>;
-  currentId: string;
+  projects?: boardsApi[];
+  updateState?: (value: boolean) => void;
+  updateProjects?: React.Dispatch<React.SetStateAction<boardsApi[]>>;
+  typeOfForm: string;
+  callbackToSubmit: SubmitHandler<ICreateForm>;
 }
 
 export const CreateProjectForm = (props: ICreateProjectFormProps) => {
-  const { _id, login, name } = useAppSelector((state) => state.userReducer.userData);
   const { t } = useTranslation();
-  const { handleSubmit, control } = useForm<ISignInForm>();
+  const { handleSubmit, control } = useForm<ICreateForm>();
   const { errors } = useFormState({
     control,
   });
-  const [createBoard, boardInfo] = useCreateBoardMutation();
-
-  const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
-    const newProject = await createBoard({
-      title: data.title,
-      owner: _id,
-      users: [data.text],
-    }).unwrap();
-    const allProjects = [...props.projects].concat(newProject);
-    props.updateProjects(allProjects);
-    props.updateState(false);
-  };
 
   return (
     <div className="create-project-form">
-      <h2 className="create-project-form__title">{t('create_project')}</h2>
-      <form className="create-project__form" onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="create-project-form__title">{t(props.typeOfForm)}</h2>
+      <form className="create-project__form" onSubmit={handleSubmit(props.callbackToSubmit)}>
         <Controller
           control={control}
           name="title"
@@ -83,7 +66,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
         <button
           className="button-border"
           onClick={() => {
-            props.updateState(false);
+            props.updateState!(false);
           }}
         >
           {t('cancel_btn')}

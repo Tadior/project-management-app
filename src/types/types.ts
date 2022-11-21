@@ -56,3 +56,8 @@ export interface PointApi {
   boardId: string;
   done: boolean;
 }
+
+export interface ICreateForm {
+  title: string;
+  text: string;
+}

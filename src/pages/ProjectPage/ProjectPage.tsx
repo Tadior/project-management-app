@@ -12,6 +12,7 @@ import {
 } from '../../redux/query/ColumnsQuery';
 import INITIAL_VALUE from '../ProjectsPage/consts/INITIAL_VALUE';
 import IColumnsBody from '../ProjectsPage/types/types';
+import { CreateProjectForm } from '../../components/CreateProjectForm/CreateProjectForm';
 
 const ProjectPage = () => {
   const title = useParams().title;
@@ -20,6 +21,7 @@ const ProjectPage = () => {
   const [currentColumn, setCurrentColumn] = useState(
     columnsInitial ? columnsInitial[0] : INITIAL_VALUE[0]
   );
+  const [isProjectModalActive, setisProjectModalActive] = useState(false);
   const [isColumnModalActive, setColumnModalActive] = useState(false);
   const [updateSetOfColumns, setOfColumnsData] = useUpdateColumnSetMutation();
   const [deleteColumnRequest, deleteColumnData] = useDeleteColumnByIdMutation();
@@ -27,6 +29,10 @@ const ProjectPage = () => {
     return columns.sort((a, b) => {
       return a.order - b.order;
     });
+  };
+
+  const handleProjectIsActive = (value: boolean) => {
+    setisProjectModalActive(value);
   };
 
   const [columns, setColumns] = useState(
@@ -75,6 +81,9 @@ const ProjectPage = () => {
   const updateCurrentColumns = (column: columnApi) => {
     setCurrentColumn(column);
   };
+  const updateModalActive = () => {
+    setisProjectModalActive(!isProjectModalActive);
+  };
 
   return (
     <section className="project-page">
@@ -91,6 +100,7 @@ const ProjectPage = () => {
                   projectId={projectId}
                   updateColumnsCallback={updateColumnsData}
                   updateCurrentColumn={updateCurrentColumns}
+                  updateModalActive={updateModalActive}
                   key={column._id}
                 />
               );
@@ -106,6 +116,15 @@ const ProjectPage = () => {
           updateModalState={() => columnModalCallback(false)}
           currentId={projectId}
           updateColumnsState={updateColumns}
+        />
+      )}
+      {isProjectModalActive && (
+        <CreateProjectForm
+          typeOfForm={'create_task'}
+          // projects={projectsState}
+          updateState={handleProjectIsActive}
+          // updateProjects={setProjectsState}
+          callbackToSubmit={() => console.log('rere')}
         />
       )}
     </section>

@@ -10,6 +10,7 @@ interface IProps {
   deleteCallback: (colimnId: string) => void;
   updateColumnsCallback: (columnItem: columnApi) => void;
   updateCurrentColumn: (column: columnApi) => void;
+  updateModalActive: () => void;
 }
 
 const Column = (props: IProps) => {
@@ -50,6 +51,10 @@ const Column = (props: IProps) => {
         <button onClick={updateValue}>Submit</button>
       </>
     );
+  };
+
+  const handleClickAdd = () => {
+    props.updateModalActive();
   };
 
   const dragStartHandler = (event: React.DragEvent<HTMLDivElement>, column: columnApi) => {
@@ -99,7 +104,9 @@ const Column = (props: IProps) => {
             {title}
           </div>
         )}
-        <button className="btn btn__column">+ Add Task</button>
+        <button className="btn btn__column" onClick={handleClickAdd}>
+          + Add Task
+        </button>
       </div>
       <div className="column__content"></div>
       <button
