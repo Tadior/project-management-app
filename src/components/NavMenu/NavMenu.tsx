@@ -1,18 +1,26 @@
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { getCookieToken } from '../../helper/Helper';
 import { useAppSelector } from '../../hooks/redux';
 import { useTranslation } from 'react-i18next';
 
 export const NavMenu = () => {
+  const { pathname } = useLocation();
+  // const { userData } = useAppSelector((state) => state.userReducer);
+  const isUser = getCookieToken();
+
   const { userData } = useAppSelector((state) => state.userReducer);
   const { t } = useTranslation();
   return (
     <nav className="menu">
-      {userData._id ? (
+      {isUser ? (
         <>
-          <NavLink className="link-project button-black" to="Projects">
-            {t('header_projects')}
+          <NavLink className="link-project button-black" to="projects">
+            {pathname === '/' ? t('go_to_main-page') : t('header_projects')}
           </NavLink>
           <button className="link-signOut button-black">{t('header_signOut')}</button>
+          <NavLink className="link-profile" to="profile">
+            <img className="lang__img" src="icons/user.svg" alt="user" />
+          </NavLink>
         </>
       ) : (
         <>

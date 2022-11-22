@@ -5,12 +5,20 @@ import { loginValidation, passwordValidation } from './CreateProjectValidation';
 import { boardsApi } from '../../types/types';
 import { useTranslation } from 'react-i18next';
 import { ICreateForm } from '../../types/types';
-import { ICreateFormTask } from '../../types/types';
-// interface IDefaultData {
-//   title: string;
-//   description:
-// }
+import {
+  titleValidation,
+  descriptionValidation,
+  titleValidationRu,
+  descriptionValidationRu,
+} from '../../helper/validation';
+import { useCreateBoardMutation } from '../../redux/query/BoardsQuery';
+import { useAppSelector } from '../../hooks/redux';
+import { getCookieToken } from '../../helper/Helper';
 
+interface CreateForm {
+  title: string;
+  text: string;
+}
 interface ICreateProjectFormProps {
   projects?: boardsApi[];
   updateState?: (value: boolean) => void;
@@ -22,11 +30,29 @@ interface ICreateProjectFormProps {
 }
 
 export const CreateProjectForm = (props: ICreateProjectFormProps) => {
+  const { _id } = useAppSelector((state) => state.userReducer.userData);
   const { t } = useTranslation();
-  const { handleSubmit, control } = useForm<ICreateForm>();
+  const { handleSubmit, control } = useForm<CreateForm>({
+    reValidateMode: 'onBlur',
+    mode: 'all',
+  });
   const { errors } = useFormState({
     control,
   });
+  const [createBoard, boardInfo] = useCreateBoardMutation();
+
+  // const onSubmit: SubmitHandler<CreateForm> = async (data) => {
+  //   const newProject = await createBoard({
+  //     title: data.title,
+  //     owner: _id,
+  //     users: [data.text],
+  //   }).unwrap();
+  //   const allProjects = [...props.projects!].concat(newProject);
+  //   props.updateProjects!(allProjects);
+  //   props.updateState!(false);
+  // };
+
+  const lang = getCookieToken('i18next');
 
   return (
     <div className="create-project-form">
@@ -42,14 +68,14 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
         <Controller
           control={control}
           name="title"
-          rules={loginValidation}
+          rules={lang === 'en' ? titleValidation : titleValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"
               variant="outlined"
               label={t('create_title')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               size="small"
               className="create-project-form__input"
               error={!!errors.title?.message}
@@ -61,7 +87,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
         <Controller
           control={control}
           name="text"
-          rules={passwordValidation}
+          rules={lang === 'en' ? descriptionValidation : descriptionValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -70,7 +96,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
               rows={10}
               label={t('create_desc')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               size="small"
               className="create-project-form__textarea"
               error={!!errors?.text?.message}

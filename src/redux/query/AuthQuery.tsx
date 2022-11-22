@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getCookieToken } from '../../helper/Helper';
+import { getCookieToken, setTokenToCookie } from '../../helper/Helper';
 import { userApi } from '../../types/types';
 export const AuthQuery = createApi({
   reducerPath: 'Auth',

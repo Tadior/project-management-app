@@ -72,6 +72,7 @@ export const ProjectsPage = () => {
         <div className="projects__wrapper">
           <>
             {projectsState &&
+              projectsState[0] &&
               projectsState.map((current) => {
                 return (
                   <Project

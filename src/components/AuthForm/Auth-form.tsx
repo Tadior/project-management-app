@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import { loginValidation, passwordValidation } from './validation';
+import {
+  loginValidation,
+  passwordValidation,
+  nameValidation,
+  nameValidationRu,
+  loginValidationRu,
+  passwordValidationRu,
+} from '../../helper/validation';
 import { useSignInMutation, useSignUpMutation } from '../../redux/query/AuthQuery';
 import { useGetUsersMutation } from '../../redux/query/UsersQuery';
-import { setTokenToCookie } from '../../helper/Helper';
+import { getCookieToken, setTokenToCookie } from '../../helper/Helper';
 import { useAppDispatch } from '../../hooks/redux';
 import { userSlice } from '../../redux/reducer/UserSlice';
 import { userApi } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface ISignInForm {
   login: string;
@@ -21,6 +29,9 @@ interface ISignInFormProps {
   page: string;
 }
 
+type TFnRegistration = (name: string, login: string, password: string) => void;
+type TFnAuthorization = (login: string, password: string) => void;
+
 export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -29,43 +40,61 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
   const [getToken, resultToken] = useSignInMutation();
   const [getUsers, resultGetUsers] = useGetUsersMutation();
   const { t } = useTranslation();
-  const { handleSubmit, control } = useForm<ISignInForm>();
+  const { handleSubmit, control } = useForm<ISignInForm>({
+    reValidateMode: 'onBlur',
+    mode: 'all',
+  });
   const { errors } = useFormState({
     control,
   });
 
+  const registration: TFnRegistration = async (name, login, password) => {
+    await createUser({
+      name: name,
+      login: login,
+      password: password,
+    }).unwrap();
+  };
+
+  const authorization: TFnAuthorization = async (login, password) => {
+    const { token } = await getToken({
+      login: login,
+      password: password,
+    }).unwrap();
+    setTokenToCookie(token);
+  };
+
+  const getUserByLogin = async (login: string) => {
+    const users = await getUsers();
+    const user = (users as { data: userApi[] }).data.find((user: userApi) => user.login === login);
+    return user;
+  };
+
   const onSubmit: SubmitHandler<ISignInForm> = async ({ name, login, password }) => {
-    if (page === '/signUp') {
-      createUser({
-        name: name,
-        login: login,
-        password: password,
-      }).unwrap();
-      navigate('/signIn');
-    } else {
-      getToken({
-        login: login,
-        password: password,
-      })
-        .unwrap()
-        .then((data) => setTokenToCookie(data.token))
-        .then(() => getUsers())
-        .then((users) =>
-          (users as { data: userApi[] }).data.find((user: userApi) => user.login === login)
-        )
-        .then((user) => {
+    try {
+      if (page === '/signUp') {
+        await registration(name, login, password);
+        navigate('/signIn');
+      } else {
+        await authorization(login, password);
+        const user = await getUserByLogin(login);
+        user &&
           dispatch(
             setUserData({
-              _id: user!._id,
-              login: user!.login,
-              name: user!.name,
+              _id: user._id,
+              login: user.login,
+              name: user.name,
               password: password,
             })
           );
-          navigate('/projects');
-        });
+        navigate('/projects');
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  const lang = getCookieToken('i18next');
 
   return (
     <div className="auth-form">
@@ -79,19 +108,19 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
           <Controller
             control={control}
             name="name"
-            rules={loginValidation}
+            rules={lang === 'en' ? nameValidation : nameValidationRu}
             render={({ field }) => (
               <TextField
                 color="secondary"
                 variant="outlined"
                 label={t('sign_name')}
                 onChange={(e) => field.onChange(e)}
-                value={field.value}
+                value={field.value || ''}
                 fullWidth={true}
                 size="small"
                 className="auth-form__input"
-                error={!!errors.login?.message}
-                helperText={errors?.login?.message}
+                error={!!errors.name?.message}
+                helperText={errors?.name?.message}
               />
             )}
           />
@@ -100,14 +129,14 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
         <Controller
           control={control}
           name="login"
-          rules={loginValidation}
+          rules={lang === 'en' ? loginValidation : loginValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"
               variant="outlined"
               label={t('sign_login')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               fullWidth={true}
               size="small"
               className="auth-form__input"
@@ -119,14 +148,14 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
         <Controller
           control={control}
           name="password"
-          rules={passwordValidation}
+          rules={lang === 'en' ? passwordValidation : passwordValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"
               variant="outlined"
               label={t('sign_password')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               fullWidth={true}
               size="small"
               type="password"

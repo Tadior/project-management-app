@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { userApi } from '../../types/types';
+import { userApiState } from '../../types/types';
 
 interface IState {
-  userData: userApi;
+  userData: userApiState;
   activeProjectId: string;
 }
 
@@ -20,11 +20,14 @@ export const userSlice = createSlice({
   name: 'User',
   initialState,
   reducers: {
-    setUserData(state, action: PayloadAction<userApi>) {
+    setUserData(state, action: PayloadAction<userApiState>) {
       state.userData = action.payload;
     },
     setActiveProjectId(state, action: PayloadAction<string>) {
       state.activeProjectId = action.payload;
+    },
+    resetUserData(state) {
+      state.userData = initialState.userData;
     },
   },
 });
