@@ -8,7 +8,6 @@ import {
   descriptionValidationRu,
 } from '../../../../helper/validation';
 import { useCreateBoardMutation } from '../../../../redux/query/BoardsQuery';
-import { useAppSelector } from '../../../../hooks/redux';
 import { boardsApi } from '../../../../types/types';
 import { useTranslation } from 'react-i18next';
 import { getCookieToken } from '../../../../helper/Helper';
@@ -20,12 +19,12 @@ interface CreateForm {
 interface ICreateProjectFormProps {
   projects: boardsApi[];
   updateState: (value: boolean) => void;
-  updateProjects: React.Dispatch<React.SetStateAction<boardsApi[]>>;
-  currentId: string;
+  // currentId: string; //???
 }
 
 export const CreateProjectForm = (props: ICreateProjectFormProps) => {
-  const { _id } = useAppSelector((state) => state.userReducer.userData);
+  const { _id } = JSON.parse(getCookieToken('userData')!);
+  const [createBoard, boardInfo] = useCreateBoardMutation();
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm<CreateForm>({
     reValidateMode: 'onBlur',
@@ -34,17 +33,13 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
   const { errors } = useFormState({
     control,
   });
-  const [createBoard, boardInfo] = useCreateBoardMutation();
 
-  const onSubmit: SubmitHandler<CreateForm> = async (data) => {
-    const newProject = await createBoard({
+  const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
+    await createBoard({
       title: data.title,
       owner: _id,
       users: [data.text],
     }).unwrap();
-    console.log(newProject);
-    const allProjects = [...props.projects].concat(newProject);
-    props.updateProjects(allProjects);
     props.updateState(false);
   };
 

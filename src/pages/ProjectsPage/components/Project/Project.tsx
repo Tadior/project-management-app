@@ -1,4 +1,3 @@
-import react from 'react';
 import { NavLink } from 'react-router-dom';
 import projectImg from '../../../../assets/images/save-add.png';
 import trashCan from '../../../../assets/icons/trash_icon.png';
@@ -12,11 +11,10 @@ interface IProjectProps {
 }
 
 const Project = ({ updateState, title, description, id, updateId }: IProjectProps) => {
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent<EventTarget>) => {
+    const target = event.target as HTMLElement;
+    updateId(target.id);
     updateState(true);
-    {
-      id && updateId(id);
-    }
   };
 
   return (
@@ -33,10 +31,10 @@ const Project = ({ updateState, title, description, id, updateId }: IProjectProp
           className="project__trash"
           onClick={(event) => {
             event.preventDefault();
-            handleClick();
+            handleClick(event);
           }}
         >
-          <img src={trashCan} alt="trash can" />
+          <img id={id} src={trashCan} alt="trash can" />
         </div>
       </div>
     </NavLink>

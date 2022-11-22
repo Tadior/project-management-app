@@ -4,44 +4,34 @@ import DeleteModal from '../../components/DeleteModal/DeleteModal';
 import NewProject from './components/NewProject/NewProject';
 import Project from './components/Project/Project';
 import { useTranslation } from 'react-i18next';
-import { useLoaderData } from 'react-router-dom';
-import { boardsApi } from '../../types/types';
-import { useDeleteBoardByIdMutation } from '../../redux/query/BoardsQuery';
 
-const PROJECT_INITIAL: boardsApi[] = [
-  {
-    _id: '',
-    title: '',
-    owner: '',
-    users: [''],
-  },
-];
+import {
+  useDeleteBoardByIdMutation,
+  useGetBoardsSetByIdQuery,
+} from '../../redux/query/BoardsQuery';
+import { getCookieToken } from '../../helper/Helper';
+
 export const ProjectsPage = () => {
-  const projects = useLoaderData() as boardsApi[];
+  const { _id } = JSON.parse(getCookieToken('userData')!);
+
+  const { data: projects = [], isFetching } = useGetBoardsSetByIdQuery({ id: _id });
+  const [deleteProject, deletedProject] = useDeleteBoardByIdMutation();
+  console.log(projects);
   const { t } = useTranslation();
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [currentIdToDelete, setCurrentIdToDelete] = useState('');
-  const [projectsState, setProjectsState] = useState(projects ? projects : PROJECT_INITIAL);
-  const [deleteProject, deletedProject] = useDeleteBoardByIdMutation();
   const handleProjectIsActive = (value: boolean) => {
     setisProjectModalActive(value);
   };
+  // console.log(currentIdToDelete);
+
   const handleDeleteIsActive = (value: boolean) => {
     setIsDeleteActive(value);
   };
 
-  const filterProjects = (projects: boardsApi[], id: string) => {
-    return projects.filter((element) => {
-      if (element._id === id) {
-        return false;
-      }
-      return true;
-    });
-  };
   const callbackDelete = () => {
     deleteProject({ id: currentIdToDelete });
-    setProjectsState(filterProjects(projects, currentIdToDelete));
     handleDeleteIsActive(false);
   };
 
@@ -55,9 +45,8 @@ export const ProjectsPage = () => {
         <h2 className="title title__projects">{t('main_title')}</h2>
         <div className="projects__wrapper">
           <>
-            {projectsState &&
-              projectsState[0] &&
-              projectsState.map((current) => {
+            {isFetching ||
+              projects.map((current) => {
                 return (
                   <Project
                     updateId={setCurrentIdToDelete}
@@ -72,10 +61,9 @@ export const ProjectsPage = () => {
             <NewProject updateState={handleProjectIsActive} />
             {isProjectModalActive && (
               <CreateProjectForm
-                projects={projectsState}
-                currentId={currentIdToDelete}
+                projects={projects}
+                // currentId={currentIdToDelete}
                 updateState={handleProjectIsActive}
-                updateProjects={setProjectsState}
               />
             )}
             {isDeleteActive && (

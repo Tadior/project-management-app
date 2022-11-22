@@ -11,7 +11,7 @@ import {
 } from '../../helper/validation';
 import { useSignInMutation, useSignUpMutation } from '../../redux/query/AuthQuery';
 import { useGetUsersMutation } from '../../redux/query/UsersQuery';
-import { getCookieToken, setTokenToCookie } from '../../helper/Helper';
+import { setTokenToCookie, setUserToCookie,getCookieToken } from '../../helper/Helper';
 import { useAppDispatch } from '../../hooks/redux';
 import { userSlice } from '../../redux/reducer/UserSlice';
 import { userApi } from '../../types/types';
@@ -79,14 +79,12 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
         await authorization(login, password);
         const user = await getUserByLogin(login);
         user &&
-          dispatch(
-            setUserData({
-              _id: user._id,
-              login: user.login,
-              name: user.name,
-              password: password,
-            })
-          );
+          setUserToCookie({
+            _id: user._id,
+            login: user.login,
+            name: user.name,
+            password: password,
+          });
         navigate('/projects');
       }
     } catch (error) {
@@ -100,7 +98,6 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
     <div className="auth-form">
       <h2 className="auth-form_title">{t('sign_hello')}</h2>
       <p className="auth-form__subtitle">
-        {' '}
         {page === '/signUp' ? t('header_signUp') : t('header_signIn')}
       </p>
       <form className="auth-form__form" onSubmit={handleSubmit(onSubmit)}>
