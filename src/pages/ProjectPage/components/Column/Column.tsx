@@ -6,6 +6,8 @@ import { useUpdateColumnByIdMutation } from '../../../../redux/query/ColumnsQuer
 import { columnApiWithTasks } from '../../../../types/types';
 import Task from '../Task/Task';
 import { useDeleteTaskByIdMutation } from '../../../../redux/query/TasksQuery';
+import backIcon from '../../../../assets/icons/back.png';
+import checkIcon from '../../../../assets/icons/check.png';
 
 interface IProps {
   data: columnApiWithTasks;
@@ -57,8 +59,12 @@ const Column = (props: IProps) => {
     return (
       <>
         <input className="column__input" type="text" defaultValue={title} ref={inputRef} />
-        <button onClick={changeEditMode}>Cancel</button>
-        <button onClick={updateValue}>Submit</button>
+        <button onClick={changeEditMode}>
+          <img src={backIcon} alt="Close" />
+        </button>
+        <button onClick={updateValue}>
+          <img src={checkIcon} alt="Submit" />
+        </button>
       </>
     );
   };
