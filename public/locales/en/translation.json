@@ -68,5 +68,7 @@
   "sendData_error": "Error sending data, please try again later.",
   "getData_error": "Error getting data, please try again later.",
   "deleteProfile_success": "Your account has been deleted.",
-  "token_warning": "Token expired, sign in."
+  "token_warning": "Token expired, sign in.",
+  "404_page": "Looks like you turned off the right path, Wizard. This page doesn't exist.",
+  "back_btn": "Go back"
 }
