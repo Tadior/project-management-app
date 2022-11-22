@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import { loginValidation, passwordValidation } from './validation';
+import {
+  loginValidation,
+  passwordValidation,
+  nameValidation,
+  nameValidationRu,
+  loginValidationRu,
+  passwordValidationRu,
+} from '../../helper/validation';
 import { useSignInMutation, useSignUpMutation } from '../../redux/query/AuthQuery';
 import { useGetUsersMutation } from '../../redux/query/UsersQuery';
-import { setTokenToCookie, setUserToCookie } from '../../helper/Helper';
+import { setTokenToCookie, setUserToCookie,getCookieToken } from '../../helper/Helper';
 import { useAppDispatch } from '../../hooks/redux';
 import { userSlice } from '../../redux/reducer/UserSlice';
 import { userApi } from '../../types/types';
@@ -33,7 +40,10 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
   const [getToken, resultToken] = useSignInMutation();
   const [getUsers, resultGetUsers] = useGetUsersMutation();
   const { t } = useTranslation();
-  const { handleSubmit, control } = useForm<ISignInForm>();
+  const { handleSubmit, control } = useForm<ISignInForm>({
+    reValidateMode: 'onBlur',
+    mode: 'all',
+  });
   const { errors } = useFormState({
     control,
   });
@@ -82,6 +92,8 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
     }
   };
 
+  const lang = getCookieToken('i18next');
+
   return (
     <div className="auth-form">
       <h2 className="auth-form_title">{t('sign_hello')}</h2>
@@ -93,7 +105,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
           <Controller
             control={control}
             name="name"
-            rules={loginValidation}
+            rules={lang === 'en' ? nameValidation : nameValidationRu}
             render={({ field }) => (
               <TextField
                 color="secondary"
@@ -104,8 +116,8 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
                 fullWidth={true}
                 size="small"
                 className="auth-form__input"
-                error={!!errors.login?.message}
-                helperText={errors?.login?.message}
+                error={!!errors.name?.message}
+                helperText={errors?.name?.message}
               />
             )}
           />
@@ -114,7 +126,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
         <Controller
           control={control}
           name="login"
-          rules={loginValidation}
+          rules={lang === 'en' ? loginValidation : loginValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -133,7 +145,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
         <Controller
           control={control}
           name="password"
-          rules={passwordValidation}
+          rules={lang === 'en' ? passwordValidation : passwordValidationRu}
           render={({ field }) => (
             <TextField
               color="secondary"
