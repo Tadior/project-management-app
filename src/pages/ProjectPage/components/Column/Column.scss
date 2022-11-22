@@ -3,7 +3,7 @@
   background-color: $grey-cards;
   border-radius: 1.2rem;
   width: 37rem;
-  padding: 3rem 2.5rem;
+  padding: 4.5rem 1.38rem 2rem 2.5rem;
   &__header {
     display: flex;
     align-items: center;
@@ -33,6 +33,18 @@
     background-color: transparent;
   }
   &__content {
+    margin-top: 3rem;
+    overflow: scroll;
+    padding-right: 1.1rem;
+    &::-webkit-scrollbar {
+      width: 3px;
+      height: 0;
+      background-color: $background-scrollbar;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $purple-bright;
+      border-radius: 1rem;
+    }
   }
   &_active {
     background: red;

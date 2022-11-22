@@ -5,13 +5,20 @@ import { loginValidation, passwordValidation } from './CreateProjectValidation';
 import { boardsApi } from '../../types/types';
 import { useTranslation } from 'react-i18next';
 import { ICreateForm } from '../../types/types';
+import { ICreateFormTask } from '../../types/types';
+// interface IDefaultData {
+//   title: string;
+//   description:
+// }
 
 interface ICreateProjectFormProps {
   projects?: boardsApi[];
   updateState?: (value: boolean) => void;
   updateProjects?: React.Dispatch<React.SetStateAction<boardsApi[]>>;
   typeOfForm: string;
-  callbackToSubmit: SubmitHandler<ICreateForm>;
+  callbackToSubmit?: SubmitHandler<ICreateForm>;
+  callbackTaskToSubmit?: SubmitHandler<ICreateForm>;
+  defaultData?: ICreateForm;
 }
 
 export const CreateProjectForm = (props: ICreateProjectFormProps) => {
@@ -24,7 +31,14 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
   return (
     <div className="create-project-form">
       <h2 className="create-project-form__title">{t(props.typeOfForm)}</h2>
-      <form className="create-project__form" onSubmit={handleSubmit(props.callbackToSubmit)}>
+      <form
+        className="create-project__form"
+        onSubmit={
+          props.callbackToSubmit
+            ? handleSubmit(props.callbackToSubmit)
+            : handleSubmit(props.callbackTaskToSubmit!)
+        }
+      >
         <Controller
           control={control}
           name="title"
@@ -40,6 +54,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
               className="create-project-form__input"
               error={!!errors.title?.message}
               helperText={errors?.title?.message}
+              defaultValue={props.defaultData?.title ? props.defaultData?.title : ''}
             />
           )}
         />
@@ -60,6 +75,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
               className="create-project-form__textarea"
               error={!!errors?.text?.message}
               helperText={errors?.text?.message}
+              defaultValue={props.defaultData?.text ? props.defaultData?.text : ''}
             />
           )}
         />

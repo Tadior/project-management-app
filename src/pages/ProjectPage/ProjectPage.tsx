@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { columnApi } from '../../types/types';
+import { columnApi, ICreateForm, ICreateTasksBody } from '../../types/types';
 import ColumnModal from './components/ColumnModal/ColumnModal';
 import NewColumnBtn from './components/NewColumnBtn/NewColumnBtn';
 import { useLoaderData } from 'react-router-dom';
@@ -13,19 +13,24 @@ import {
 import INITIAL_VALUE from '../ProjectsPage/consts/INITIAL_VALUE';
 import IColumnsBody from '../ProjectsPage/types/types';
 import { CreateProjectForm } from '../../components/CreateProjectForm/CreateProjectForm';
-
+import { useCreateTaskMutation } from '../../redux/query/TasksQuery';
+import { columnApiWithTasks } from '../../types/types';
+import { SubmitHandler } from 'react-hook-form';
 const ProjectPage = () => {
+  console.log('loader');
+  console.log(useLoaderData());
+  const loaderData = useLoaderData() as columnApiWithTasks[];
   const title = useParams().title;
   const projectId = store.getState().userReducer.activeProjectId;
-  const columnsInitial = useLoaderData() as columnApi[];
-  const [currentColumn, setCurrentColumn] = useState(
-    columnsInitial ? columnsInitial[0] : INITIAL_VALUE[0]
-  );
+  const { _id, login } = store.getState().userReducer.userData;
+  const [currentColumn, setCurrentColumn] = useState(loaderData ? loaderData[0] : INITIAL_VALUE[0]);
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
   const [isColumnModalActive, setColumnModalActive] = useState(false);
+  const [columnActiveId, setColumnActiveId] = useState('');
   const [updateSetOfColumns, setOfColumnsData] = useUpdateColumnSetMutation();
   const [deleteColumnRequest, deleteColumnData] = useDeleteColumnByIdMutation();
-  const sortColumns = (columns: columnApi[]) => {
+  const [createTask, taskInfo] = useCreateTaskMutation();
+  const sortColumns = (columns: columnApiWithTasks[]) => {
     return columns.sort((a, b) => {
       return a.order - b.order;
     });
@@ -35,15 +40,13 @@ const ProjectPage = () => {
     setisProjectModalActive(value);
   };
 
-  const [columns, setColumns] = useState(
-    columnsInitial ? sortColumns(columnsInitial) : INITIAL_VALUE
-  );
+  const [columns, setColumns] = useState(loaderData ? sortColumns(loaderData) : INITIAL_VALUE);
 
   const columnModalCallback = (value: boolean) => {
     setColumnModalActive(value);
   };
 
-  const updateColumns = (newColumns: columnApi[]) => {
+  const updateColumns = (newColumns: columnApiWithTasks[]) => {
     setColumns(newColumns);
   };
 
@@ -78,11 +81,30 @@ const ProjectPage = () => {
     updateSetOfColumns({ body: requestBody });
   };
 
-  const updateCurrentColumns = (column: columnApi) => {
+  const updateCurrentColumns = (column: columnApiWithTasks) => {
     setCurrentColumn(column);
+  };
+
+  const updateColumnActive = (id: string) => {
+    setColumnActiveId(id);
   };
   const updateModalActive = () => {
     setisProjectModalActive(!isProjectModalActive);
+  };
+  const callbackToSubmit: SubmitHandler<ICreateForm> = async (arg) => {
+    const taskBody: ICreateTasksBody = {
+      title: arg.title,
+      order: 0,
+      description: arg.text,
+      userId: _id,
+      users: [login],
+    };
+    const newTask = await createTask({
+      boardId: projectId,
+      columnId: columnActiveId,
+      body: taskBody,
+    }).unwrap();
+    handleProjectIsActive(false);
   };
 
   return (
@@ -101,6 +123,7 @@ const ProjectPage = () => {
                   updateColumnsCallback={updateColumnsData}
                   updateCurrentColumn={updateCurrentColumns}
                   updateModalActive={updateModalActive}
+                  updateColumnActive={updateColumnActive}
                   key={column._id}
                 />
               );
@@ -121,10 +144,8 @@ const ProjectPage = () => {
       {isProjectModalActive && (
         <CreateProjectForm
           typeOfForm={'create_task'}
-          // projects={projectsState}
           updateState={handleProjectIsActive}
-          // updateProjects={setProjectsState}
-          callbackToSubmit={() => console.log('rere')}
+          callbackTaskToSubmit={callbackToSubmit}
         />
       )}
     </section>

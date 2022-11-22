@@ -1,16 +1,20 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import trashIcon from '../../../../assets/icons/trash_icon.png';
 import DeleteModal from '../../../../components/DeleteModal/DeleteModal';
 import { columnApi, createColumnApi } from '../../../../types/types';
 import { useUpdateColumnByIdMutation } from '../../../../redux/query/ColumnsQuery';
+import { columnApiWithTasks } from '../../../../types/types';
+import Task from '../Task/Task';
+import { useDeleteTaskByIdMutation } from '../../../../redux/query/TasksQuery';
 
 interface IProps {
-  data: columnApi;
+  data: columnApiWithTasks;
   projectId: string;
   deleteCallback: (colimnId: string) => void;
   updateColumnsCallback: (columnItem: columnApi) => void;
-  updateCurrentColumn: (column: columnApi) => void;
+  updateCurrentColumn: (column: columnApiWithTasks) => void;
   updateModalActive: () => void;
+  updateColumnActive: (id: string) => void;
 }
 
 const Column = (props: IProps) => {
@@ -19,6 +23,11 @@ const Column = (props: IProps) => {
   const [title, setTitle] = useState(props.data.title);
   const [isEditMode, setIsEditMode] = useState(false);
   const [updateColumn, columnData] = useUpdateColumnByIdMutation();
+  const [deleteTask, deleteTaskData] = useDeleteTaskByIdMutation();
+
+  const callbackDelete = (taskId: string) => {
+    deleteTask({ boardId: props.projectId, columnId: props.data._id, taskId: taskId });
+  };
 
   const deleteColumn = (colimnId: string) => {
     props.deleteCallback(colimnId);
@@ -54,10 +63,11 @@ const Column = (props: IProps) => {
   };
 
   const handleClickAdd = () => {
+    props.updateColumnActive(props.data._id);
     props.updateModalActive();
   };
 
-  const dragStartHandler = (event: React.DragEvent<HTMLDivElement>, column: columnApi) => {
+  const dragStartHandler = (event: React.DragEvent<HTMLDivElement>, column: columnApiWithTasks) => {
     props.updateCurrentColumn(column);
   };
 
@@ -108,7 +118,16 @@ const Column = (props: IProps) => {
           + Add Task
         </button>
       </div>
-      <div className="column__content"></div>
+      <div className="column__content">
+        {props.data.tasks.map((task) => (
+          <Task
+            columnId={props.data._id}
+            data={task}
+            callbackDelete={callbackDelete}
+            key={task._id}
+          />
+        ))}
+      </div>
       <button
         className="column__delete"
         onClick={() => {

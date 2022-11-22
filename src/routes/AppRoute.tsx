@@ -13,6 +13,7 @@ import WelcomePage from '../pages/WelcomePage/WelcomePage';
 import { store } from '../App';
 import { getCookieToken } from '../helper/Helper';
 import ProjectPage from '../pages/ProjectPage/ProjectPage';
+import { columnApi, TaskApi } from '../types/types';
 const projectsLoader = async () => {
   const id = store.getState().userReducer.userData._id;
   const token = getCookieToken();
@@ -33,10 +34,11 @@ const projectsLoader = async () => {
 
 const projectLoader = async () => {
   const projectId = store.getState().userReducer.activeProjectId;
+  const userId = store.getState().userReducer.userData._id;
   const token = getCookieToken();
 
   try {
-    const response = await fetch(
+    const responseColumns = await fetch(
       `https://mana-project-back.up.railway.app/boards/${projectId}/columns`,
       {
         headers: {
@@ -45,7 +47,29 @@ const projectLoader = async () => {
         },
       }
     );
-    const out = await response.json();
+    const allColumns: columnApi[] = await responseColumns.json();
+    const allColumnsIds = allColumns.map((column) => {
+      return column._id;
+    });
+    const responseTasks = async (columnId: string) =>
+      await fetch(
+        `https://mana-project-back.up.railway.app/boards/${projectId}/columns/${columnId}/tasks`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    const allTasks = await Promise.all(
+      allColumnsIds.map(async (item) => {
+        const response = await responseTasks(item);
+        return response.json();
+      })
+    ).then((data) => data);
+    const out = allColumns.map((column, index) => {
+      return { ...column, tasks: allTasks[index] };
+    });
     return out;
   } catch (error) {
     console.log(error);

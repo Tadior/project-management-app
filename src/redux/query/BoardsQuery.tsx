@@ -50,7 +50,7 @@ export const BoardsQuery = createApi({
     }),
     getBoardsSet: builder.mutation<boardsApi[], { ids: string[] }>({
       query: (args) => ({
-        url: `boardsSet?${args.ids.join('&')}`,
+        url: `boardsSet?ids=${args.ids.join('&')}`,
         method: 'GET',
       }),
     }),

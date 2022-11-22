@@ -6,7 +6,7 @@ import { TextField } from '@mui/material';
 import { loginValidation, passwordValidation } from './ColumnModalValidation';
 import { useCreateColumnMutation } from '../../../../redux/query/ColumnsQuery';
 import { columnApi } from '../../../../types/types';
-
+import { columnApiWithTasks } from '../../../../types/types';
 interface IColumnModalForm {
   title: string;
 }
@@ -14,7 +14,7 @@ interface IColumnModalForm {
 interface IColumnModalProps {
   columns: columnApi[];
   updateModalState: (value: boolean) => void;
-  updateColumnsState: (newColumns: columnApi[]) => void;
+  updateColumnsState: (newColumns: columnApiWithTasks[]) => void;
   currentId: string;
 }
 
@@ -35,7 +35,7 @@ const ColumnModal = (props: IColumnModalProps) => {
       },
     }).unwrap();
     const allColumns = [...props.columns].concat(newColumn);
-    props.updateColumnsState(allColumns);
+    props.updateColumnsState(allColumns as columnApiWithTasks[]);
     props.updateModalState(false);
   };
   return (
