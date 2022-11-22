@@ -1,3 +1,5 @@
+import { userApiState } from '../types/types';
+
 const getCookieToken = (name = 'token') => {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
@@ -12,8 +14,10 @@ const deleteCookieToken = (name = 'token') => {
 const setTokenToCookie = (token: string) => {
   document.cookie = `token=${token}; path=/;`;
 };
-// const handlerErrors = ({ statusCode, message }: { statusCode: number; message: string }) => {
-//   const navigate = useNavigate()
-// };
 
-export { getCookieToken, deleteCookieToken, setTokenToCookie };
+const setUserToCookie = (user: userApiState) => {
+  const userData = JSON.stringify(user);
+  document.cookie = `userData=${userData}; path=/;`;
+};
+
+export { getCookieToken, deleteCookieToken, setTokenToCookie, setUserToCookie };
