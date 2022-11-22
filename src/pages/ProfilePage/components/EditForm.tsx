@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Error } from '../../../types/types';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
 import {
@@ -20,6 +21,7 @@ import { userSlice } from '../../../redux/reducer/UserSlice';
 import { deleteCookieToken, getCookieToken } from '../../../helper/Helper';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
+import { toast } from 'react-toastify';
 
 interface IEditForm {
   login: string;
@@ -53,7 +55,6 @@ export const EditForm = () => {
       })
         .unwrap()
         .then(() => {
-          console.log('success');
           dispatch(
             setUserData({
               _id,
@@ -62,9 +63,20 @@ export const EditForm = () => {
               password: data.password,
             })
           );
+          toast(t('edit_success'), {
+            containerId: 'success',
+          });
         });
     } catch (error) {
-      console.log('show toast');
+      if ((error as Error).status === 409) {
+        toast(t('login_warning'), {
+          containerId: 'warning',
+        });
+      } else if ((error as Error).status === 400) {
+        toast(t('sendData_error'), {
+          containerId: 'error',
+        });
+      }
     }
   };
 
@@ -82,13 +94,17 @@ export const EditForm = () => {
       await deleteUser({ id: _id })
         .unwrap()
         .then(() => {
-          console.log('success delete');
+          toast(t('deleteProfile_success'), {
+            containerId: 'success',
+          });
           dispatch(resetUserData());
           deleteCookieToken();
           navigate('/');
         });
     } catch (error) {
-      console.log('error toast');
+      toast(t('sendData_error'), {
+        containerId: 'error',
+      });
     }
   };
 
