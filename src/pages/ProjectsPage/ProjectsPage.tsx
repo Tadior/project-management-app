@@ -9,10 +9,12 @@ import {
   useDeleteBoardByIdMutation,
   useGetBoardsSetByIdQuery,
 } from '../../redux/query/BoardsQuery';
+import { getCookieToken } from '../../helper/Helper';
 
 export const ProjectsPage = () => {
-  const id = '63750723f4352c2e788f613e';
-  const { data: projects = [], isFetching } = useGetBoardsSetByIdQuery({ id: id });
+  const { _id } = JSON.parse(getCookieToken('userData')!);
+
+  const { data: projects = [], isFetching } = useGetBoardsSetByIdQuery({ id: _id });
   const [deleteProject, deletedProject] = useDeleteBoardByIdMutation();
   console.log(projects);
   const { t } = useTranslation();

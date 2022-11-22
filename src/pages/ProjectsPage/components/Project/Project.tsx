@@ -1,4 +1,3 @@
-import react from 'react';
 import { NavLink } from 'react-router-dom';
 import projectImg from '../../../../assets/images/save-add.png';
 import trashCan from '../../../../assets/icons/trash_icon.png';
@@ -16,9 +15,6 @@ const Project = ({ updateState, title, description, id, updateId }: IProjectProp
     const target = event.target as HTMLElement;
     updateId(target.id);
     updateState(true);
-    // {
-    //   id && updateId(id);
-    // }
   };
 
   return (

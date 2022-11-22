@@ -5,6 +5,7 @@ import { loginValidation, passwordValidation } from './CreateProjectValidation';
 import { useCreateBoardMutation } from '../../../../redux/query/BoardsQuery';
 import { boardsApi } from '../../../../types/types';
 import { useTranslation } from 'react-i18next';
+import { getCookieToken } from '../../../../helper/Helper';
 
 interface ISignInForm {
   title: string;
@@ -17,6 +18,7 @@ interface ICreateProjectFormProps {
 }
 
 export const CreateProjectForm = (props: ICreateProjectFormProps) => {
+  const { _id } = JSON.parse(getCookieToken('userData')!);
   const [createBoard, boardInfo] = useCreateBoardMutation();
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm<ISignInForm>();
@@ -27,7 +29,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
   const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
     await createBoard({
       title: data.title,
-      owner: '63750723f4352c2e788f613e',
+      owner: _id,
       users: [data.text],
     }).unwrap();
     props.updateState(false);
