@@ -30,7 +30,7 @@ const Task = (props: IProps) => {
     const taskBody: updateTaskByIdBody = {
       columnId: props.columnId,
       title: arg.title,
-      order: 0,
+      order: props.data.order,
       description: arg.text,
       userId: _id,
       users: [login],

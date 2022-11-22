@@ -15,6 +15,7 @@ interface IProps {
   updateCurrentColumn: (column: columnApiWithTasks) => void;
   updateModalActive: () => void;
   updateColumnActive: (id: string) => void;
+  updateColumnCreate: (value: columnApiWithTasks) => void;
 }
 
 const Column = (props: IProps) => {
@@ -65,6 +66,7 @@ const Column = (props: IProps) => {
   const handleClickAdd = () => {
     props.updateColumnActive(props.data._id);
     props.updateModalActive();
+    props.updateColumnCreate(props.data);
   };
 
   const dragStartHandler = (event: React.DragEvent<HTMLDivElement>, column: columnApiWithTasks) => {

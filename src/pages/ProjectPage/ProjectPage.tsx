@@ -16,6 +16,14 @@ import { CreateProjectForm } from '../../components/CreateProjectForm/CreateProj
 import { useCreateTaskMutation } from '../../redux/query/TasksQuery';
 import { columnApiWithTasks } from '../../types/types';
 import { SubmitHandler } from 'react-hook-form';
+
+const initial: columnApiWithTasks = {
+  title: '',
+  order: 0,
+  _id: '',
+  boardId: '',
+  tasks: [],
+};
 const ProjectPage = () => {
   console.log('loader');
   console.log(useLoaderData());
@@ -27,6 +35,7 @@ const ProjectPage = () => {
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
   const [isColumnModalActive, setColumnModalActive] = useState(false);
   const [columnActiveId, setColumnActiveId] = useState('');
+  const [columnCreateData, setColumnCreateData] = useState(initial);
   const [updateSetOfColumns, setOfColumnsData] = useUpdateColumnSetMutation();
   const [deleteColumnRequest, deleteColumnData] = useDeleteColumnByIdMutation();
   const [createTask, taskInfo] = useCreateTaskMutation();
@@ -91,10 +100,14 @@ const ProjectPage = () => {
   const updateModalActive = () => {
     setisProjectModalActive(!isProjectModalActive);
   };
+  const updateColumnCreate = (value: columnApiWithTasks) => {
+    setColumnCreateData(value);
+  };
   const callbackToSubmit: SubmitHandler<ICreateForm> = async (arg) => {
+    console.log(columnCreateData);
     const taskBody: ICreateTasksBody = {
       title: arg.title,
-      order: 0,
+      order: columnCreateData.tasks.length,
       description: arg.text,
       userId: _id,
       users: [login],
@@ -124,6 +137,7 @@ const ProjectPage = () => {
                   updateCurrentColumn={updateCurrentColumns}
                   updateModalActive={updateModalActive}
                   updateColumnActive={updateColumnActive}
+                  updateColumnCreate={updateColumnCreate}
                   key={column._id}
                 />
               );
