@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
 import { loginValidation, passwordValidation } from './CreateProjectValidation';
 import { useCreateBoardMutation } from '../../../../redux/query/BoardsQuery';
-import { useAppSelector } from '../../../../hooks/redux';
 import { boardsApi } from '../../../../types/types';
 import { useTranslation } from 'react-i18next';
 
@@ -14,28 +13,23 @@ interface ISignInForm {
 interface ICreateProjectFormProps {
   projects: boardsApi[];
   updateState: (value: boolean) => void;
-  updateProjects: React.Dispatch<React.SetStateAction<boardsApi[]>>;
-  currentId: string;
+  // currentId: string; //???
 }
 
 export const CreateProjectForm = (props: ICreateProjectFormProps) => {
-  const { _id } = useAppSelector((state) => state.userReducer.userData);
+  const [createBoard, boardInfo] = useCreateBoardMutation();
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm<ISignInForm>();
   const { errors } = useFormState({
     control,
   });
-  const [createBoard, boardInfo] = useCreateBoardMutation();
 
   const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
-    const newProject = await createBoard({
+    await createBoard({
       title: data.title,
-      owner: _id,
+      owner: '63750723f4352c2e788f613e',
       users: [data.text],
     }).unwrap();
-    console.log(newProject);
-    const allProjects = [...props.projects].concat(newProject);
-    props.updateProjects(allProjects);
     props.updateState(false);
   };
 
