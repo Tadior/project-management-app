@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getCookieToken } from '../../helper/Helper';
+import { getCookie } from '../../helper/Helper';
 import { boardApi, boardsApi } from '../../types/types';
 export const BoardsQuery = createApi({
   reducerPath: 'Boards',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://mana-project-back.up.railway.app/',
     prepareHeaders: (headers) => {
-      const token = getCookieToken();
+      const token = getCookie('token');
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -27,6 +27,7 @@ export const BoardsQuery = createApi({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Boards'],
     }),
     getBoardById: builder.mutation<boardsApi, { id: string }>({
       query: (args) => ({
@@ -45,8 +46,8 @@ export const BoardsQuery = createApi({
       query: (args) => ({
         url: `boards/${args.id}`,
         method: 'DELETE',
-        invalidatesTags: ['Boards'],
       }),
+      invalidatesTags: ['Boards'],
     }),
     getBoardsSet: builder.mutation<boardsApi[], { ids: string[] }>({
       query: (args) => ({
@@ -54,12 +55,12 @@ export const BoardsQuery = createApi({
         method: 'GET',
       }),
     }),
-    getBoardsSetById: builder.mutation<boardsApi[], { id: string }>({
+    getBoardsSetById: builder.query<boardsApi[], { id: string }>({
       query: (args) => ({
         url: `boardsSet/${args.id}`,
         method: 'GET',
-        providesTags: ['Boards'],
       }),
+      providesTags: ['Boards'],
     }),
   }),
 });
@@ -71,5 +72,5 @@ export const {
   useUpdateBoardByIdMutation,
   useDeleteBoardByIdMutation,
   useGetBoardsSetMutation,
-  useGetBoardsSetByIdMutation,
+  useGetBoardsSetByIdQuery,
 } = BoardsQuery;

@@ -4,6 +4,7 @@ import projectImg from '../../../../assets/images/save-add.png';
 import trashCan from '../../../../assets/icons/trash_icon.png';
 import { userSlice } from '../../../../redux/reducer/UserSlice';
 import { useAppDispatch } from '../../../../hooks/redux';
+import { setValueToCookie } from '../../../../helper/Helper';
 
 interface IProjectProps {
   updateState: (value: boolean) => void;
@@ -14,13 +15,11 @@ interface IProjectProps {
 }
 
 const Project = ({ updateState, title, description, id, updateId }: IProjectProps) => {
-  const dispatch = useAppDispatch();
   const { setActiveProjectId } = userSlice.actions;
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent<EventTarget>) => {
+    const target = event.target as HTMLElement;
+    updateId(target.id);
     updateState(true);
-    {
-      id && updateId(id);
-    }
   };
 
   return (
@@ -28,7 +27,7 @@ const Project = ({ updateState, title, description, id, updateId }: IProjectProp
       className="project"
       to={`/projects/${title}`}
       id={id}
-      onClick={() => dispatch(setActiveProjectId(id!))}
+      onClick={() => setValueToCookie('projectId', id!)}
     >
       <div className="project__wrapper">
         <div className="project__picture">
@@ -42,10 +41,10 @@ const Project = ({ updateState, title, description, id, updateId }: IProjectProp
           className="project__trash"
           onClick={(event) => {
             event.preventDefault();
-            handleClick();
+            handleClick(event);
           }}
         >
-          <img src={trashCan} alt="trash can" />
+          <img id={id} src={trashCan} alt="trash can" />
         </div>
       </div>
     </NavLink>

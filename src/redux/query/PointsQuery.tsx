@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getCookieToken } from '../../helper/Helper';
+import { getCookie } from '../../helper/Helper';
 import { PointApi } from '../../types/types';
 interface createPointBody {
   title: string;
@@ -33,7 +33,7 @@ export const PointsQuery = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://mana-project-back.up.railway.app/',
     prepareHeaders: (headers) => {
-      const token = getCookieToken();
+      const token = getCookie('token');
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }

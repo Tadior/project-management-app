@@ -8,6 +8,7 @@ import { ICreateForm, TaskApi, updateTaskByIdBody } from '../../../../types/type
 import { CreateProjectForm } from '../../../../components/CreateProjectForm/CreateProjectForm';
 import { SubmitHandler } from 'react-hook-form';
 import { store } from '../../../../App';
+import { getCookie, getUserCookie } from '../../../../helper/Helper';
 interface IProps {
   columnId: string;
   data: TaskApi;
@@ -17,8 +18,8 @@ const Task = (props: IProps) => {
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [isModalActive, setIsModalActive] = useState(false);
   const [updateTask, updateTaskData] = useUpdateTaskByIdMutation();
-  const { _id, login } = store.getState().userReducer.userData;
-  const { activeProjectId } = store.getState().userReducer;
+  const { _id, login } = getUserCookie();
+  const activeProjectId = getCookie('projectId')!;
   const closeDeleteModal = () => {
     setIsDeleteActive(!isDeleteActive);
   };

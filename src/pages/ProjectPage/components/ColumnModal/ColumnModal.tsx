@@ -27,6 +27,7 @@ const ColumnModal = (props: IColumnModalProps) => {
   const [createColumn, columnInfo] = useCreateColumnMutation();
 
   const onSubmit: SubmitHandler<IColumnModalForm> = async (data) => {
+    console.log('------------');
     const newColumn = await createColumn({
       id: props.currentId,
       body: {
@@ -35,6 +36,8 @@ const ColumnModal = (props: IColumnModalProps) => {
       },
     }).unwrap();
     const allColumns = [...props.columns].concat(newColumn);
+    console.log('Columns', props.columns);
+    console.log('filtered', allColumns);
     props.updateColumnsState(allColumns as columnApiWithTasks[]);
     props.updateModalState(false);
   };

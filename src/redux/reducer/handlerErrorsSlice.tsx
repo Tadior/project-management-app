@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface IHandlerErrorsState {
+export interface IHandlerErrorsState {
   statusCode: number;
   message?: string;
 }

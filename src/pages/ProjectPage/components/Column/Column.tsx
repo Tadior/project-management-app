@@ -128,14 +128,15 @@ const Column = (props: IProps) => {
         </button>
       </div>
       <div className="column__content">
-        {props.data.tasks.map((task) => (
-          <Task
-            columnId={props.data._id}
-            data={task}
-            callbackDelete={callbackDelete}
-            key={task._id}
-          />
-        ))}
+        {props.data.tasks &&
+          props.data.tasks.map((task) => (
+            <Task
+              columnId={props.data._id}
+              data={task}
+              callbackDelete={callbackDelete}
+              key={task._id}
+            />
+          ))}
       </div>
       <button
         className="column__delete"

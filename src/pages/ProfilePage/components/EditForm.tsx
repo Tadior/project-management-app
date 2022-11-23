@@ -1,25 +1,18 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import {
-  loginValidation,
-  passwordValidation,
-  nameValidation,
-  nameValidationRu,
-  loginValidationRu,
-  passwordValidationRu,
-} from '../../../helper/validation';
+import { loginValidation, passwordValidation, nameValidation } from '../../../helper/validation';
 import { useTranslation } from 'react-i18next';
 import MagicHat from '../../../assets/images/magic_hat.png';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   useUpdateUserByidMutation,
   useDeleteUserByidMutation,
 } from '../../../redux/query/UsersQuery';
-import { userSlice } from '../../../redux/reducer/UserSlice';
-import { deleteCookieToken, getCookieToken } from '../../../helper/Helper';
+import { deleteCookie, getUserCookie, setUserToCookie } from '../../../helper/Helper';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
+import { toast } from 'react-toastify';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
 interface IEditForm {
   login: string;
@@ -29,10 +22,9 @@ interface IEditForm {
 
 export const EditForm = () => {
   const [confirmStatus, setConfirmStatus] = useState(false);
-  const { _id, login, name, password } = useAppSelector((state) => state.userReducer.userData);
-  const [updateUser, userData] = useUpdateUserByidMutation();
-  const [deleteUser, deleteData] = useDeleteUserByidMutation();
-  const { setUserData, resetUserData } = userSlice.actions;
+  const { _id, login, name, password } = getUserCookie()!;
+  const [updateUser] = useUpdateUserByidMutation();
+  const [deleteUser] = useDeleteUserByidMutation();
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm<IEditForm>({
     defaultValues: { name, login, password },
@@ -42,7 +34,6 @@ export const EditForm = () => {
   const { errors } = useFormState({
     control,
   });
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const onSave: SubmitHandler<IEditForm> = async (data) => {
@@ -53,18 +44,26 @@ export const EditForm = () => {
       })
         .unwrap()
         .then(() => {
-          console.log('success');
-          dispatch(
-            setUserData({
-              _id,
-              login: data.login,
-              name: data.name,
-              password: data.password,
-            })
-          );
+          setUserToCookie({
+            _id,
+            login: data.login,
+            name: data.name,
+            password: data.password,
+          });
+          toast(t('edit_success'), {
+            containerId: 'success',
+          });
         });
     } catch (error) {
-      console.log('show toast');
+      if ((error as FetchBaseQueryError).status === 409) {
+        toast(t('login_warning'), {
+          containerId: 'warning',
+        });
+      } else if ((error as FetchBaseQueryError).status === 400) {
+        toast(t('sendData_error'), {
+          containerId: 'error',
+        });
+      }
     }
   };
 
@@ -82,17 +81,23 @@ export const EditForm = () => {
       await deleteUser({ id: _id })
         .unwrap()
         .then(() => {
-          console.log('success delete');
-          dispatch(resetUserData());
-          deleteCookieToken();
+          toast(t('deleteProfile_success'), {
+            containerId: 'success',
+          });
+          deleteCookie('token');
+          deleteCookie('userData');
           navigate('/');
         });
     } catch (error) {
-      console.log('error toast');
+      toast(t('sendData_error'), {
+        containerId: 'error',
+      });
     }
   };
 
-  const lang = getCookieToken('i18next');
+  const nameRules = nameValidation(t('validation_name', { returnObjects: true }));
+  const loginRules = loginValidation(t('validation_login', { returnObjects: true }));
+  const passwordRules = passwordValidation(t('validation_password', { returnObjects: true }));
 
   return (
     <div className="edit-form">
@@ -105,7 +110,7 @@ export const EditForm = () => {
         <Controller
           control={control}
           name="name"
-          rules={lang === 'en' ? nameValidation : nameValidationRu}
+          rules={nameRules}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -125,7 +130,7 @@ export const EditForm = () => {
         <Controller
           control={control}
           name="login"
-          rules={lang === 'en' ? loginValidation : loginValidationRu}
+          rules={loginRules}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -145,7 +150,7 @@ export const EditForm = () => {
         <Controller
           control={control}
           name="password"
-          rules={lang === 'en' ? passwordValidation : passwordValidationRu}
+          rules={passwordRules}
           render={({ field }) => (
             <TextField
               color="secondary"

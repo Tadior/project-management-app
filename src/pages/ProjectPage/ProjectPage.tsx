@@ -16,6 +16,7 @@ import { CreateProjectForm } from '../../components/CreateProjectForm/CreateProj
 import { useCreateTaskMutation } from '../../redux/query/TasksQuery';
 import { columnApiWithTasks } from '../../types/types';
 import { SubmitHandler } from 'react-hook-form';
+import { getCookie, getUserCookie } from '../../helper/Helper';
 
 const initial: columnApiWithTasks = {
   title: '',
@@ -29,8 +30,8 @@ const ProjectPage = () => {
   console.log(useLoaderData());
   const loaderData = useLoaderData() as columnApiWithTasks[];
   const title = useParams().title;
-  const projectId = store.getState().userReducer.activeProjectId;
-  const { _id, login } = store.getState().userReducer.userData;
+  const projectId = getCookie('projectId')!;
+  const { _id, login } = getUserCookie()!;
   const [currentColumn, setCurrentColumn] = useState(loaderData ? loaderData[0] : INITIAL_VALUE[0]);
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
   const [isColumnModalActive, setColumnModalActive] = useState(false);
@@ -108,7 +109,8 @@ const ProjectPage = () => {
   };
   //Колбек, создает новую задачу, передаеся в CreateProjectForm
   const callbackToSubmit: SubmitHandler<ICreateForm> = async (arg) => {
-    console.log(columnCreateData);
+    console.log('-----------------');
+    // console.log(columnCreateData);
     const taskBody: ICreateTasksBody = {
       title: arg.title,
       order: columnCreateData.tasks.length,
@@ -121,10 +123,11 @@ const ProjectPage = () => {
       columnId: columnActiveId,
       body: taskBody,
     }).unwrap();
-    const allColumns = [...columns];
-    console.log(allColumns);
-    console.log(columnCreateData);
-    console.log('watch', allColumns[allColumns.indexOf(columnCreateData)]);
+    // const allColumns = [...columns];
+    console.log('new task', newTask);
+    // console.log(allColumns);
+    // console.log(columnCreateData);
+    // console.log('watch', allColumns[allColumns.indexOf(columnCreateData)]);
     // allColumns[allColumns.indexOf(columnCreateData)].tasks.push(newTask);
     // setColumns(allColumns);
     handleProjectIsActive(false);
@@ -136,7 +139,7 @@ const ProjectPage = () => {
         <h2 className="title project-page__title">{title}</h2>
         <div className="project-page__wrapper">
           {columns &&
-            columns[0] &&
+            // columns[0] &&
             columns.map((column) => {
               return (
                 <Column
