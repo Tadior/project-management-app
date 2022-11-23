@@ -1,15 +1,18 @@
-import { Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { getCookieToken } from '../../helper/Helper';
-import { useAppSelector } from '../../hooks/redux';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { deleteCookieToken, getCookieToken } from '../../helper/Helper';
 import { useTranslation } from 'react-i18next';
 
 export const NavMenu = () => {
   const { pathname } = useLocation();
-  // const { userData } = useAppSelector((state) => state.userReducer);
   const isUser = getCookieToken();
-
-  const { userData } = useAppSelector((state) => state.userReducer);
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const signOut = () => {
+    deleteCookieToken();
+    deleteCookieToken('userData');
+    navigate('/');
+  };
   return (
     <nav className="menu">
       {isUser ? (
@@ -17,7 +20,9 @@ export const NavMenu = () => {
           <NavLink className="link-project button-black" to="projects">
             {pathname === '/' ? t('go_to_main-page') : t('header_projects')}
           </NavLink>
-          <button className="link-signOut button-black">{t('header_signOut')}</button>
+          <button onClick={signOut} className="link-signOut button-black">
+            {t('header_signOut')}
+          </button>
           <NavLink className="link-profile" to="profile">
             <img className="lang__img" src="icons/user.svg" alt="user" />
           </NavLink>

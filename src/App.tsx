@@ -4,9 +4,6 @@ import { Provider } from 'react-redux';
 import { AppRoutes } from './routes/AppRoute';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainers } from './components/Toast/ToastContainers';
-import { toast } from 'react-toastify';
-import { getCookieToken } from './helper/Helper';
-import { useNavigate } from 'react-router-dom';
 
 const store = setupStore();
 

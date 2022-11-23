@@ -1,0 +1,54 @@
+.not-found {
+  @include flex-center;
+  flex: 1 1;
+  .container {
+    @include flex-center;
+    gap: 10rem;
+  }
+
+  &__details {
+    width: 49rem;
+    &-text {
+      font-family: 'Playfair-Medium';
+      font-size: 4rem;
+      line-height: 5.6rem;
+      color: $black-title;
+      margin-bottom: 2rem;
+    }
+  }
+  &__img {
+    width: 42rem;
+  }
+}
+
+
+@media screen and (max-width: 950px) {
+  .not-found {
+    .container {
+      @include flex-column-center;
+      gap: 3rem;
+    }
+
+    &__details {
+      width: 100%;
+      @include flex-column-center;
+      order: 2;
+
+      &-text {
+        text-align: center;
+        font-size: 3.5rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .not-found {
+
+    &__details {
+      &-text {
+        font-size: 3rem;
+      }
+    }
+  }
+}
