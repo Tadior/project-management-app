@@ -1,16 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getCookieToken } from '../../helper/Helper';
+import { getCookie } from '../../helper/Helper';
 import { TaskApi } from '../../types/types';
-interface updateTaskByIdBody extends createTasksBody {
-  columnId: string;
-}
-interface createTasksBody {
-  title: string;
-  order: number;
-  description: string;
-  userId: number;
-  users: string[];
-}
+import { ICreateTasksBody, updateTaskByIdBody } from '../../types/types';
+
 interface updateTasksSetBody {
   _id: string;
   order: number;
@@ -21,7 +13,7 @@ export const TaskQuery = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://mana-project-back.up.railway.app/',
     prepareHeaders: (headers) => {
-      const token = getCookieToken();
+      const token = getCookie('token')!;
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -37,7 +29,7 @@ export const TaskQuery = createApi({
     }),
     createTask: builder.mutation<
       TaskApi,
-      { boardId: string; columnId: string; body: createTasksBody }
+      { boardId: string; columnId: string; body: ICreateTasksBody }
     >({
       query: (args) => ({
         url: `boards/${args.boardId}/columns/${args.columnId}/tasks`,

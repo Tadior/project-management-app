@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getCookieToken, setTokenToCookie } from '../../helper/Helper';
+import { getCookie } from '../../helper/Helper';
 import { userApi } from '../../types/types';
 export const AuthQuery = createApi({
   reducerPath: 'Auth',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://mana-project-back.up.railway.app/auth/',
     prepareHeaders: (headers) => {
-      const token = getCookieToken();
+      const token = getCookie('token');
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }

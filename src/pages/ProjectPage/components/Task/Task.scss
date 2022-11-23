@@ -1,0 +1,54 @@
+.task {
+  position: relative;
+  padding: 1.2rem 1rem;
+  border: 1px solid $purple-bright;
+  border-radius: 0.8rem;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  &:first-child {
+    margin-top: 0;
+  }
+  &__checkbox {
+    &-input {
+      display: none;
+    }
+  }
+  &__info {
+    margin-left: 1.2rem;
+  }
+  &__title {
+    font-family: 'Inter-Medium', serif;
+    font-size: 1.6rem;
+    color: $black-text;
+  }
+  &__description {
+    margin-top: 0.2rem;
+    font-size: 1.4rem;
+    line-height: 1.7rem;
+    color: $grey-text;
+  }
+  &__buttons {
+    position: absolute;
+    content: '';
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  &__button {
+    // width: 0.5rem;
+    // height: 0.5rem;
+    padding: 0.3rem;
+    border-radius: 50%;
+    background: transparent;
+    transition: all ease 0.5s;
+    &:hover {
+      // &.task__button-icon {
+      background: $purple-input;
+      // }
+    }
+  }
+}

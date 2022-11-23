@@ -1,18 +1,21 @@
 import { useState } from 'react';
-import { CreateProjectForm } from './components/CreateProjectForm/CreateProjectForm';
+import { CreateProjectForm } from '../../components/CreateProjectForm/CreateProjectForm';
 import DeleteModal from '../../components/DeleteModal/DeleteModal';
 import NewProject from './components/NewProject/NewProject';
 import Project from './components/Project/Project';
 import { useTranslation } from 'react-i18next';
-
 import {
+  useCreateBoardMutation,
   useDeleteBoardByIdMutation,
   useGetBoardsSetByIdQuery,
 } from '../../redux/query/BoardsQuery';
-import { getCookieToken } from '../../helper/Helper';
+import { ICreateForm } from '../../types/types';
+import { SubmitHandler } from 'react-hook-form';
+import { useAppSelector } from '../../hooks/redux';
+import { getUserCookie } from '../../helper/Helper';
 
 export const ProjectsPage = () => {
-  const { _id } = JSON.parse(getCookieToken('userData')!);
+  const { _id } = getUserCookie()!;
 
   const { data: projects = [], isFetching } = useGetBoardsSetByIdQuery({ id: _id });
   const [deleteProject] = useDeleteBoardByIdMutation();
@@ -24,7 +27,7 @@ export const ProjectsPage = () => {
   const handleProjectIsActive = (value: boolean) => {
     setisProjectModalActive(value);
   };
-
+  const [createBoard, boardInfo] = useCreateBoardMutation();
   const handleDeleteIsActive = (value: boolean) => {
     setIsDeleteActive(value);
   };
@@ -36,6 +39,15 @@ export const ProjectsPage = () => {
 
   const closeModal = () => {
     setIsDeleteActive(false);
+  };
+
+  const callbackToSubmit: SubmitHandler<ICreateForm> = async (data) => {
+    const newProject = await createBoard({
+      title: data.title,
+      owner: _id,
+      users: [data.text],
+    }).unwrap();
+    handleProjectIsActive(false);
   };
 
   return (
@@ -59,7 +71,11 @@ export const ProjectsPage = () => {
               })}
             <NewProject updateState={handleProjectIsActive} />
             {isProjectModalActive && (
-              <CreateProjectForm projects={projects} updateState={handleProjectIsActive} />
+              <CreateProjectForm
+                projects={projects}
+                typeOfForm={''}
+                updateState={handleProjectIsActive}
+              />
             )}
             {isDeleteActive && (
               <DeleteModal callbackDelete={callbackDelete} closeModal={closeModal} />

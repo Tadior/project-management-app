@@ -1,8 +1,8 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { getCookieToken } from '../../helper/Helper';
+import { getCookie } from '../../helper/Helper';
 
 export const ProtectedRoute = () => {
-  const token = getCookieToken();
+  const token = getCookie('token');
   return token ? <Navigate to={'/'} /> : <Outlet />;
 };

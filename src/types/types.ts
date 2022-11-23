@@ -32,6 +32,9 @@ export interface boardApi {
   owner: string;
   users: string[];
 }
+export interface columnApiWithTasks extends columnApi {
+  tasks: TaskApi[];
+}
 export interface columnApi extends createColumnApi {
   _id: string;
   boardId: string;
@@ -69,3 +72,21 @@ export interface PointApi {
   boardId: string;
   done: boolean;
 }
+export interface ICreateTasksBody {
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
+  users: string[];
+}
+export type ICreateFormTask = {
+  // columnId: string;
+  data: ICreateForm;
+};
+export interface updateTaskByIdBody extends ICreateTasksBody {
+  columnId: string;
+}
+export type ICreateForm = {
+  title: string;
+  text: string;
+};

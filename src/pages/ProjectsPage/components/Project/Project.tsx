@@ -1,6 +1,10 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import projectImg from '../../../../assets/images/save-add.png';
 import trashCan from '../../../../assets/icons/trash_icon.png';
+import { userSlice } from '../../../../redux/reducer/UserSlice';
+import { useAppDispatch } from '../../../../hooks/redux';
+import { setValueToCookie } from '../../../../helper/Helper';
 
 interface IProjectProps {
   updateState: (value: boolean) => void;
@@ -11,6 +15,7 @@ interface IProjectProps {
 }
 
 const Project = ({ updateState, title, description, id, updateId }: IProjectProps) => {
+  const { setActiveProjectId } = userSlice.actions;
   const handleClick = (event: React.MouseEvent<EventTarget>) => {
     const target = event.target as HTMLElement;
     updateId(target.id);
@@ -18,7 +23,12 @@ const Project = ({ updateState, title, description, id, updateId }: IProjectProp
   };
 
   return (
-    <NavLink className="project" to="qwe" id={id}>
+    <NavLink
+      className="project"
+      to={`/projects/${title}`}
+      id={id}
+      onClick={() => setValueToCookie('projectId', id!)}
+    >
       <div className="project__wrapper">
         <div className="project__picture">
           <img src={projectImg} alt="project picture" className="project__img" />

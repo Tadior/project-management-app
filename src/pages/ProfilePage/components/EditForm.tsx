@@ -8,7 +8,7 @@ import {
   useUpdateUserByidMutation,
   useDeleteUserByidMutation,
 } from '../../../redux/query/UsersQuery';
-import { deleteCookieToken, getCookieToken, setUserToCookie } from '../../../helper/Helper';
+import { deleteCookie, getUserCookie, setUserToCookie } from '../../../helper/Helper';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
 import { toast } from 'react-toastify';
@@ -22,7 +22,7 @@ interface IEditForm {
 
 export const EditForm = () => {
   const [confirmStatus, setConfirmStatus] = useState(false);
-  const { _id, login, name, password } = JSON.parse(getCookieToken('userData')!);
+  const { _id, login, name, password } = getUserCookie()!;
   const [updateUser] = useUpdateUserByidMutation();
   const [deleteUser] = useDeleteUserByidMutation();
   const { t } = useTranslation();
@@ -84,8 +84,8 @@ export const EditForm = () => {
           toast(t('deleteProfile_success'), {
             containerId: 'success',
           });
-          deleteCookieToken();
-          deleteCookieToken('userData');
+          deleteCookie('token');
+          deleteCookie('userData');
           navigate('/');
         });
     } catch (error) {

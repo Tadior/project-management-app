@@ -1,16 +1,16 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { deleteCookieToken, getCookieToken } from '../../helper/Helper';
+import { deleteCookie, getCookie } from '../../helper/Helper';
 import { useTranslation } from 'react-i18next';
 
 export const NavMenu = () => {
   const { pathname } = useLocation();
-  const isUser = getCookieToken();
+  const isUser = getCookie('token');
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const signOut = () => {
-    deleteCookieToken();
-    deleteCookieToken('userData');
+    deleteCookie('token');
+    deleteCookie('userData');
     navigate('/');
   };
   return (

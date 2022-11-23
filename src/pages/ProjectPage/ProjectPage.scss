@@ -1,0 +1,43 @@
+@import './components/Column/Column.scss';
+@import './components/Task/Task.scss';
+@import './components/NewColumnBtn/NewColumnBtn.scss';
+
+.project-page {
+  margin: 4rem 0 5.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+  }
+  &__title {
+    text-align: center;
+  }
+  &__btn {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 8.3rem;
+    justify-content: center;
+  }
+  &__wrapper {
+    margin-top: 3rem;
+    display: flex;
+    flex: 1 0 auto;
+    overflow: auto;
+    gap: 3rem;
+    scrollbar-color: $background-scrollbar $purple-bright;
+    padding-bottom: 1rem;
+    &::-webkit-scrollbar {
+      height: 0.8rem;
+      width: 0;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: $purple-bright;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: $background-scrollbar;
+    }
+  }
+}

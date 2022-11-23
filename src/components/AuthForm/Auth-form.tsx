@@ -4,7 +4,7 @@ import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-for
 import { loginValidation, passwordValidation, nameValidation } from '../../helper/validation';
 import { useSignInMutation, useSignUpMutation } from '../../redux/query/AuthQuery';
 import { useGetUsersMutation } from '../../redux/query/UsersQuery';
-import { setTokenToCookie, setUserToCookie } from '../../helper/Helper';
+import { setValueToCookie, setUserToCookie } from '../../helper/Helper';
 import { userApi } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -49,7 +49,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
       login: login,
       password: password,
     }).unwrap();
-    setTokenToCookie(token);
+    setValueToCookie('token', token);
   };
 
   const getUserByLogin = async (login: string) => {
