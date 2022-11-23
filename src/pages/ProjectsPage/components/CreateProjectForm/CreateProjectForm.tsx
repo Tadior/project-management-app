@@ -1,4 +1,3 @@
-import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
 import {
@@ -19,12 +18,11 @@ interface CreateForm {
 interface ICreateProjectFormProps {
   projects: boardsApi[];
   updateState: (value: boolean) => void;
-  // currentId: string; //???
 }
 
 export const CreateProjectForm = (props: ICreateProjectFormProps) => {
   const { _id } = JSON.parse(getCookieToken('userData')!);
-  const [createBoard, boardInfo] = useCreateBoardMutation();
+  const [createBoard] = useCreateBoardMutation();
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm<CreateForm>({
     reValidateMode: 'onBlur',
@@ -34,7 +32,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
     control,
   });
 
-  const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
+  const onSubmit: SubmitHandler<CreateForm> = async (data) => {
     await createBoard({
       title: data.title,
       owner: _id,

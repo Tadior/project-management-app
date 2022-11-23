@@ -12,13 +12,12 @@ import {
 } from '../../../helper/validation';
 import { useTranslation } from 'react-i18next';
 import MagicHat from '../../../assets/images/magic_hat.png';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch } from '../../../hooks/redux';
 import {
   useUpdateUserByidMutation,
   useDeleteUserByidMutation,
 } from '../../../redux/query/UsersQuery';
-import { userSlice } from '../../../redux/reducer/UserSlice';
-import { deleteCookieToken, getCookieToken } from '../../../helper/Helper';
+import { deleteCookieToken, getCookieToken, setUserToCookie } from '../../../helper/Helper';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
 import { toast } from 'react-toastify';
@@ -31,10 +30,9 @@ interface IEditForm {
 
 export const EditForm = () => {
   const [confirmStatus, setConfirmStatus] = useState(false);
-  const { _id, login, name, password } = useAppSelector((state) => state.userReducer.userData);
-  const [updateUser, userData] = useUpdateUserByidMutation();
-  const [deleteUser, deleteData] = useDeleteUserByidMutation();
-  const { setUserData, resetUserData } = userSlice.actions;
+  const { _id, login, name, password } = JSON.parse(getCookieToken('userData')!);
+  const [updateUser] = useUpdateUserByidMutation();
+  const [deleteUser] = useDeleteUserByidMutation();
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm<IEditForm>({
     defaultValues: { name, login, password },
@@ -55,14 +53,12 @@ export const EditForm = () => {
       })
         .unwrap()
         .then(() => {
-          dispatch(
-            setUserData({
-              _id,
-              login: data.login,
-              name: data.name,
-              password: data.password,
-            })
-          );
+          setUserToCookie({
+            _id,
+            login: data.login,
+            name: data.name,
+            password: data.password,
+          });
           toast(t('edit_success'), {
             containerId: 'success',
           });
@@ -97,8 +93,8 @@ export const EditForm = () => {
           toast(t('deleteProfile_success'), {
             containerId: 'success',
           });
-          dispatch(resetUserData());
           deleteCookieToken();
+          deleteCookieToken('userData');
           navigate('/');
         });
     } catch (error) {

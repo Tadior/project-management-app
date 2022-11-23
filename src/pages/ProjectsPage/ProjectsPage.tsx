@@ -15,7 +15,7 @@ export const ProjectsPage = () => {
   const { _id } = JSON.parse(getCookieToken('userData')!);
 
   const { data: projects = [], isFetching } = useGetBoardsSetByIdQuery({ id: _id });
-  const [deleteProject, deletedProject] = useDeleteBoardByIdMutation();
+  const [deleteProject] = useDeleteBoardByIdMutation();
   console.log(projects);
   const { t } = useTranslation();
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
@@ -24,7 +24,6 @@ export const ProjectsPage = () => {
   const handleProjectIsActive = (value: boolean) => {
     setisProjectModalActive(value);
   };
-  // console.log(currentIdToDelete);
 
   const handleDeleteIsActive = (value: boolean) => {
     setIsDeleteActive(value);
@@ -60,11 +59,7 @@ export const ProjectsPage = () => {
               })}
             <NewProject updateState={handleProjectIsActive} />
             {isProjectModalActive && (
-              <CreateProjectForm
-                projects={projects}
-                // currentId={currentIdToDelete}
-                updateState={handleProjectIsActive}
-              />
+              <CreateProjectForm projects={projects} updateState={handleProjectIsActive} />
             )}
             {isDeleteActive && (
               <DeleteModal callbackDelete={callbackDelete} closeModal={closeModal} />

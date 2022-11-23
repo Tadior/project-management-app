@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
 import {
@@ -11,14 +11,11 @@ import {
 } from '../../helper/validation';
 import { useSignInMutation, useSignUpMutation } from '../../redux/query/AuthQuery';
 import { useGetUsersMutation } from '../../redux/query/UsersQuery';
-import { setTokenToCookie, setUserToCookie,getCookieToken } from '../../helper/Helper';
-import { useAppDispatch } from '../../hooks/redux';
-import { userSlice } from '../../redux/reducer/UserSlice';
+import { setTokenToCookie, setUserToCookie, getCookieToken } from '../../helper/Helper';
 import { userApi } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 interface ISignInForm {
   login: string;
@@ -33,12 +30,10 @@ type TFnRegistration = (name: string, login: string, password: string) => void;
 type TFnAuthorization = (login: string, password: string) => void;
 
 export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { setUserData } = userSlice.actions;
-  const [createUser, resultCreateUser] = useSignUpMutation();
-  const [getToken, resultToken] = useSignInMutation();
-  const [getUsers, resultGetUsers] = useGetUsersMutation();
+  const [createUser] = useSignUpMutation();
+  const [getToken] = useSignInMutation();
+  const [getUsers] = useGetUsersMutation();
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm<ISignInForm>({
     reValidateMode: 'onBlur',
