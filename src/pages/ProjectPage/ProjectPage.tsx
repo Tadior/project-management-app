@@ -39,26 +39,27 @@ const ProjectPage = () => {
   const [updateSetOfColumns, setOfColumnsData] = useUpdateColumnSetMutation();
   const [deleteColumnRequest, deleteColumnData] = useDeleteColumnByIdMutation();
   const [createTask, taskInfo] = useCreateTaskMutation();
+  // Сортирует колонки по порядку, используется только в компоненте
   const sortColumns = (columns: columnApiWithTasks[]) => {
     return columns.sort((a, b) => {
       return a.order - b.order;
     });
   };
-
+  // Обновляет стейт для отображения модалок, передается в NewColumnBtn и ColumnModal
   const handleProjectIsActive = (value: boolean) => {
     setisProjectModalActive(value);
   };
-
+  // Хранит в себе все колонки с данными
   const [columns, setColumns] = useState(loaderData ? sortColumns(loaderData) : INITIAL_VALUE);
-
+  // Обновляет стейт для отображения модалок, передается в NewColumnBtn и ColumnModal
   const columnModalCallback = (value: boolean) => {
     setColumnModalActive(value);
   };
-
+  // Обновляет стейт с колонками, передается в ColumnModal
   const updateColumns = (newColumns: columnApiWithTasks[]) => {
     setColumns(newColumns);
   };
-
+  // Используется как колбек для удаления колонки и обновления стейта с колонками, передается в Column
   const deleteColumn = (columnId: string) => {
     try {
       deleteColumnRequest({ boardId: projectId, columnId: columnId });
@@ -69,7 +70,7 @@ const ProjectPage = () => {
       throw error;
     }
   };
-
+  // Колбек, меняет порядок колонок и обновляет данные на сервере, передается в Column
   const updateColumnsData = (columnItem: columnApi) => {
     const allColumns = [...columns];
     const newOrder = allColumns.map((column) => {
@@ -89,20 +90,23 @@ const ProjectPage = () => {
     ];
     updateSetOfColumns({ body: requestBody });
   };
-
+  // Колбек, записывает в стейт текущую колонку при drag and drop, передается в Column
   const updateCurrentColumns = (column: columnApiWithTasks) => {
     setCurrentColumn(column);
   };
-
+  // Колбек, записывает id колонки в которой нажали на Add task, передается в Column
   const updateColumnActive = (id: string) => {
     setColumnActiveId(id);
   };
+  // Колбек, обновляет состояние модалки, передается в Column
   const updateModalActive = () => {
     setisProjectModalActive(!isProjectModalActive);
   };
+  // Колбек, обновляет стейт с данными создаваемой колонки, передается в Column
   const updateColumnCreate = (value: columnApiWithTasks) => {
     setColumnCreateData(value);
   };
+  //Колбек, создает новую задачу, передаеся в CreateProjectForm
   const callbackToSubmit: SubmitHandler<ICreateForm> = async (arg) => {
     console.log(columnCreateData);
     const taskBody: ICreateTasksBody = {
@@ -117,6 +121,12 @@ const ProjectPage = () => {
       columnId: columnActiveId,
       body: taskBody,
     }).unwrap();
+    const allColumns = [...columns];
+    console.log(allColumns);
+    console.log(columnCreateData);
+    console.log('watch', allColumns[allColumns.indexOf(columnCreateData)]);
+    // allColumns[allColumns.indexOf(columnCreateData)].tasks.push(newTask);
+    // setColumns(allColumns);
     handleProjectIsActive(false);
   };
 

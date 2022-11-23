@@ -44,7 +44,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
     control,
   });
   const [createBoard, boardInfo] = useCreateBoardMutation();
-  console.log(props.defaultData);
+  // console.log(props.defaultData);
 
   // const onSubmit: SubmitHandler<CreateForm> = async (data) => {
   //   const newProject = await createBoard({
@@ -85,7 +85,6 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
               className="create-project-form__input"
               error={!!errors.title?.message}
               helperText={errors?.title?.message}
-              // defaultValue={props.defaultData?.title ? props.defaultData?.title : ''}
             />
           )}
         />
@@ -106,7 +105,6 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
               className="create-project-form__textarea"
               error={!!errors?.text?.message}
               helperText={errors?.text?.message}
-              // defaultValue={props.defaultData?.text ? props.defaultData?.text : ''}
             />
           )}
         />

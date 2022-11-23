@@ -38,6 +38,8 @@ const projectsLoader = async () => {
 
 const projectLoader = async () => {
   const projectId = store.getState().userReducer.activeProjectId;
+  // const projectId = getCookieToken('projectId');
+  // const userId = getCookieToken('userId');
   const userId = store.getState().userReducer.userData._id;
   const token = getCookieToken();
 

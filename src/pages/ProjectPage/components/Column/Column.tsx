@@ -68,11 +68,12 @@ const Column = (props: IProps) => {
       </>
     );
   };
-
+  // Срабатывает при клике на Add task
   const handleClickAdd = () => {
     props.updateColumnActive(props.data._id);
     props.updateModalActive();
-    props.updateColumnCreate(props.data);
+    console.log(props.data);
+    // props.updateColumnCreate(props.data);
   };
 
   const dragStartHandler = (event: React.DragEvent<HTMLDivElement>, column: columnApiWithTasks) => {
