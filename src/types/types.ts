@@ -69,7 +69,3 @@ export interface PointApi {
   boardId: string;
   done: boolean;
 }
-
-export interface Error {
-  status?: number;
-}

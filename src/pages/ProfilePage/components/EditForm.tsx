@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Error } from '../../../types/types';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
 import { loginValidation, passwordValidation, nameValidation } from '../../../helper/validation';
@@ -13,6 +12,7 @@ import { deleteCookieToken, getCookieToken, setUserToCookie } from '../../../hel
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
 import { toast } from 'react-toastify';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
 interface IEditForm {
   login: string;
@@ -55,11 +55,11 @@ export const EditForm = () => {
           });
         });
     } catch (error) {
-      if ((error as Error).status === 409) {
+      if ((error as FetchBaseQueryError).status === 409) {
         toast(t('login_warning'), {
           containerId: 'warning',
         });
-      } else if ((error as Error).status === 400) {
+      } else if ((error as FetchBaseQueryError).status === 400) {
         toast(t('sendData_error'), {
           containerId: 'error',
         });
