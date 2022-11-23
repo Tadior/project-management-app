@@ -70,5 +70,29 @@
   "deleteProfile_success": "Your account has been deleted.",
   "token_warning": "Token expired, sign in.",
   "404_page": "Looks like you turned off the right path, Wizard. This page doesn't exist.",
-  "back_btn": "Go back"
+  "back_btn": "Go back",
+  "validation_name": {
+    "required": "Required to fill",
+    "digit_ban": "Name shouldn't contain digits",
+    "length": "Name should contain 2 or more symbols"
+  },
+  "validation_login": {
+    "required": "Required to fill",
+    "latin": "Login should contain only latin letters",
+    "length": "Login should contain 3 or more symbols"
+  },
+  "validation_password": {
+    "required": "Required to fill",
+    "letter": "Password must contain at least one letter",
+    "length": "Password should contain 6 or more symbols",
+    "digit": "Password must contain at least one digit"
+  },
+  "validation_title": {
+    "required": "Required to fill",
+    "length": "Title should contain 2 or more symbols"
+  },
+  "validation_description": {
+    "required": "Required to fill",
+    "length": "Description should be less than 100 symbols"
+  }
 }

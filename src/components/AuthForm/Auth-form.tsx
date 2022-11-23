@@ -1,17 +1,10 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import {
-  loginValidation,
-  passwordValidation,
-  nameValidation,
-  nameValidationRu,
-  loginValidationRu,
-  passwordValidationRu,
-} from '../../helper/validation';
+import { loginValidation, passwordValidation, nameValidation } from '../../helper/validation';
 import { useSignInMutation, useSignUpMutation } from '../../redux/query/AuthQuery';
 import { useGetUsersMutation } from '../../redux/query/UsersQuery';
-import { setTokenToCookie, setUserToCookie, getCookieToken } from '../../helper/Helper';
+import { setTokenToCookie, setUserToCookie } from '../../helper/Helper';
 import { userApi } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -87,7 +80,9 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
     }
   };
 
-  const lang = getCookieToken('i18next');
+  const nameRules = nameValidation(t('validation_name', { returnObjects: true }));
+  const loginRules = loginValidation(t('validation_login', { returnObjects: true }));
+  const passwordRules = passwordValidation(t('validation_password', { returnObjects: true }));
 
   return (
     <div className="auth-form">
@@ -100,7 +95,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
           <Controller
             control={control}
             name="name"
-            rules={lang === 'en' ? nameValidation : nameValidationRu}
+            rules={nameRules}
             render={({ field }) => (
               <TextField
                 color="secondary"
@@ -121,7 +116,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
         <Controller
           control={control}
           name="login"
-          rules={lang === 'en' ? loginValidation : loginValidationRu}
+          rules={loginRules}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -140,7 +135,7 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
         <Controller
           control={control}
           name="password"
-          rules={lang === 'en' ? passwordValidation : passwordValidationRu}
+          rules={passwordRules}
           render={({ field }) => (
             <TextField
               color="secondary"

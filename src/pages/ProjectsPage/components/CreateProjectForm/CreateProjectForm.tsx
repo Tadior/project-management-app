@@ -1,11 +1,6 @@
 import TextField from '@mui/material/TextField';
 import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
-import {
-  titleValidation,
-  descriptionValidation,
-  titleValidationRu,
-  descriptionValidationRu,
-} from '../../../../helper/validation';
+import { titleValidation, descriptionValidation } from '../../../../helper/validation';
 import { useCreateBoardMutation } from '../../../../redux/query/BoardsQuery';
 import { boardsApi } from '../../../../types/types';
 import { useTranslation } from 'react-i18next';
@@ -41,7 +36,10 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
     props.updateState(false);
   };
 
-  const lang = getCookieToken('i18next');
+  const titleRules = titleValidation(t('validation_title', { returnObjects: true }));
+  const descriptionRules = descriptionValidation(
+    t('validation_description', { returnObjects: true })
+  );
 
   return (
     <div className="create-project-form">
@@ -50,7 +48,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
         <Controller
           control={control}
           name="title"
-          rules={lang === 'en' ? titleValidation : titleValidationRu}
+          rules={titleRules}
           render={({ field }) => (
             <TextField
               color="secondary"
@@ -68,7 +66,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
         <Controller
           control={control}
           name="text"
-          rules={lang === 'en' ? descriptionValidation : descriptionValidationRu}
+          rules={descriptionRules}
           render={({ field }) => (
             <TextField
               color="secondary"
