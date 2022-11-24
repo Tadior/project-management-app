@@ -15,7 +15,11 @@ import { store } from '../App';
 import { getCookie, getUserCookie } from '../helper/Helper';
 import ProjectPage from '../pages/ProjectPage/ProjectPage';
 import { columnApi, TaskApi } from '../types/types';
-import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
+import {
+  ProtectedAuthUserRoute,
+  ProtectedNotAuthUserRoute,
+  ProtectedRoute,
+} from './ProtectedRoute/ProtectedRoute';
 
 export const AppRoutes = () => {
   const projectsLoader = async () => {
@@ -80,14 +84,16 @@ export const AppRoutes = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayouts />}>
-        <Route element={<ProtectedRoute />}>
+        <Route index element={<WelcomePage />} />
+        <Route element={<ProtectedAuthUserRoute />}>
           <Route path="signIn" element={<SignInPage />} />
           <Route path="signUp" element={<SignUpPage />} />
         </Route>
-        <Route index element={<WelcomePage />} />
-        <Route path="projects" element={<ProjectsPage />} loader={projectsLoader} />
-        <Route path="projects/:title" element={<ProjectPage />} loader={projectLoader} />
-        <Route path="profile" element={<ProfilePage />} />
+        <Route element={<ProtectedNotAuthUserRoute />}>
+          <Route path="projects" element={<ProjectsPage />} loader={projectsLoader} />
+          <Route path="projects/:title" element={<ProjectPage />} loader={projectLoader} />
+          <Route path="profile" element={<ProfilePage />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Route>
     )
