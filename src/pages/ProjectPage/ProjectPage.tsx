@@ -110,10 +110,10 @@ const ProjectPage = () => {
   //Колбек, создает новую задачу, передаеся в CreateProjectForm
   const callbackToSubmit: SubmitHandler<ICreateForm> = async (arg) => {
     console.log('-----------------');
-    // console.log(columnCreateData);
+    console.log(columnCreateData);
     const taskBody: ICreateTasksBody = {
       title: arg.title,
-      order: columnCreateData.tasks.length,
+      order: columnCreateData.tasks.length ? columnCreateData.tasks.length : 0,
       description: arg.text,
       userId: _id,
       users: [login],
@@ -123,13 +123,13 @@ const ProjectPage = () => {
       columnId: columnActiveId,
       body: taskBody,
     }).unwrap();
-    // const allColumns = [...columns];
-    console.log('new task', newTask);
+    const allColumns = [...columns];
+    // console.log('new task', newTask);
     // console.log(allColumns);
     // console.log(columnCreateData);
     // console.log('watch', allColumns[allColumns.indexOf(columnCreateData)]);
-    // allColumns[allColumns.indexOf(columnCreateData)].tasks.push(newTask);
-    // setColumns(allColumns);
+    allColumns[allColumns.indexOf(columnCreateData)].tasks.push(newTask);
+    setColumns(allColumns);
     handleProjectIsActive(false);
   };
 

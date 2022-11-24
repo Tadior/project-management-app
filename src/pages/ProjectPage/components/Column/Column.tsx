@@ -72,8 +72,8 @@ const Column = (props: IProps) => {
   const handleClickAdd = () => {
     props.updateColumnActive(props.data._id);
     props.updateModalActive();
-    console.log(props.data);
-    // props.updateColumnCreate(props.data);
+    console.log('props', props.data);
+    props.updateColumnCreate(props.data);
   };
 
   const dragStartHandler = (event: React.DragEvent<HTMLDivElement>, column: columnApiWithTasks) => {

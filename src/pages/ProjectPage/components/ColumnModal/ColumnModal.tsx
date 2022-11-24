@@ -25,9 +25,8 @@ const ColumnModal = (props: IColumnModalProps) => {
     control,
   });
   const [createColumn, columnInfo] = useCreateColumnMutation();
-
+  // Создает новую колонку, обновляет стейт с колонками, дописываем поле tasks так как без него ломается добавление задач в колонку при создании
   const onSubmit: SubmitHandler<IColumnModalForm> = async (data) => {
-    console.log('------------');
     const newColumn = await createColumn({
       id: props.currentId,
       body: {
@@ -35,12 +34,15 @@ const ColumnModal = (props: IColumnModalProps) => {
         order: props.columns.length,
       },
     }).unwrap();
-    const allColumns = [...props.columns].concat(newColumn);
-    console.log('Columns', props.columns);
-    console.log('filtered', allColumns);
-    props.updateColumnsState(allColumns as columnApiWithTasks[]);
+    const allColumns = [...props.columns] as columnApiWithTasks[];
+    const resultColumns = allColumns.concat({
+      ...(newColumn as unknown as columnApiWithTasks),
+      tasks: [],
+    });
+    props.updateColumnsState(resultColumns);
     props.updateModalState(false);
   };
+
   return (
     <div className="create-project-form">
       <h2 className="create-project-form__title">{t('create_column')}</h2>
