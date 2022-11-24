@@ -11,15 +11,10 @@ import { ProjectsPage } from '../pages/ProjectsPage/ProjectsPage';
 import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 import WelcomePage from '../pages/WelcomePage/WelcomePage';
-import { store } from '../App';
 import { getCookie, getUserCookie } from '../helper/Helper';
 import ProjectPage from '../pages/ProjectPage/ProjectPage';
 import { columnApi, TaskApi } from '../types/types';
-import {
-  ProtectedAuthUserRoute,
-  ProtectedNotAuthUserRoute,
-  ProtectedRoute,
-} from './ProtectedRoute/ProtectedRoute';
+import { ProtectedAuthUserRoute, ProtectedNotAuthUserRoute } from './ProtectedRoute/ProtectedRoute';
 
 export const AppRoutes = () => {
   const projectsLoader = async () => {
@@ -31,11 +26,9 @@ export const AppRoutes = () => {
   };
 
   const projectLoader = async () => {
-    // const projectId = store.getState().userReducer.activeProjectId;
     const { _id } = getUserCookie()!;
     const projectId = getCookie('projectId');
     console.log('projectID', projectId);
-    // const userId = store.getState().userReducer.userData._id;
     const token = getCookie('token');
 
     try {
