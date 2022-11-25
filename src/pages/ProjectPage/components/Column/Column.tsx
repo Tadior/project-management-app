@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import trashIcon from '../../../../assets/icons/trash_icon.png';
 import DeleteModal from '../../../../components/DeleteModal/DeleteModal';
-import { columnApi, createColumnApi } from '../../../../types/types';
+import { columnApi, createColumnApi, TaskApi } from '../../../../types/types';
 import { useUpdateColumnByIdMutation } from '../../../../redux/query/ColumnsQuery';
 import { columnApiWithTasks } from '../../../../types/types';
 import Task from '../Task/Task';
@@ -10,8 +10,10 @@ import backIcon from '../../../../assets/icons/back.png';
 import checkIcon from '../../../../assets/icons/check.png';
 
 interface IProps {
+  columnData: columnApiWithTasks[];
   data: columnApiWithTasks;
   projectId: string;
+  updateColumnsData: (newColumns: columnApiWithTasks[]) => void;
   deleteCallback: (colimnId: string) => void;
   updateColumnsCallback: (columnItem: columnApi) => void;
   updateCurrentColumn: (column: columnApiWithTasks) => void;
@@ -27,7 +29,7 @@ const Column = (props: IProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [updateColumn, columnData] = useUpdateColumnByIdMutation();
   const [deleteTask, deleteTaskData] = useDeleteTaskByIdMutation();
-
+  console.log('------------', props.columnData);
   const callbackDelete = (taskId: string) => {
     deleteTask({ boardId: props.projectId, columnId: props.data._id, taskId: taskId });
   };
@@ -131,8 +133,10 @@ const Column = (props: IProps) => {
         {props.data.tasks &&
           props.data.tasks.map((task) => (
             <Task
-              columnId={props.data._id}
-              data={task}
+              updateColumnsData={props.updateColumnsData}
+              columnsList={props.columnData}
+              columnData={props.data}
+              taskData={task}
               callbackDelete={callbackDelete}
               key={task._id}
             />

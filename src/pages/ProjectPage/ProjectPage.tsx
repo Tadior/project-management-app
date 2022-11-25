@@ -17,7 +17,7 @@ import { useCreateTaskMutation } from '../../redux/query/TasksQuery';
 import { columnApiWithTasks } from '../../types/types';
 import { SubmitHandler } from 'react-hook-form';
 import { getCookie, getUserCookie } from '../../helper/Helper';
-
+import { TaskApi } from '../../types/types';
 const initial: columnApiWithTasks = {
   title: '',
   order: 0,
@@ -25,6 +25,17 @@ const initial: columnApiWithTasks = {
   boardId: '',
   tasks: [],
 };
+// const initialTask: TaskApi = {
+//   _id: '',
+//   title: '',
+//   order: 0,
+//   boardId: '',
+//   columnId: '',
+//   description: '',
+//   userId: '',
+//   users: [],
+// };
+
 const ProjectPage = () => {
   console.log('loader');
   console.log(useLoaderData());
@@ -33,6 +44,8 @@ const ProjectPage = () => {
   const projectId = getCookie('projectId')!;
   const { _id, login } = getUserCookie()!;
   const [currentColumn, setCurrentColumn] = useState(loaderData ? loaderData[0] : INITIAL_VALUE[0]);
+  // const [currentColumnTask, setCurrentColumnTask] = useState(loaderData[0]);
+  // const [currentTask, setCurrentTask] = useState(initialTask);
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
   const [isColumnModalActive, setColumnModalActive] = useState(false);
   const [columnActiveId, setColumnActiveId] = useState('');
@@ -52,6 +65,8 @@ const ProjectPage = () => {
   };
   // Хранит в себе все колонки с данными
   const [columns, setColumns] = useState(loaderData ? sortColumns(loaderData) : INITIAL_VALUE);
+
+  // console.log('Columns', columns);
   // Обновляет стейт для отображения модалок, передается в NewColumnBtn и ColumnModal
   const columnModalCallback = (value: boolean) => {
     setColumnModalActive(value);
@@ -143,6 +158,10 @@ const ProjectPage = () => {
             columns.map((column) => {
               return (
                 <Column
+                  // Нужно для обновления колонок из Task
+                  columnData={columns}
+                  // Обновить все колонки
+                  updateColumnsData={updateColumns}
                   data={column}
                   deleteCallback={deleteColumn}
                   projectId={projectId}
