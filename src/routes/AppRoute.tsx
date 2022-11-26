@@ -3,6 +3,7 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
+  useNavigate,
 } from 'react-router-dom';
 import { MainLayouts } from '../ layouts/MainLayouts';
 import { NotFound } from '../pages/NotFoundPage/NotFound';
@@ -15,6 +16,7 @@ import { getCookie, getUserCookie } from '../helper/Helper';
 import ProjectPage from '../pages/ProjectPage/ProjectPage';
 import { columnApi, TaskApi } from '../types/types';
 import { ProtectedAuthUserRoute, ProtectedNotAuthUserRoute } from './ProtectedRoute/ProtectedRoute';
+import { createBrowserHistory } from 'history';
 
 export const AppRoutes = () => {
   const projectsLoader = async () => {
