@@ -4,6 +4,7 @@ import { userApiState } from '../../types/types';
 interface IState {
   userData: userApiState;
   activeProjectId: string;
+  isTokenExpired: boolean;
 }
 
 const initialState: IState = {
@@ -14,6 +15,7 @@ const initialState: IState = {
     password: '',
   },
   activeProjectId: '',
+  isTokenExpired: false,
 };
 
 export const userSlice = createSlice({
@@ -29,7 +31,11 @@ export const userSlice = createSlice({
     resetUserData(state) {
       state.userData = initialState.userData;
     },
+    setIsTokenExpired(state, action: PayloadAction<boolean>) {
+      state.isTokenExpired = action.payload;
+    },
   },
 });
 
 export default userSlice.reducer;
+export const { setIsTokenExpired } = userSlice.actions;
