@@ -14,7 +14,7 @@ import WelcomePage from '../pages/WelcomePage/WelcomePage';
 import { store } from '../App';
 import { getCookie, getUserCookie } from '../helper/Helper';
 import ProjectPage from '../pages/ProjectPage/ProjectPage';
-import { columnApi, TaskApi } from '../types/types';
+import { columnApi, columnApiWithTasks, TaskApi } from '../types/types';
 import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 
 export const AppRoutes = () => {
@@ -58,7 +58,7 @@ export const AppRoutes = () => {
             },
           }
         );
-      const allTasks = await Promise.all(
+      const allTasks: TaskApi[][] = await Promise.all(
         allColumnsIds.map(async (item) => {
           const response = await responseTasks(item);
           return response.json();
@@ -67,9 +67,17 @@ export const AppRoutes = () => {
         console.log('data', data);
         return data;
       });
-      console.log('allTasks', allTasks);
+      const sortedTasks = allTasks.map((item) => {
+        return item.sort((prev, curr) => {
+          if (prev.order > curr.order) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+      });
       const out = allColumns.map((column, index) => {
-        return { ...column, tasks: allTasks[index] };
+        return { ...column, tasks: sortedTasks[index] };
       });
       return out;
     } catch (error) {

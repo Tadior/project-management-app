@@ -37,8 +37,6 @@ const initial: columnApiWithTasks = {
 // };
 
 const ProjectPage = () => {
-  console.log('loader');
-  console.log(useLoaderData());
   const loaderData = useLoaderData() as columnApiWithTasks[];
   const title = useParams().title;
   const projectId = getCookie('projectId')!;
@@ -66,7 +64,6 @@ const ProjectPage = () => {
   // Хранит в себе все колонки с данными
   const [columns, setColumns] = useState(loaderData ? sortColumns(loaderData) : INITIAL_VALUE);
 
-  // console.log('Columns', columns);
   // Обновляет стейт для отображения модалок, передается в NewColumnBtn и ColumnModal
   const columnModalCallback = (value: boolean) => {
     setColumnModalActive(value);
@@ -100,6 +97,8 @@ const ProjectPage = () => {
     });
     const sortData = sortColumns(newOrder);
     updateColumns(sortData);
+    console.log(currentColumn);
+    console.log(columnItem);
     const requestBody: IColumnsBody[] = [
       { _id: columnItem._id, order: currentColumn.order },
       { _id: currentColumn._id, order: columnItem.order },
@@ -124,8 +123,6 @@ const ProjectPage = () => {
   };
   //Колбек, создает новую задачу, передаеся в CreateProjectForm
   const callbackToSubmit: SubmitHandler<ICreateForm> = async (arg) => {
-    console.log('-----------------');
-    console.log(columnCreateData);
     const taskBody: ICreateTasksBody = {
       title: arg.title,
       order: columnCreateData.tasks.length ? columnCreateData.tasks.length : 0,
@@ -139,10 +136,6 @@ const ProjectPage = () => {
       body: taskBody,
     }).unwrap();
     const allColumns = [...columns];
-    // console.log('new task', newTask);
-    // console.log(allColumns);
-    // console.log(columnCreateData);
-    // console.log('watch', allColumns[allColumns.indexOf(columnCreateData)]);
     allColumns[allColumns.indexOf(columnCreateData)].tasks.push(newTask);
     setColumns(allColumns);
     handleProjectIsActive(false);

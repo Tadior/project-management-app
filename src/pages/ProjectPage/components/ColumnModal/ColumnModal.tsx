@@ -31,7 +31,7 @@ const ColumnModal = (props: IColumnModalProps) => {
       id: props.currentId,
       body: {
         title: data.title,
-        order: props.columns.length,
+        order: props.columns.length + 1,
       },
     }).unwrap();
     const allColumns = [...props.columns] as columnApiWithTasks[];

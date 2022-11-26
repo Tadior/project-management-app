@@ -3,8 +3,12 @@ import magicPenIcon from '../../../../assets/icons/stick_icon-small.png';
 import trashIcon from '../../../../assets/icons/trash_task.png';
 import checkbox from '../../../../assets/icons/checkbox.svg';
 import DeleteModal from '../../../../components/DeleteModal/DeleteModal';
-import { useUpdateTaskByIdMutation } from '../../../../redux/query/TasksQuery';
 import {
+  useDeleteTaskByIdMutation,
+  useUpdateTaskByIdMutation,
+} from '../../../../redux/query/TasksQuery';
+import {
+  columnApi,
   columnApiWithTasks,
   ICreateForm,
   TaskApi,
@@ -27,9 +31,37 @@ interface IProps {
 }
 const Task = (props: IProps) => {
   const { currentColumn, currentTask } = useAppSelector((state) => state.ProjectSlice);
+  const { isCurrentColumn } = useAppSelector((state) => state.ColumnSlice);
   const dispatch = useAppDispatch();
+  // const [currentTask, setCurrentTask] = useState({
+  //   _id: '',
+  //   title: '',
+  //   order: 0,
+  //   boardId: '',
+  //   columnId: '',
+  //   description: '',
+  //   userId: '',
+  //   users: [''],
+  // });
+  // const [currentColumn, setCurrentColumn] = useState({
+  //   _id: '',
+  //   boardId: '',
+  //   title: '',
+  //   order: 0,
+  //   tasks: [
+  //     {
+  //       _id: '',
+  //       title: '',
+  //       order: 0,
+  //       boardId: '',
+  //       columnId: '',
+  //       description: '',
+  //       userId: '',
+  //       users: [''],
+  //     },
+  //   ],
+  // });
   const [updateTask, updateTaskData] = useUpdateTaskByIdMutation();
-  // console.log('Done', [...props.columnsList]);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [isModalActive, setIsModalActive] = useState(false);
   const { _id, login } = getUserCookie();
@@ -68,6 +100,8 @@ const Task = (props: IProps) => {
   ) => {
     dispatch(setCurrentColumn(column));
     dispatch(setCurrentTask(task));
+    // setCurrentColumn(column);
+    // setCurrentTask(task);
   };
   const dragLeaveHandler = (event: React.DragEvent<HTMLLIElement>) => {
     // props.updateCurrentColumn(column);
@@ -92,7 +126,7 @@ const Task = (props: IProps) => {
     }
   };
 
-  const dropHandler = (
+  const dropHandler = async (
     event: React.DragEvent<HTMLLIElement>,
     column: columnApiWithTasks,
     task: TaskApi
@@ -103,42 +137,81 @@ const Task = (props: IProps) => {
     if (target.classList.contains(`task_active`)) {
       target.classList.remove('task_active');
     }
-    // Таски которые останутся в колонке переносимого таска
-    const newTasks = currentColumn.tasks.filter((item) => item != currentTask);
-    const currentIndex = currentColumn.tasks.indexOf(task);
-    console.log(newTasks);
-    const out = props.columnsList.map((element) => {
-      // if (element._id === newTasks[0].columnId && element._id === currentColumn._id) {
-      //   console.log('DONE');
-      //   console.log('new', newTasks);
-      //   console.log(task);
-      // }
-      if (element._id === currentColumn._id) {
-        console.log('new', newTasks);
-        return { ...element, tasks: newTasks };
-      }
-      if (element._id === column._id) {
-        return { ...element, tasks: [...element.tasks, currentTask] };
-      }
-      return element;
-    });
+    console.log(isCurrentColumn);
+    console.log(target);
+    if (isCurrentColumn === false) {
+      const currentColumnData: columnApiWithTasks = JSON.parse(JSON.stringify(currentColumn));
+      const columnClone: columnApiWithTasks = JSON.parse(JSON.stringify(column));
+      let columnIdToUpdate = '';
 
-    props.updateColumnsData(out);
-    console.log(newTasks);
-    console.log(task);
-    updateTask({
-      boardId: task.boardId,
-      columnId: task.columnId,
-      taskId: currentTask._id,
-      body: {
-        columnId: task.columnId,
-        title: currentTask.title,
-        order: task.order + 1,
-        description: currentTask.description,
-        userId: currentTask.userId,
-        users: currentTask.users,
-      },
-    });
+      const currentIndex = currentColumnData.tasks.findIndex((element: TaskApi) => {
+        if (element._id === currentTask._id) {
+          return true;
+        }
+        return false;
+      });
+      currentColumnData.tasks.splice(currentIndex, 1);
+
+      const dropIndex = columnClone.tasks.findIndex((element: TaskApi) => {
+        if (element._id === task._id) {
+          return true;
+        }
+        return false;
+      });
+      const dropIndex1 = columnClone.tasks.findIndex((element: TaskApi) => {
+        if (element._id === currentTask._id) {
+          return true;
+        }
+        return false;
+      });
+      //====================================================================================
+      if (currentColumn._id === columnClone._id) {
+        columnClone.tasks.splice(dropIndex1, 1);
+        columnClone.tasks.splice(dropIndex, 0, currentTask);
+        columnIdToUpdate = currentColumn._id;
+      } else {
+        columnClone.tasks.splice(dropIndex + 1, 0, currentTask);
+        columnIdToUpdate = columnClone._id;
+      }
+
+      const out = props.columnsList.map((col) => {
+        if (col._id === columnClone._id) {
+          return columnClone;
+        }
+        if (col._id === currentColumnData._id) {
+          return currentColumnData;
+        }
+        return col;
+      });
+      // await props.callbackDelete(currentTask._id);
+      updateTask({
+        boardId: currentTask.boardId,
+        columnId: currentTask.columnId,
+        taskId: currentTask._id,
+        body: {
+          columnId: columnIdToUpdate,
+          title: currentTask.title,
+          order: task.order + 1,
+          description: currentTask.description,
+          userId: currentTask.userId,
+          users: currentTask.users,
+        },
+      });
+      console.log('---------------------------------');
+      props.updateColumnsData(out);
+    }
+    // dispatch(
+    //   setCurrentTask({
+    //     _id: '',
+    //     title: '',
+    //     order: 0,
+    //     boardId: '',
+    //     columnId: '',
+    //     description: '',
+    //     userId: '',
+    //     users: [],
+    //   })
+    // );
   };
 
   return (

@@ -12,6 +12,7 @@ import { rtkQueryErrorLogger } from '../query/RtkQueryErrors';
 
 import { createReduxHistoryContext } from 'redux-first-history';
 import { createBrowserHistory } from 'history';
+import ColumnSlice from '../reducer/ColumnSlice';
 
 const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext({
   history: createBrowserHistory(),
@@ -19,6 +20,7 @@ const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHisto
 
 export const rootReducer = combineReducers({
   ProjectSlice,
+  ColumnSlice,
   userReducer,
   routerReducer,
   [AuthQuery.reducerPath]: AuthQuery.reducer,

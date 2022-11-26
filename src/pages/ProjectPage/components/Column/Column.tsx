@@ -5,10 +5,15 @@ import { columnApi, createColumnApi, TaskApi } from '../../../../types/types';
 import { useUpdateColumnByIdMutation } from '../../../../redux/query/ColumnsQuery';
 import { columnApiWithTasks } from '../../../../types/types';
 import Task from '../Task/Task';
-import { useDeleteTaskByIdMutation } from '../../../../redux/query/TasksQuery';
+import {
+  useDeleteTaskByIdMutation,
+  useUpdateTaskByIdMutation,
+} from '../../../../redux/query/TasksQuery';
 import backIcon from '../../../../assets/icons/back.png';
 import checkIcon from '../../../../assets/icons/check.png';
-
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
+import { setIsCurrentColumn } from '../../../../redux/reducer/ColumnSlice';
+import { setCurrentTask } from '../../../../redux/reducer/ProjectSlice';
 interface IProps {
   columnData: columnApiWithTasks[];
   data: columnApiWithTasks;
@@ -27,9 +32,12 @@ const Column = (props: IProps) => {
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [title, setTitle] = useState(props.data.title);
   const [isEditMode, setIsEditMode] = useState(false);
+  const { currentColumn, currentTask } = useAppSelector((state) => state.ProjectSlice);
+  const { isCurrentColumn } = useAppSelector((state) => state.ColumnSlice);
+  const dispatch = useAppDispatch();
   const [updateColumn, columnData] = useUpdateColumnByIdMutation();
   const [deleteTask, deleteTaskData] = useDeleteTaskByIdMutation();
-  console.log('------------', props.columnData);
+  const [updateTask, updateTaskData] = useUpdateTaskByIdMutation();
   const callbackDelete = (taskId: string) => {
     deleteTask({ boardId: props.projectId, columnId: props.data._id, taskId: taskId });
   };
@@ -74,12 +82,19 @@ const Column = (props: IProps) => {
   const handleClickAdd = () => {
     props.updateColumnActive(props.data._id);
     props.updateModalActive();
-    console.log('props', props.data);
     props.updateColumnCreate(props.data);
   };
 
   const dragStartHandler = (event: React.DragEvent<HTMLDivElement>, column: columnApiWithTasks) => {
     props.updateCurrentColumn(column);
+    event.stopPropagation();
+    const target = event.target as HTMLDivElement;
+    // console.log(target);
+    if (!target.classList.contains('task')) {
+      // event.preventDefault();
+      // console.log(event.target);
+      dispatch(setIsCurrentColumn(true));
+    }
   };
 
   const dragEndHandler = (event: React.DragEvent<HTMLDivElement>) => {
@@ -96,14 +111,104 @@ const Column = (props: IProps) => {
       target.classList.add('column_active');
     }
   };
+  // interface IupdateTaskInfo {
+  //   info: {
+  //     boardId: string;
+  //     columnId: string;
+  //     taskId: string;
+  //   };
+  //   body: {
+  //     columnId: string;
+  //     title: string;
+  //     order: number;
+  //     description: string;
+  //     userId: string;
+  //     users: string[];
+  //   };
+  // }
+  // const updateTaskInfo = () => {
+  //   updateTask({
+  //     boardId: data.info.boardId,
+  //     columnId: data.info.columnId,
+  //     taskId: data.info.taskId,
+  //     body: {
+  //       columnId: data.body.columnId,
+  //       title: data.body.title,
+  //       order: data.body.order + 1,
+  //       description: data.body.description,
+  //       userId: data.body.userId,
+  //       users: data.body.users,
+  //     },
+  //   });
+  // };
 
-  const dropHandler = (event: React.DragEvent<HTMLDivElement>, column: columnApi) => {
+  const dropHandler = (event: React.DragEvent<HTMLDivElement>, column: columnApiWithTasks) => {
     event.preventDefault();
-    props.updateColumnsCallback(column);
+    event.stopPropagation();
+    dispatch(setIsCurrentColumn(false));
     const target = event.target as HTMLDivElement;
+    console.log(target);
     if (target.classList.contains(`column_active`)) {
       target.classList.remove('column_active');
     }
+    console.log('currentID', currentTask);
+    if (currentTask._id) {
+      column.tasks.push(currentTask);
+      const currentColumnData: columnApiWithTasks = JSON.parse(JSON.stringify(currentColumn));
+      const currentIndex = currentColumnData.tasks.findIndex((element: TaskApi) => {
+        if (element._id === currentTask._id) {
+          return true;
+        }
+        return false;
+      });
+      // deleteTask({
+      //   boardId: props.projectId,
+      //   columnId: currentColumnData._id,
+      //   taskId: currentColumnData.tasks[currentIndex]._id,
+      // });
+      console.log('column', column);
+      currentColumnData.tasks.splice(currentIndex, 1);
+      const out = props.columnData.map((col) => {
+        if (col._id === column._id) {
+          return column;
+        }
+        if (col._id === currentColumnData._id) {
+          return currentColumnData;
+        }
+        return col;
+      });
+      console.log('out', out);
+      // updateTaskInfo({ data: {} });
+      props.updateColumnsData(out);
+      updateTask({
+        boardId: props.projectId,
+        columnId: currentTask.columnId,
+        taskId: currentTask._id,
+        body: {
+          columnId: column._id,
+          title: currentTask.title,
+          order: props.data.tasks.length,
+          description: currentTask.description,
+          userId: currentTask.userId,
+          users: currentTask.users,
+        },
+      });
+    } else {
+      props.updateColumnsCallback(column);
+    }
+    // Сбрасываем информацио о активном таске
+    dispatch(
+      setCurrentTask({
+        _id: '',
+        title: '',
+        order: 0,
+        boardId: '',
+        columnId: '',
+        description: '',
+        userId: '',
+        users: [],
+      })
+    );
   };
 
   return (

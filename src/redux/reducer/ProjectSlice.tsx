@@ -21,8 +21,6 @@ const initialState: IState = {
   currentTask: initialTask,
   currentColumn: INITIAL_VALUE[0],
 };
-// const [currentColumnTask, setCurrentColumnTask] = useState(loaderData[0]);
-// const [currentTask, setCurrentTask] = useState(initialTask);
 
 export const ProjectSlice = createSlice({
   name: 'project',
