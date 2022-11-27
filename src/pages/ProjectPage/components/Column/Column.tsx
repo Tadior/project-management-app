@@ -187,7 +187,7 @@ const Column = (props: IProps) => {
         body: {
           columnId: column._id,
           title: currentTask.title,
-          order: props.data.tasks.length,
+          order: props.data.tasks.length - 1,
           description: currentTask.description,
           userId: currentTask.userId,
           users: currentTask.users,

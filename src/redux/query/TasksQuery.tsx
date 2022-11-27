@@ -68,7 +68,7 @@ export const TaskQuery = createApi({
         method: 'GET',
       }),
     }),
-    updateTasksSet: builder.mutation<TaskApi[], { body: updateTasksSetBody }>({
+    updateTasksSet: builder.mutation<TaskApi[], { body: updateTasksSetBody[] }>({
       query: (args) => ({
         url: `tasksSet`,
         method: 'PATCH',

@@ -6,6 +6,7 @@ import DeleteModal from '../../../../components/DeleteModal/DeleteModal';
 import {
   useDeleteTaskByIdMutation,
   useUpdateTaskByIdMutation,
+  useUpdateTasksSetMutation,
 } from '../../../../redux/query/TasksQuery';
 import {
   columnApi,
@@ -62,6 +63,7 @@ const Task = (props: IProps) => {
   //   ],
   // });
   const [updateTask, updateTaskData] = useUpdateTaskByIdMutation();
+  const [updateTaskSet, updateTaskSetData] = useUpdateTasksSetMutation();
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [isModalActive, setIsModalActive] = useState(false);
   const { _id, login } = getUserCookie();
@@ -125,6 +127,54 @@ const Task = (props: IProps) => {
       target.classList.add('task_active');
     }
   };
+  const updatePreviousTasks = (column: columnApiWithTasks, lastIndex: number) => {
+    const body = column.tasks.filter((item, index) => {
+      if (index < lastIndex) {
+        return false;
+      }
+      return true;
+    });
+    const updateBody = body.map((item) => {
+      return {
+        _id: item._id,
+        order: item.order - 1,
+        columnId: column._id,
+      };
+    });
+    console.log(updateBody);
+    try {
+      updateTaskSet({ body: updateBody });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const updatePortableTasks = (column: columnApiWithTasks, task: TaskApi) => {
+    const startIndex = column.tasks.indexOf(currentTask) + 1;
+    const body = column.tasks.filter((item, index) => {
+      if (index < startIndex) {
+        return false;
+      }
+      return true;
+    });
+    const updateBody = body.map((item) => {
+      return {
+        _id: item._id,
+        order: item.order + 1,
+        columnId: column._id,
+      };
+    });
+    updateBody.push({
+      _id: currentTask._id,
+      order: task.order + 1,
+      columnId: task.columnId,
+    });
+    try {
+      updateTaskSet({ body: updateBody });
+    } catch (error) {
+      throw error;
+    }
+  };
 
   const dropHandler = async (
     event: React.DragEvent<HTMLLIElement>,
@@ -184,19 +234,67 @@ const Task = (props: IProps) => {
         return col;
       });
       // await props.callbackDelete(currentTask._id);
-      updateTask({
-        boardId: currentTask.boardId,
-        columnId: currentTask.columnId,
-        taskId: currentTask._id,
-        body: {
-          columnId: columnIdToUpdate,
-          title: currentTask.title,
-          order: task.order + 1,
-          description: currentTask.description,
-          userId: currentTask.userId,
-          users: currentTask.users,
-        },
-      });
+      // updateTask({
+      //   boardId: currentTask.boardId,
+      //   columnId: currentTask.columnId,
+      //   taskId: currentTask._id,
+      //   body: {
+      //     columnId: columnIdToUpdate,
+      //     title: currentTask.title,
+      //     order: task.order + 1,
+      //     description: currentTask.description,
+      //     userId: currentTask.userId,
+      //     users: currentTask.users,
+      //   },
+      // });
+      if (currentTask.columnId === columnClone._id) {
+        console.log('THAt');
+        console.log(columnClone);
+        const startIndex = columnClone.tasks.indexOf(task);
+        const body = column.tasks.filter((item, index) => {
+          if (index < startIndex) {
+            return false;
+          }
+          return true;
+        });
+        const updateBody = body.map((item) => {
+          return {
+            _id: item._id,
+            order: item.order + 1,
+            columnId: column._id,
+          };
+        });
+        updateBody.push({
+          _id: currentTask._id,
+          order: task.order,
+          columnId: currentTask.columnId,
+        });
+        try {
+          updateTaskSet({ body: updateBody });
+        } catch (error) {
+          throw error;
+        }
+        // updateTaskSet({
+        //   body: [
+        //     { _id: currentTask._id, order: task.order, columnId: currentTask.columnId },
+        //     { _id: task._id, order: task.order + 1, columnId: task.columnId },
+        //   ],
+        // });
+      } else {
+        // task - на что навелся
+        updatePreviousTasks(currentColumnData, currentIndex);
+        updatePortableTasks(columnClone, task);
+
+        // console.log('Body', body);
+        // console.log('Update', updateBody);
+        console.log('Clone', columnClone);
+        console.log('Currentcolumn', currentColumnData);
+        console.log('NOooooooooo');
+      }
+      console.log('target', task);
+      console.log('target', target);
+      // console.log('currentColumn', currentTask);
+      console.log('id', columnIdToUpdate);
       console.log('---------------------------------');
       props.updateColumnsData(out);
     }
