@@ -5,11 +5,7 @@
   text-align: center;
   box-shadow: 0.5rem 0.4rem 1rem #97989f;
   border-radius: 0.8rem;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
+  @include fixed-center;
   z-index: 1;
   .create-project-form__title {
     font-family: 'Playfair-Medium';
@@ -24,7 +20,7 @@
   }
 
   .create-project-form__input {
-    margin-bottom: 2.8rem !important;
+    margin-bottom: 2.8rem;
     width: 27rem;
 
     label {
@@ -50,7 +46,7 @@
   }
 
   .create-project-form__textarea {
-    margin-bottom: 2.8rem !important;
+    margin-bottom: 2.8rem;
     width: 27rem;
 
     label {

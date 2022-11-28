@@ -9,6 +9,8 @@ import { userApi } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
 interface ISignInForm {
   login: string;
@@ -62,6 +64,9 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
     try {
       if (page === '/signUp') {
         await registration(name, login, password);
+        toast(t('signUp_success'), {
+          containerId: 'success',
+        });
         navigate('/signIn');
       } else {
         await authorization(login, password);
@@ -73,10 +78,25 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
             name: user.name,
             password: password,
           });
+        toast(t('signIn_success'), {
+          containerId: 'success',
+        });
         navigate('/projects');
       }
     } catch (error) {
-      console.log(error);
+      if ((error as FetchBaseQueryError).status === 409) {
+        toast(t('login_warning'), {
+          containerId: 'warning',
+        });
+      } else if ((error as FetchBaseQueryError).status === 401) {
+        toast(t('signIn_error'), {
+          containerId: 'error',
+        });
+      } else if ((error as FetchBaseQueryError).status === 400) {
+        toast(t('sendData_error'), {
+          containerId: 'error',
+        });
+      }
     }
   };
 

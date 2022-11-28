@@ -33,31 +33,36 @@
 
   &__form {
     max-width: 29rem;
-  }
 
-  &__input {
-    margin-bottom: 3rem !important;
-    width: 29rem;
+    .edit-form__input {
+      margin-bottom: 3rem;
+      width: 29rem;
 
-    label {
-      font-family: 'Inter-SemiBold';
-      font-size: 1.4rem;
-      background-color: white;
-      padding: 0 0.5rem;
-    }
-
-    div {
-      height: 4rem;
-    }
-
-    input {
-      font-family: 'Inter-SemiBold';
-      color: $grey-text;
-      font-size: 1.6rem;
-
-      &:focus {
-        color: $purple-input;
+      label {
+        font-family: 'Inter-SemiBold';
+        font-size: 1.4rem;
+        background-color: white;
+        padding: 0 0.5rem;
       }
+
+      div {
+        height: 4rem;
+      }
+
+      input {
+        font-family: 'Inter-SemiBold';
+        color: $grey-text;
+        font-size: 1.6rem;
+
+        &:focus {
+          color: $purple-input;
+        }
+      }
+    }
+
+    .css-k4qjio-MuiFormHelperText-root {
+      font-family: 'Inter-Regular';
+      font-size: 1rem;
     }
   }
 
@@ -92,22 +97,17 @@
   }
 }
 
-.css-k4qjio-MuiFormHelperText-root {
-  font-family: 'Inter-regular' !important;
-  font-size: 1rem !important;
-}
-
-@media  screen and (max-width: 460px) {
+@media screen and (max-width: 460px) {
   .edit-form {
-    width: 41rem;
+    width: 38rem;
     padding: 4rem 4rem;
-  
+
     &__form {
       max-width: 26rem;
-    }
-  
-    &__input {
-      width: 26rem;
+
+      .edit-form__input {
+        width: 26rem;
+      }
     }
 
     &__action-btns {
@@ -123,9 +123,8 @@
   }
 }
 
-@media  screen and (max-width: 380px) {
+@media screen and (max-width: 380px) {
   .edit-form {
-
     &__hat {
       display: none;
     }
