@@ -36,19 +36,6 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
   const { errors } = useFormState({
     control,
   });
-  // console.log(props.defaultData);
-
-  // const onSubmit: SubmitHandler<CreateForm> = async (data) => {
-  //   console.log('done');
-  //   const newProject = await createBoard({
-  //     title: data.title,
-  //     owner: _id,
-  //     users: [data.text],
-  //   }).unwrap();
-  //   const allProjects = [...props.projects!].concat(newProject);
-  //   props.updateProjects!(allProjects);
-  //   props.updateState!(false);
-  // };
 
   const onSubmit: SubmitHandler<CreateForm> = async (data) => {
     if (props.callbackTaskToSubmit) {
@@ -69,7 +56,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
   );
 
   return (
-    <div className="create-project-form">
+    <div draggable={false} className="create-project-form">
       <h2 className="create-project-form__title">{t(props.typeOfForm)}</h2>
       <form className="create-project__form" onSubmit={handleSubmit(onSubmit)}>
         <Controller

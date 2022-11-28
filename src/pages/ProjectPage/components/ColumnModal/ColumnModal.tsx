@@ -1,9 +1,7 @@
-import react from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from '../../../../hooks/redux';
 import { useFormState, Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { TextField } from '@mui/material';
-import { loginValidation, passwordValidation } from './ColumnModalValidation';
+import { loginValidation } from './ColumnModalValidation';
 import { useCreateColumnMutation } from '../../../../redux/query/ColumnsQuery';
 import { columnApi } from '../../../../types/types';
 import { columnApiWithTasks } from '../../../../types/types';

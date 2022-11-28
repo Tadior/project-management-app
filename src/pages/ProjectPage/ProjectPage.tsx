@@ -4,7 +4,6 @@ import { columnApi, ICreateForm, ICreateTasksBody } from '../../types/types';
 import ColumnModal from './components/ColumnModal/ColumnModal';
 import NewColumnBtn from './components/NewColumnBtn/NewColumnBtn';
 import { useLoaderData } from 'react-router-dom';
-import { store } from '../../App';
 import Column from './components/Column/Column';
 import {
   useDeleteColumnByIdMutation,
@@ -17,7 +16,6 @@ import { useCreateTaskMutation } from '../../redux/query/TasksQuery';
 import { columnApiWithTasks } from '../../types/types';
 import { SubmitHandler } from 'react-hook-form';
 import { getCookie, getUserCookie } from '../../helper/Helper';
-import { TaskApi } from '../../types/types';
 const initial: columnApiWithTasks = {
   title: '',
   order: 0,
@@ -25,16 +23,6 @@ const initial: columnApiWithTasks = {
   boardId: '',
   tasks: [],
 };
-// const initialTask: TaskApi = {
-//   _id: '',
-//   title: '',
-//   order: 0,
-//   boardId: '',
-//   columnId: '',
-//   description: '',
-//   userId: '',
-//   users: [],
-// };
 
 const ProjectPage = () => {
   const loaderData = useLoaderData() as columnApiWithTasks[];
@@ -42,8 +30,6 @@ const ProjectPage = () => {
   const projectId = getCookie('projectId')!;
   const { _id, login } = getUserCookie()!;
   const [currentColumn, setCurrentColumn] = useState(loaderData ? loaderData[0] : INITIAL_VALUE[0]);
-  // const [currentColumnTask, setCurrentColumnTask] = useState(loaderData[0]);
-  // const [currentTask, setCurrentTask] = useState(initialTask);
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
   const [isColumnModalActive, setColumnModalActive] = useState(false);
   const [columnActiveId, setColumnActiveId] = useState('');
@@ -97,8 +83,6 @@ const ProjectPage = () => {
     });
     const sortData = sortColumns(newOrder);
     updateColumns(sortData);
-    console.log(currentColumn);
-    console.log(columnItem);
     const requestBody: IColumnsBody[] = [
       { _id: columnItem._id, order: currentColumn.order },
       { _id: currentColumn._id, order: columnItem.order },

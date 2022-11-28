@@ -17,6 +17,8 @@ export const TaskQuery = createApi({
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
+      headers.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+      headers.set('Access-Control-Allow-Credentials', 'true');
       return headers;
     },
   }),

@@ -33,7 +33,6 @@ const Column = (props: IProps) => {
   const [title, setTitle] = useState(props.data.title);
   const [isEditMode, setIsEditMode] = useState(false);
   const { currentColumn, currentTask } = useAppSelector((state) => state.ProjectSlice);
-  const { isCurrentColumn } = useAppSelector((state) => state.ColumnSlice);
   const dispatch = useAppDispatch();
   const [updateColumn, columnData] = useUpdateColumnByIdMutation();
   const [deleteTask, deleteTaskData] = useDeleteTaskByIdMutation();
@@ -89,10 +88,7 @@ const Column = (props: IProps) => {
     props.updateCurrentColumn(column);
     event.stopPropagation();
     const target = event.target as HTMLDivElement;
-    // console.log(target);
     if (!target.classList.contains('task')) {
-      // event.preventDefault();
-      // console.log(event.target);
       dispatch(setIsCurrentColumn(true));
     }
   };
@@ -111,47 +107,15 @@ const Column = (props: IProps) => {
       target.classList.add('column_active');
     }
   };
-  // interface IupdateTaskInfo {
-  //   info: {
-  //     boardId: string;
-  //     columnId: string;
-  //     taskId: string;
-  //   };
-  //   body: {
-  //     columnId: string;
-  //     title: string;
-  //     order: number;
-  //     description: string;
-  //     userId: string;
-  //     users: string[];
-  //   };
-  // }
-  // const updateTaskInfo = () => {
-  //   updateTask({
-  //     boardId: data.info.boardId,
-  //     columnId: data.info.columnId,
-  //     taskId: data.info.taskId,
-  //     body: {
-  //       columnId: data.body.columnId,
-  //       title: data.body.title,
-  //       order: data.body.order + 1,
-  //       description: data.body.description,
-  //       userId: data.body.userId,
-  //       users: data.body.users,
-  //     },
-  //   });
-  // };
 
   const dropHandler = (event: React.DragEvent<HTMLDivElement>, column: columnApiWithTasks) => {
     event.preventDefault();
     event.stopPropagation();
     dispatch(setIsCurrentColumn(false));
     const target = event.target as HTMLDivElement;
-    console.log(target);
     if (target.classList.contains(`column_active`)) {
       target.classList.remove('column_active');
     }
-    console.log('currentID', currentTask);
     if (currentTask._id) {
       column.tasks.push(currentTask);
       const currentColumnData: columnApiWithTasks = JSON.parse(JSON.stringify(currentColumn));
@@ -161,12 +125,6 @@ const Column = (props: IProps) => {
         }
         return false;
       });
-      // deleteTask({
-      //   boardId: props.projectId,
-      //   columnId: currentColumnData._id,
-      //   taskId: currentColumnData.tasks[currentIndex]._id,
-      // });
-      console.log('column', column);
       currentColumnData.tasks.splice(currentIndex, 1);
       const out = props.columnData.map((col) => {
         if (col._id === column._id) {
@@ -177,8 +135,6 @@ const Column = (props: IProps) => {
         }
         return col;
       });
-      console.log('out', out);
-      // updateTaskInfo({ data: {} });
       props.updateColumnsData(out);
       updateTask({
         boardId: props.projectId,

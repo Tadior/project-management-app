@@ -11,10 +11,9 @@ import { ProjectsPage } from '../pages/ProjectsPage/ProjectsPage';
 import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 import WelcomePage from '../pages/WelcomePage/WelcomePage';
-import { store } from '../App';
-import { getCookie, getUserCookie } from '../helper/Helper';
+import { getCookie } from '../helper/Helper';
 import ProjectPage from '../pages/ProjectPage/ProjectPage';
-import { columnApi, columnApiWithTasks, TaskApi } from '../types/types';
+import { columnApi, TaskApi } from '../types/types';
 import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 
 export const AppRoutes = () => {
@@ -27,11 +26,7 @@ export const AppRoutes = () => {
   };
 
   const projectLoader = async () => {
-    // const projectId = store.getState().userReducer.activeProjectId;
-    const { _id } = getUserCookie()!;
     const projectId = getCookie('projectId');
-    console.log('projectID', projectId);
-    // const userId = store.getState().userReducer.userData._id;
     const token = getCookie('token');
 
     try {
@@ -41,6 +36,8 @@ export const AppRoutes = () => {
           headers: {
             'Content-Type': 'application/json',
             authorization: `Bearer ${token}`,
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Access-Control-Allow-Credentials': 'true',
           },
         }
       );
@@ -55,6 +52,8 @@ export const AppRoutes = () => {
             headers: {
               'Content-Type': 'application/json',
               authorization: `Bearer ${token}`,
+              'Access-Control-Allow-Origin': 'http://localhost:3000',
+              'Access-Control-Allow-Credentials': 'true',
             },
           }
         );

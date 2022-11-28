@@ -4,12 +4,10 @@ import trashIcon from '../../../../assets/icons/trash_task.png';
 import checkbox from '../../../../assets/icons/checkbox.svg';
 import DeleteModal from '../../../../components/DeleteModal/DeleteModal';
 import {
-  useDeleteTaskByIdMutation,
   useUpdateTaskByIdMutation,
   useUpdateTasksSetMutation,
 } from '../../../../redux/query/TasksQuery';
 import {
-  columnApi,
   columnApiWithTasks,
   ICreateForm,
   TaskApi,
@@ -17,7 +15,6 @@ import {
 } from '../../../../types/types';
 import { CreateProjectForm } from '../../../../components/CreateProjectForm/CreateProjectForm';
 import { SubmitHandler } from 'react-hook-form';
-import { store } from '../../../../App';
 import { getCookie, getUserCookie } from '../../../../helper/Helper';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { setCurrentColumn, setCurrentTask } from '../../../../redux/reducer/ProjectSlice';
@@ -34,44 +31,49 @@ const Task = (props: IProps) => {
   const { currentColumn, currentTask } = useAppSelector((state) => state.ProjectSlice);
   const { isCurrentColumn } = useAppSelector((state) => state.ColumnSlice);
   const dispatch = useAppDispatch();
-  // const [currentTask, setCurrentTask] = useState({
-  //   _id: '',
-  //   title: '',
-  //   order: 0,
-  //   boardId: '',
-  //   columnId: '',
-  //   description: '',
-  //   userId: '',
-  //   users: [''],
-  // });
-  // const [currentColumn, setCurrentColumn] = useState({
-  //   _id: '',
-  //   boardId: '',
-  //   title: '',
-  //   order: 0,
-  //   tasks: [
-  //     {
-  //       _id: '',
-  //       title: '',
-  //       order: 0,
-  //       boardId: '',
-  //       columnId: '',
-  //       description: '',
-  //       userId: '',
-  //       users: [''],
-  //     },
-  //   ],
-  // });
   const [updateTask, updateTaskData] = useUpdateTaskByIdMutation();
   const [updateTaskSet, updateTaskSetData] = useUpdateTasksSetMutation();
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [isModalActive, setIsModalActive] = useState(false);
-  const { _id, login } = getUserCookie();
+  const { _id } = getUserCookie();
   const activeProjectId = getCookie('projectId')!;
   const closeDeleteModal = () => {
     setIsDeleteActive(!isDeleteActive);
   };
   const deleteTask = () => {
+    const index = props.columnData.tasks.indexOf(props.taskData);
+    const updatedColumn: columnApiWithTasks = JSON.parse(JSON.stringify(props.columnData));
+    const startIndex = updatedColumn.tasks.findIndex((task) => {
+      if (task._id === props.taskData._id) {
+        return true;
+      }
+    });
+    const body = updatedColumn.tasks.filter((item, index) => {
+      if (index < startIndex + 1) {
+        return false;
+      }
+      return true;
+    });
+    const updateBody = body.map((item) => {
+      return {
+        _id: item._id,
+        order: item.order - 1,
+        columnId: updatedColumn._id,
+      };
+    });
+    try {
+      updateTaskSet({ body: updateBody });
+    } catch (error) {
+      throw error;
+    }
+    updatedColumn.tasks.splice(index, 1);
+    const out = props.columnsList.map((column) => {
+      if (column._id === updatedColumn._id) {
+        return updatedColumn;
+      }
+      return column;
+    });
+    props.updateColumnsData(out);
     props.callbackDelete(props.taskData._id);
     closeDeleteModal();
   };
@@ -82,7 +84,7 @@ const Task = (props: IProps) => {
       order: props.taskData.order,
       description: arg.text,
       userId: _id,
-      users: [login],
+      users: props.taskData.users,
     };
     updateTask({
       boardId: activeProjectId,
@@ -90,6 +92,30 @@ const Task = (props: IProps) => {
       taskId: props.taskData._id,
       body: taskBody,
     });
+    const columnClone: columnApiWithTasks = JSON.parse(JSON.stringify(props.columnData));
+    const index = props.columnData.tasks.indexOf(props.taskData);
+    const currentColumnIndex = props.columnsList.indexOf(props.columnData);
+    const currentColumn = props.columnsList[currentColumnIndex];
+    const currentTaskIndex = currentColumn.tasks.indexOf(props.taskData);
+    const currentOrder = currentColumn.tasks[currentTaskIndex].order;
+    const updatedTask = {
+      boardId: activeProjectId,
+      columnId: props.columnData._id,
+      description: arg.text,
+      order: props.taskData.order,
+      title: arg.title,
+      userId: _id,
+      users: props.taskData.users,
+      _id: props.taskData._id,
+    };
+    columnClone.tasks.splice(index, 1, updatedTask);
+    const sortedColumns = props.columnsList.map((column) => {
+      if (column._id === props.columnData._id) {
+        return columnClone;
+      }
+      return column;
+    });
+    props.updateColumnsData(sortedColumns);
     handleEdit();
   };
   const handleEdit = () => {
@@ -102,11 +128,8 @@ const Task = (props: IProps) => {
   ) => {
     dispatch(setCurrentColumn(column));
     dispatch(setCurrentTask(task));
-    // setCurrentColumn(column);
-    // setCurrentTask(task);
   };
   const dragLeaveHandler = (event: React.DragEvent<HTMLLIElement>) => {
-    // props.updateCurrentColumn(column);
     const target = event.target as HTMLLIElement;
     if (target.classList.contains(`task_active`)) {
       target.classList.remove('task_active');
@@ -141,7 +164,6 @@ const Task = (props: IProps) => {
         columnId: column._id,
       };
     });
-    console.log(updateBody);
     try {
       updateTaskSet({ body: updateBody });
     } catch (error) {
@@ -187,8 +209,6 @@ const Task = (props: IProps) => {
     if (target.classList.contains(`task_active`)) {
       target.classList.remove('task_active');
     }
-    console.log(isCurrentColumn);
-    console.log(target);
     if (isCurrentColumn === false) {
       const currentColumnData: columnApiWithTasks = JSON.parse(JSON.stringify(currentColumn));
       const columnClone: columnApiWithTasks = JSON.parse(JSON.stringify(column));
@@ -214,7 +234,7 @@ const Task = (props: IProps) => {
         }
         return false;
       });
-      //====================================================================================
+
       if (currentColumn._id === columnClone._id) {
         columnClone.tasks.splice(dropIndex1, 1);
         columnClone.tasks.splice(dropIndex, 0, currentTask);
@@ -233,23 +253,7 @@ const Task = (props: IProps) => {
         }
         return col;
       });
-      // await props.callbackDelete(currentTask._id);
-      // updateTask({
-      //   boardId: currentTask.boardId,
-      //   columnId: currentTask.columnId,
-      //   taskId: currentTask._id,
-      //   body: {
-      //     columnId: columnIdToUpdate,
-      //     title: currentTask.title,
-      //     order: task.order + 1,
-      //     description: currentTask.description,
-      //     userId: currentTask.userId,
-      //     users: currentTask.users,
-      //   },
-      // });
       if (currentTask.columnId === columnClone._id) {
-        console.log('THAt');
-        console.log(columnClone);
         const startIndex = columnClone.tasks.indexOf(task);
         const body = column.tasks.filter((item, index) => {
           if (index < startIndex) {
@@ -274,42 +278,12 @@ const Task = (props: IProps) => {
         } catch (error) {
           throw error;
         }
-        // updateTaskSet({
-        //   body: [
-        //     { _id: currentTask._id, order: task.order, columnId: currentTask.columnId },
-        //     { _id: task._id, order: task.order + 1, columnId: task.columnId },
-        //   ],
-        // });
       } else {
-        // task - на что навелся
         updatePreviousTasks(currentColumnData, currentIndex);
         updatePortableTasks(columnClone, task);
-
-        // console.log('Body', body);
-        // console.log('Update', updateBody);
-        console.log('Clone', columnClone);
-        console.log('Currentcolumn', currentColumnData);
-        console.log('NOooooooooo');
       }
-      console.log('target', task);
-      console.log('target', target);
-      // console.log('currentColumn', currentTask);
-      console.log('id', columnIdToUpdate);
-      console.log('---------------------------------');
       props.updateColumnsData(out);
     }
-    // dispatch(
-    //   setCurrentTask({
-    //     _id: '',
-    //     title: '',
-    //     order: 0,
-    //     boardId: '',
-    //     columnId: '',
-    //     description: '',
-    //     userId: '',
-    //     users: [],
-    //   })
-    // );
   };
 
   return (
