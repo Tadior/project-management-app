@@ -10,7 +10,7 @@
  .link-project,
  .link-signOut,
  .link-profile {
- 	margin-right:10px;
+ 	margin-right:1rem;
  }
 
  .link-profile {
@@ -49,5 +49,12 @@
 
 	.active {
 		left: 0;
+	}
+
+	.link-signIn,
+	.link-project,
+	.link-signOut,
+	.link-profile {
+		margin-right:0;
 	}
  }
