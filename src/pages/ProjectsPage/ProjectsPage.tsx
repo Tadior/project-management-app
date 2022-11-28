@@ -13,6 +13,7 @@ import { ICreateForm } from '../../types/types';
 import { SubmitHandler } from 'react-hook-form';
 import { useAppSelector } from '../../hooks/redux';
 import { getUserCookie } from '../../helper/Helper';
+import { Preloader } from '../../components/Preloader/Preloader';
 
 export const ProjectsPage = () => {
   const { _id } = getUserCookie()!;
@@ -51,38 +52,41 @@ export const ProjectsPage = () => {
   };
 
   return (
-    <section className="projects">
-      <div className="container">
-        <h2 className="title title__projects">{t('main_title')}</h2>
-        <div className="projects__wrapper">
-          <>
-            {isFetching ||
-              projects.map((current) => {
-                return (
-                  <Project
-                    updateId={setCurrentIdToDelete}
-                    id={current._id}
-                    updateState={handleDeleteIsActive}
-                    key={current._id}
-                    title={current.title}
-                    description={current.users[0]}
+    <>
+      {(isFetching && <Preloader />) || (
+        <section className="projects">
+          <div className="container">
+            <h2 className="title title__projects">{t('main_title')}</h2>
+            <div className="projects__wrapper">
+              <>
+                {projects.map((current) => {
+                  return (
+                    <Project
+                      updateId={setCurrentIdToDelete}
+                      id={current._id}
+                      updateState={handleDeleteIsActive}
+                      key={current._id}
+                      title={current.title}
+                      description={current.users[0]}
+                    />
+                  );
+                })}
+                <NewProject updateState={handleProjectIsActive} />
+                {isProjectModalActive && (
+                  <CreateProjectForm
+                    projects={projects}
+                    typeOfForm={''}
+                    updateState={handleProjectIsActive}
                   />
-                );
-              })}
-            <NewProject updateState={handleProjectIsActive} />
-            {isProjectModalActive && (
-              <CreateProjectForm
-                projects={projects}
-                typeOfForm={''}
-                updateState={handleProjectIsActive}
-              />
-            )}
-            {isDeleteActive && (
-              <DeleteModal callbackDelete={callbackDelete} closeModal={closeModal} />
-            )}
-          </>
-        </div>
-      </div>
-    </section>
+                )}
+                {isDeleteActive && (
+                  <DeleteModal callbackDelete={callbackDelete} closeModal={closeModal} />
+                )}
+              </>
+            </div>
+          </div>
+        </section>
+      )}
+    </>
   );
 };

@@ -3,6 +3,7 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
+  useNavigate,
 } from 'react-router-dom';
 import { MainLayouts } from '../ layouts/MainLayouts';
 import { NotFound } from '../pages/NotFoundPage/NotFound';
@@ -11,10 +12,11 @@ import { ProjectsPage } from '../pages/ProjectsPage/ProjectsPage';
 import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 import WelcomePage from '../pages/WelcomePage/WelcomePage';
-import { getCookie } from '../helper/Helper';
+import { getCookie, getUserCookie } from '../helper/Helper';
 import ProjectPage from '../pages/ProjectPage/ProjectPage';
 import { columnApi, TaskApi } from '../types/types';
-import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
+import { ProtectedAuthUserRoute, ProtectedNotAuthUserRoute } from './ProtectedRoute/ProtectedRoute';
+import { createBrowserHistory } from 'history';
 
 export const AppRoutes = () => {
   const projectsLoader = async () => {
@@ -27,6 +29,8 @@ export const AppRoutes = () => {
 
   const projectLoader = async () => {
     const projectId = getCookie('projectId');
+    const { _id } = getUserCookie()!;
+    console.log('projectID', projectId);
     const token = getCookie('token');
 
     try {
@@ -87,14 +91,16 @@ export const AppRoutes = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayouts />}>
-        <Route element={<ProtectedRoute />}>
+        <Route index element={<WelcomePage />} />
+        <Route element={<ProtectedAuthUserRoute />}>
           <Route path="signIn" element={<SignInPage />} />
           <Route path="signUp" element={<SignUpPage />} />
         </Route>
-        <Route index element={<WelcomePage />} />
-        <Route path="projects" element={<ProjectsPage />} loader={projectsLoader} />
-        <Route path="projects/:title" element={<ProjectPage />} loader={projectLoader} />
-        <Route path="profile" element={<ProfilePage />} />
+        <Route element={<ProtectedNotAuthUserRoute />}>
+          <Route path="projects" element={<ProjectsPage />} loader={projectsLoader} />
+          <Route path="projects/:title" element={<ProjectPage />} loader={projectLoader} />
+          <Route path="profile" element={<ProfilePage />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Route>
     )

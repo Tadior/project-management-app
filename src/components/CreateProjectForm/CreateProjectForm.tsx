@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ICreateForm } from '../../types/types';
 import { titleValidation, descriptionValidation } from '../../helper/validation';
 import { useCreateBoardMutation } from '../../redux/query/BoardsQuery';
-import { getCookie, getUserCookie } from '../../helper/Helper';
+import { getUserCookie } from '../../helper/Helper';
 
 interface CreateForm {
   title: string;

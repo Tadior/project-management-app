@@ -12,7 +12,9 @@ const deleteCookie = (name: string) => {
 };
 
 const setValueToCookie = (name: string, value: string) => {
-  document.cookie = `${name}=${value}; path=/;`;
+  const time = new Date();
+  time.setTime(time.getTime() + 60 * 60 * 12 * 1000);
+  document.cookie = `${name}=${value}; path=/; expires=${time.toString()};`;
 };
 
 const setUserToCookie = (user: userApiState) => {
