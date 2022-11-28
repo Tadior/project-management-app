@@ -41,19 +41,16 @@ export const EditForm = () => {
       await updateUser({
         id: _id,
         body: { login: data.login, name: data.name, password: data.password },
-      })
-        .unwrap()
-        .then(() => {
-          setUserToCookie({
-            _id,
-            login: data.login,
-            name: data.name,
-            password: data.password,
-          });
-          toast(t('edit_success'), {
-            containerId: 'success',
-          });
-        });
+      }).unwrap();
+      setUserToCookie({
+        _id,
+        login: data.login,
+        name: data.name,
+        password: data.password,
+      });
+      toast(t('edit_success'), {
+        containerId: 'success',
+      });
     } catch (error) {
       if ((error as FetchBaseQueryError).status === 409) {
         toast(t('login_warning'), {
@@ -78,16 +75,13 @@ export const EditForm = () => {
 
   const deleteAccount = async () => {
     try {
-      await deleteUser({ id: _id })
-        .unwrap()
-        .then(() => {
-          toast(t('deleteProfile_success'), {
-            containerId: 'success',
-          });
-          deleteCookie('token');
-          deleteCookie('userData');
-          navigate('/');
-        });
+      await deleteUser({ id: _id }).unwrap();
+      toast(t('deleteProfile_success'), {
+        containerId: 'success',
+      });
+      deleteCookie('token');
+      deleteCookie('userData');
+      navigate('/');
     } catch (error) {
       toast(t('sendData_error'), {
         containerId: 'error',

@@ -4,10 +4,10 @@
 	font-family: 'Inter-Medium';
 	font-size: 1.6rem;
 	line-height: 2rem;
-}
 
-.Toastify__toast-icon {
-	margin-right: 2rem !important;
+	.Toastify__toast-icon {
+		margin-right: 2rem;
+	}
 }
 
 @media screen and (max-width: 768px) {

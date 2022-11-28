@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Burger } from '../Burger/Burger';
 import { Logo } from '../Logo/Logo';
+import { useActiveHeader } from '../../hooks/сustomHooks';
 
 export const Header = () => {
   const languageRef = useRef<HTMLSpanElement>(null);
@@ -15,8 +16,9 @@ export const Header = () => {
       i18n.changeLanguage('en');
     }
   };
+  const activeClass = useActiveHeader();
   return (
-    <header className="header">
+    <header className={activeClass}>
       <div className="header__wrapper container">
         <Link to="/">
           <Logo />
@@ -34,13 +36,4 @@ export const Header = () => {
       </div>
     </header>
   );
-};
-
-document.body.onscroll = () => {
-  const header = document.querySelector('.header');
-  if (window.scrollY > 0) {
-    header?.classList.add('active-header');
-  } else {
-    header?.classList.remove('active-header');
-  }
 };
