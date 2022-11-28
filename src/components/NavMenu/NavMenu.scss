@@ -32,3 +32,22 @@
  		line-height: 1.9rem;
  	}
  }
+
+@media screen and (max-width: 768px) {
+	.menu {
+		@include flex-column-center;
+		gap: 3rem;
+		position: fixed;
+		top: 0;
+		left: -100vw;
+		width: 100vw;
+		height: 100vh;
+		background-color: white;
+		z-index: 7;
+		transition: left 0.5s;
+	}
+
+	.active {
+		left: 0;
+	}
+ }

@@ -1,36 +1,28 @@
-  .header {
-		position: sticky;
-		top: 0;
-		left: 0;
-		z-index: 5;
-		padding: 3rem 0;
-		transition: 0.3s;
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  padding: 3rem 0;
+  transition: 0.3s;
 
-		&__wrapper {
-			@include flex-center-space-between;
-		}
+  &__wrapper {
+    @include flex-center-space-between;
+  }
 
-		.logo {
-			@include flex-center;
-			font-size: 2rem;
-			line-height: 2.4rem;
-	
-			&__text {
-				padding-top: 1.4rem;
-				padding-bottom: 0.8rem;
-				color: $black-title;
-				font-family: 'Inter-Bold';
-			}
-		}
+  .menu-lang__wrapper {
+    display: flex;
+    gap: 2rem;
+  }
 
-		.lang {
-			cursor: pointer;
-		}
-	}
+  .lang {
+    cursor: pointer;
+  }
+}
 
-	.active-header {
-		background-color: white;
-		padding: 2rem 0;
-		border-radius: 0 0 2rem 2rem;
-		filter: drop-shadow(0px 0.8rem 0.6rem $purple-light); 
-	}
+.active-header {
+  background-color: white;
+  padding: 2rem 0;
+  border-radius: 0 0 2rem 2rem;
+  filter: drop-shadow(0px 0.8rem 0.6rem $purple-light);
+}

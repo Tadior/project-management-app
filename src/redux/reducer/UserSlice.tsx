@@ -5,6 +5,7 @@ interface IState {
   userData: userApiState;
   activeProjectId: string;
   isTokenExpired: boolean;
+  isBurgerOpen: boolean;
 }
 
 const initialState: IState = {
@@ -16,6 +17,7 @@ const initialState: IState = {
   },
   activeProjectId: '',
   isTokenExpired: false,
+  isBurgerOpen: false,
 };
 
 export const userSlice = createSlice({
@@ -34,8 +36,11 @@ export const userSlice = createSlice({
     setIsTokenExpired(state, action: PayloadAction<boolean>) {
       state.isTokenExpired = action.payload;
     },
+    setBurgerStatus(state, action: PayloadAction<boolean>) {
+      state.isBurgerOpen = action.payload;
+    },
   },
 });
 
 export default userSlice.reducer;
-export const { setIsTokenExpired } = userSlice.actions;
+export const { setIsTokenExpired, setBurgerStatus } = userSlice.actions;

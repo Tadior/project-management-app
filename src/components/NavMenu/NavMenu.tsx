@@ -1,12 +1,22 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { deleteCookie, getCookie } from '../../helper/Helper';
 import { useTranslation } from 'react-i18next';
-
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { setBurgerStatus } from '../../redux/reducer/UserSlice';
 export const NavMenu = () => {
+  const { isBurgerOpen } = useAppSelector((state) => state.userReducer);
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const isUser = getCookie('token');
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const handleCloseBurger = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement;
+    if (!target.classList.contains('menu')) {
+      dispatch(setBurgerStatus(false));
+    }
+  };
 
   const signOut = () => {
     deleteCookie('token');
@@ -14,7 +24,7 @@ export const NavMenu = () => {
     navigate('/');
   };
   return (
-    <nav className="menu">
+    <nav className={isBurgerOpen ? 'menu active' : 'menu'} onClick={handleCloseBurger}>
       {isUser ? (
         <>
           <NavLink className="link-project button-black" to="projects">

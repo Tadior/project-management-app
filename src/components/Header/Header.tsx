@@ -2,6 +2,8 @@ import { NavMenu } from '../NavMenu/NavMenu';
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Burger } from '../Burger/Burger';
+import { Logo } from '../Logo/Logo';
 
 export const Header = () => {
   const languageRef = useRef<HTMLSpanElement>(null);
@@ -17,12 +19,7 @@ export const Header = () => {
     <header className="header">
       <div className="header__wrapper container">
         <Link to="/">
-          <div className="logo">
-            <img className="logo__img" src="icons/logo.png" alt="logo" />
-            <p className="logo__text">
-              Mana <br /> Projects
-            </p>
-          </div>
+          <Logo />
         </Link>
         <div className="menu-lang__wrapper">
           <NavMenu />
@@ -32,6 +29,7 @@ export const Header = () => {
               {t('header_lang')}
             </span>
           </div>
+          <Burger />
         </div>
       </div>
     </header>

@@ -1,0 +1,16 @@
+.burger {
+  display: none;
+  cursor: pointer;
+  z-index: 8;
+
+  img {
+    height: 3.5rem;
+    height: 3.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .burger {
+    display: block;
+  }
+}

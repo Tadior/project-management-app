@@ -1,0 +1,29 @@
+.logo {
+  @include flex-center;
+  font-size: 2rem;
+  line-height: 2.4rem;
+
+  &__img {
+    width: 10rem;
+    z-index: 8;
+  } 
+
+  &__text {
+    padding-top: 1.4rem;
+    padding-bottom: 0.8rem;
+    color: $black-title;
+    font-family: 'Inter-Bold';
+    z-index: 8;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .logo {
+    font-size: 1.8rem;
+    line-height: 2rem;
+  
+    &__img {
+      width: 8rem;
+    } 
+  }
+}
