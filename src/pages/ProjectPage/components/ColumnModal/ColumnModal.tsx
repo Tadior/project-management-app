@@ -1,9 +1,7 @@
-import react from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from '../../../../hooks/redux';
 import { useFormState, Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { TextField } from '@mui/material';
-import { loginValidation, passwordValidation } from './ColumnModalValidation';
+import { loginValidation } from './ColumnModalValidation';
 import { useCreateColumnMutation } from '../../../../redux/query/ColumnsQuery';
 import { columnApi } from '../../../../types/types';
 import { columnApiWithTasks } from '../../../../types/types';
@@ -25,22 +23,24 @@ const ColumnModal = (props: IColumnModalProps) => {
     control,
   });
   const [createColumn, columnInfo] = useCreateColumnMutation();
-
+  // Создает новую колонку, обновляет стейт с колонками, дописываем поле tasks так как без него ломается добавление задач в колонку при создании
   const onSubmit: SubmitHandler<IColumnModalForm> = async (data) => {
-    console.log('------------');
     const newColumn = await createColumn({
       id: props.currentId,
       body: {
         title: data.title,
-        order: props.columns.length,
+        order: props.columns.length + 1,
       },
     }).unwrap();
-    const allColumns = [...props.columns].concat(newColumn);
-    console.log('Columns', props.columns);
-    console.log('filtered', allColumns);
-    props.updateColumnsState(allColumns as columnApiWithTasks[]);
+    const allColumns = [...props.columns] as columnApiWithTasks[];
+    const resultColumns = allColumns.concat({
+      ...(newColumn as unknown as columnApiWithTasks),
+      tasks: [],
+    });
+    props.updateColumnsState(resultColumns);
     props.updateModalState(false);
   };
+
   return (
     <div className="create-project-form">
       <h2 className="create-project-form__title">{t('create_column')}</h2>

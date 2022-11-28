@@ -4,7 +4,6 @@ import { columnApi, ICreateForm, ICreateTasksBody } from '../../types/types';
 import ColumnModal from './components/ColumnModal/ColumnModal';
 import NewColumnBtn from './components/NewColumnBtn/NewColumnBtn';
 import { useLoaderData } from 'react-router-dom';
-import { store } from '../../App';
 import Column from './components/Column/Column';
 import {
   useDeleteColumnByIdMutation,
@@ -17,7 +16,6 @@ import { useCreateTaskMutation } from '../../redux/query/TasksQuery';
 import { columnApiWithTasks } from '../../types/types';
 import { SubmitHandler } from 'react-hook-form';
 import { getCookie, getUserCookie } from '../../helper/Helper';
-
 const initial: columnApiWithTasks = {
   title: '',
   order: 0,
@@ -25,9 +23,8 @@ const initial: columnApiWithTasks = {
   boardId: '',
   tasks: [],
 };
+
 const ProjectPage = () => {
-  console.log('loader');
-  console.log(useLoaderData());
   const loaderData = useLoaderData() as columnApiWithTasks[];
   const title = useParams().title;
   const projectId = getCookie('projectId')!;
@@ -52,6 +49,7 @@ const ProjectPage = () => {
   };
   // Хранит в себе все колонки с данными
   const [columns, setColumns] = useState(loaderData ? sortColumns(loaderData) : INITIAL_VALUE);
+
   // Обновляет стейт для отображения модалок, передается в NewColumnBtn и ColumnModal
   const columnModalCallback = (value: boolean) => {
     setColumnModalActive(value);
@@ -109,11 +107,9 @@ const ProjectPage = () => {
   };
   //Колбек, создает новую задачу, передаеся в CreateProjectForm
   const callbackToSubmit: SubmitHandler<ICreateForm> = async (arg) => {
-    console.log('-----------------');
-    // console.log(columnCreateData);
     const taskBody: ICreateTasksBody = {
       title: arg.title,
-      order: columnCreateData.tasks.length,
+      order: columnCreateData.tasks.length ? columnCreateData.tasks.length : 0,
       description: arg.text,
       userId: _id,
       users: [login],
@@ -123,13 +119,9 @@ const ProjectPage = () => {
       columnId: columnActiveId,
       body: taskBody,
     }).unwrap();
-    // const allColumns = [...columns];
-    console.log('new task', newTask);
-    // console.log(allColumns);
-    // console.log(columnCreateData);
-    // console.log('watch', allColumns[allColumns.indexOf(columnCreateData)]);
-    // allColumns[allColumns.indexOf(columnCreateData)].tasks.push(newTask);
-    // setColumns(allColumns);
+    const allColumns = [...columns];
+    allColumns[allColumns.indexOf(columnCreateData)].tasks.push(newTask);
+    setColumns(allColumns);
     handleProjectIsActive(false);
   };
 
@@ -143,6 +135,10 @@ const ProjectPage = () => {
             columns.map((column) => {
               return (
                 <Column
+                  // Нужно для обновления колонок из Task
+                  columnData={columns}
+                  // Обновить все колонки
+                  updateColumnsData={updateColumns}
                   data={column}
                   deleteCallback={deleteColumn}
                   projectId={projectId}

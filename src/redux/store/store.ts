@@ -6,19 +6,21 @@ import { PointsQuery } from '../query/PointsQuery';
 import { FilesQuery } from '../query/FilesQuery';
 import { TaskQuery } from '../query/TasksQuery';
 import { UsersQuery } from '../query/UsersQuery';
-import handlerErrorsReducer from '../reducer/handlerErrorsSlice';
+import ProjectSlice from '../reducer/ProjectSlice';
 import userReducer from '../reducer/UserSlice';
 import { rtkQueryErrorLogger } from '../query/RtkQueryErrors';
 
 import { createReduxHistoryContext } from 'redux-first-history';
 import { createBrowserHistory } from 'history';
+import ColumnSlice from '../reducer/ColumnSlice';
 
 const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext({
   history: createBrowserHistory(),
 });
 
 export const rootReducer = combineReducers({
-  handlerErrorsReducer,
+  ProjectSlice,
+  ColumnSlice,
   userReducer,
   routerReducer,
   [AuthQuery.reducerPath]: AuthQuery.reducer,

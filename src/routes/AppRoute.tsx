@@ -28,8 +28,8 @@ export const AppRoutes = () => {
   };
 
   const projectLoader = async () => {
-    const { _id } = getUserCookie()!;
     const projectId = getCookie('projectId');
+    const { _id } = getUserCookie()!;
     console.log('projectID', projectId);
     const token = getCookie('token');
 
@@ -40,6 +40,8 @@ export const AppRoutes = () => {
           headers: {
             'Content-Type': 'application/json',
             authorization: `Bearer ${token}`,
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Access-Control-Allow-Credentials': 'true',
           },
         }
       );
@@ -54,10 +56,12 @@ export const AppRoutes = () => {
             headers: {
               'Content-Type': 'application/json',
               authorization: `Bearer ${token}`,
+              'Access-Control-Allow-Origin': 'http://localhost:3000',
+              'Access-Control-Allow-Credentials': 'true',
             },
           }
         );
-      const allTasks = await Promise.all(
+      const allTasks: TaskApi[][] = await Promise.all(
         allColumnsIds.map(async (item) => {
           const response = await responseTasks(item);
           return response.json();
@@ -66,9 +70,17 @@ export const AppRoutes = () => {
         console.log('data', data);
         return data;
       });
-      console.log('allTasks', allTasks);
+      const sortedTasks = allTasks.map((item) => {
+        return item.sort((prev, curr) => {
+          if (prev.order > curr.order) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+      });
       const out = allColumns.map((column, index) => {
-        return { ...column, tasks: allTasks[index] };
+        return { ...column, tasks: sortedTasks[index] };
       });
       return out;
     } catch (error) {
