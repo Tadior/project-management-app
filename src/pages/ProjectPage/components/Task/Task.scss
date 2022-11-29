@@ -39,15 +39,19 @@
     gap: 5px;
   }
   &__button {
-    padding: 0.3rem;
-    border-radius: 50%;
     background: transparent;
     transition: all ease 0.5s;
-    &:hover {
-      background: $purple-input;
+    
+    svg {
+      height: 1.8rem;
+      width: 1.8rem;
+
+      &:hover path{
+        fill: $purple-input;
+      }
     }
   }
   &_active {
-    background: green;
+    background: $purple-light;
   }
 }

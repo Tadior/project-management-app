@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import magicPenIcon from '../../../../assets/icons/stick_icon-small.png';
-import trashIcon from '../../../../assets/icons/trash_task.png';
+import { ReactComponent as MagicPenIcon } from '../../../../assets/icons/stick_icon-small.svg';
+import { ReactComponent as TrashIcon } from '../../../../assets/icons/trash_task.svg';
 import checkbox from '../../../../assets/icons/checkbox.svg';
 import DeleteModal from '../../../../components/DeleteModal/DeleteModal';
 import {
@@ -309,10 +309,10 @@ const Task = (props: IProps) => {
       </div>
       <div className="task__buttons">
         <button className="task__button" onClick={handleEdit}>
-          <img className="task__button-icon" src={magicPenIcon} alt="magic pen" />
+          <MagicPenIcon />
         </button>
         <button className="task__button" onClick={closeDeleteModal}>
-          <img className="task__button-icon" src={trashIcon} alt="Delete task" />
+          <TrashIcon />
         </button>
       </div>
       {isDeleteActive && <DeleteModal callbackDelete={deleteTask} closeModal={closeDeleteModal} />}
