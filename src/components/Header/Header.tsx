@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Burger } from '../Burger/Burger';
 import { Logo } from '../Logo/Logo';
-import { useActiveHeader } from '../../hooks/сustomHooks';
+import { useActiveHeader } from '../../hooks/useActiveHeader';
 
 export const Header = () => {
   const languageRef = useRef<HTMLSpanElement>(null);

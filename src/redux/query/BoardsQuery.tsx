@@ -15,11 +15,12 @@ export const BoardsQuery = createApi({
   }),
   tagTypes: ['Boards'],
   endpoints: (builder) => ({
-    getBoards: builder.mutation<boardsApi[], void>({
+    getBoards: builder.query<boardsApi[], void>({
       query: () => ({
         url: `boards`,
         method: 'GET',
       }),
+      providesTags: ['Boards'],
     }),
     createBoard: builder.mutation<boardsApi, boardApi>({
       query: (body) => ({
@@ -66,7 +67,7 @@ export const BoardsQuery = createApi({
 });
 
 export const {
-  useGetBoardsMutation,
+  useGetBoardsQuery,
   useCreateBoardMutation,
   useGetBoardByIdMutation,
   useUpdateBoardByIdMutation,

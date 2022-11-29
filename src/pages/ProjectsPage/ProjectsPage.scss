@@ -7,6 +7,7 @@
   text-transform: capitalize;
   &__projects {
     text-align: center;
+    transition: color 0.4s;
   }
 }
 .projects {
@@ -17,5 +18,39 @@
     align-items: flex-start;
     flex-wrap: wrap;
     margin: 0 -1.5rem;
+  }
+
+  &__toggler {
+    @include flex-center;
+    width: fit-content;
+    gap: 1.5rem;
+    margin: 0 auto;
+    cursor: url('../../assets/icons/stick_icon.png'), auto;
+
+    &:hover .title__projects {
+      color: $purple-bright;
+    }
+
+    &:hover svg path {
+      fill: $purple-bright;
+    }
+
+    &:active .title__projects {
+      color: $yellow;
+    }
+
+    &:active svg path {
+      fill: $yellow;
+    }
+
+    svg {
+      display: block;
+      width: 3rem;
+      height: 3rem;
+
+      path {
+        transition: fill 0.4s;
+      }
+    }
   }
 }
