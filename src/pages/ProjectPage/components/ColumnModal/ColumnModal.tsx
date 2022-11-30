@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { useFormState, Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { TextField } from '@mui/material';
-import { loginValidation } from './ColumnModalValidation';
 import { useCreateColumnMutation } from '../../../../redux/query/ColumnsQuery';
 import { columnApi } from '../../../../types/types';
 import { columnApiWithTasks } from '../../../../types/types';
+import { titleValidation } from '../../../../helper/validation';
 interface IColumnModalForm {
   title: string;
 }
@@ -18,7 +18,10 @@ interface IColumnModalProps {
 
 const ColumnModal = (props: IColumnModalProps) => {
   const { t } = useTranslation();
-  const { handleSubmit, control } = useForm<IColumnModalForm>();
+  const { handleSubmit, control } = useForm<IColumnModalForm>({
+    reValidateMode: 'onBlur',
+    mode: 'all',
+  });
   const { errors } = useFormState({
     control,
   });
@@ -41,6 +44,8 @@ const ColumnModal = (props: IColumnModalProps) => {
     props.updateModalState(false);
   };
 
+  const titleRules = titleValidation(t('validation_title', { returnObjects: true }));
+
   return (
     <div className="create-project-form">
       <h2 className="create-project-form__title">{t('create_column')}</h2>
@@ -48,7 +53,7 @@ const ColumnModal = (props: IColumnModalProps) => {
         <Controller
           control={control}
           name="title"
-          rules={loginValidation}
+          rules={titleRules}
           render={({ field }) => (
             <TextField
               color="secondary"

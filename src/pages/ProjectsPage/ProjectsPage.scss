@@ -15,7 +15,8 @@
 
   &__wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 2.5rem;
     align-items: flex-start;
     flex-wrap: wrap;
     margin: 0 -1.5rem;
@@ -52,6 +53,14 @@
       path {
         transition: fill 0.4s;
       }
+    }
+  }
+}
+
+@media  screen and (max-width: 1260px) {
+  .projects {
+    &__wrapper {
+      gap: 0;
     }
   }
 }
