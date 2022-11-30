@@ -1,104 +1,54 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import { useForm, SubmitHandler, Controller, useFormState } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { loginValidation, passwordValidation, nameValidation } from '../../helper/validation';
-import { useSignInMutation, useSignUpMutation } from '../../redux/query/AuthQuery';
-import { useGetUsersMutation } from '../../redux/query/UsersQuery';
-import { setValueToCookie, setUserToCookie } from '../../helper/Helper';
-import { userApi } from '../../types/types';
+import { setUserToCookie } from '../../helper/Helper';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { useAuth } from './useAuth';
+import { useSubmit } from './useSubmit';
 
-interface ISignInForm {
-  login: string;
-  password: string;
-  name: string;
-}
 interface ISignInFormProps {
   page: string;
 }
 
-type TFnRegistration = (name: string, login: string, password: string) => void;
-type TFnAuthorization = (login: string, password: string) => void;
-
 export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
   const navigate = useNavigate();
-  const [createUser] = useSignUpMutation();
-  const [getToken] = useSignInMutation();
-  const [getUsers] = useGetUsersMutation();
   const { t } = useTranslation();
-  const { handleSubmit, control } = useForm<ISignInForm>({
-    reValidateMode: 'onBlur',
-    mode: 'all',
-  });
-  const { errors } = useFormState({
+
+  const { registration, authorization, getUserByLogin } = useAuth();
+
+  // sign-up
+  const {
+    onSubmit: onSignUpSubmit,
+    errors,
     control,
+  } = useSubmit(async (name, login, password) => {
+    await registration(name as string, login as string, password as string);
+    toast(t('signUp_success'), {
+      containerId: 'success',
+    });
+    navigate('/signIn');
   });
 
-  const registration: TFnRegistration = async (name, login, password) => {
-    await createUser({
-      name: name,
-      login: login,
-      password: password,
-    }).unwrap();
-  };
-
-  const authorization: TFnAuthorization = async (login, password) => {
-    const { token } = await getToken({
-      login: login,
-      password: password,
-    }).unwrap();
-    setValueToCookie('token', token);
-  };
-
-  const getUserByLogin = async (login: string) => {
-    const users = await getUsers();
-    const user = (users as { data: userApi[] }).data.find((user: userApi) => user.login === login);
-    return user;
-  };
-
-  const onSubmit: SubmitHandler<ISignInForm> = async ({ name, login, password }) => {
-    try {
-      if (page === '/signUp') {
-        await registration(name, login, password);
-        toast(t('signUp_success'), {
-          containerId: 'success',
-        });
-        navigate('/signIn');
-      } else {
-        await authorization(login, password);
-        const user = await getUserByLogin(login);
-        user &&
-          setUserToCookie({
-            _id: user._id,
-            login: user.login,
-            name: user.name,
-            password: password,
-          });
-        toast(t('signIn_success'), {
-          containerId: 'success',
-        });
-        navigate('/projects');
-      }
-    } catch (error) {
-      if ((error as FetchBaseQueryError).status === 409) {
-        toast(t('login_warning'), {
-          containerId: 'warning',
-        });
-      } else if ((error as FetchBaseQueryError).status === 401) {
-        toast(t('signIn_error'), {
-          containerId: 'error',
-        });
-      } else if ((error as FetchBaseQueryError).status === 400) {
-        toast(t('sendData_error'), {
-          containerId: 'error',
-        });
-      }
-    }
-  };
+  //sign-in
+  const { onSubmit: onSignInSubmit } = useSubmit(async (_, login, password) => {
+    await authorization(login as string, password as string);
+    const user = await getUserByLogin(login as string);
+    user &&
+      setUserToCookie({
+        _id: user._id,
+        login: user.login,
+        name: user.name,
+        password: password as string,
+      });
+    toast(t('signIn_success'), {
+      containerId: 'success',
+    });
+    navigate('/projects');
+  });
 
   const nameRules = nameValidation(t('validation_name', { returnObjects: true }));
   const loginRules = loginValidation(t('validation_login', { returnObjects: true }));
@@ -110,7 +60,10 @@ export const AuthForm: React.FC<ISignInFormProps> = ({ page }) => {
       <p className="auth-form__subtitle">
         {page === '/signUp' ? t('header_signUp') : t('header_signIn')}
       </p>
-      <form className="auth-form__form" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="auth-form__form"
+        onSubmit={page === '/signUp' ? onSignUpSubmit : onSignInSubmit}
+      >
         {page === '/signUp' && (
           <Controller
             control={control}
