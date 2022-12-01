@@ -8,11 +8,13 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAuth } from './useAuth';
 import { useSubmit } from './useSubmit';
+import { useFormValidationRules } from '../../hooks/useFormValidationRules';
 
 export const SignInForm: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { authorization, getUserByLogin } = useAuth();
+  const { loginRules, passwordRules } = useFormValidationRules();
 
   const {
     onSubmit: onSignInSubmit,
@@ -34,10 +36,6 @@ export const SignInForm: React.FC = () => {
     });
     navigate('/projects');
   });
-
-  const nameRules = nameValidation(t('validation_name', { returnObjects: true }));
-  const loginRules = loginValidation(t('validation_login', { returnObjects: true }));
-  const passwordRules = passwordValidation(t('validation_password', { returnObjects: true }));
 
   return (
     <div className="auth-form">

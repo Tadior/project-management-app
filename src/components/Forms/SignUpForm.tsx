@@ -8,12 +8,13 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from './useAuth';
 import { useSubmit } from './useSubmit';
+import { useFormValidationRules } from '../../hooks/useFormValidationRules';
 
 export const SignUpForm: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const { registration, authorization, getUserByLogin } = useAuth();
+  const { loginRules, passwordRules, nameRules } = useFormValidationRules();
+  const { registration } = useAuth();
 
   // sign-up
   const {
@@ -28,10 +29,6 @@ export const SignUpForm: React.FC = () => {
     });
     navigate('/signIn');
   });
-
-  const nameRules = nameValidation(t('validation_name', { returnObjects: true }));
-  const loginRules = loginValidation(t('validation_login', { returnObjects: true }));
-  const passwordRules = passwordValidation(t('validation_password', { returnObjects: true }));
 
   return (
     <div className="auth-form">
