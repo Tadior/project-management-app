@@ -17,14 +17,6 @@ import { columnApi, TaskApi } from '../types/types';
 import { ProtectedAuthUserRoute, ProtectedNotAuthUserRoute } from './ProtectedRoute/ProtectedRoute';
 
 export const AppRoutes = () => {
-  const projectsLoader = async () => {
-    try {
-      return;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const projectLoader = async () => {
     const projectId = getCookie('projectId');
     const { _id } = getUserCookie()!;
@@ -93,7 +85,7 @@ export const AppRoutes = () => {
           <Route path="signUp" element={<SignUpPage />} />
         </Route>
         <Route element={<ProtectedNotAuthUserRoute />}>
-          <Route path="projects" element={<ProjectsPage />} loader={projectsLoader} />
+          <Route path="projects" element={<ProjectsPage />} />
           <Route path="projects/:title" element={<ProjectPage />} loader={projectLoader} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
