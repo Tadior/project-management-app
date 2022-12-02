@@ -11,7 +11,6 @@ import {
 } from '../../redux/query/BoardsQuery';
 import { ICreateForm } from '../../types/types';
 import { SubmitHandler } from 'react-hook-form';
-import { useAppSelector } from '../../hooks/redux';
 import { getUserCookie } from '../../helper/Helper';
 import { Preloader } from '../../components/Preloader/Preloader';
 
@@ -20,7 +19,6 @@ export const ProjectsPage = () => {
 
   const { data: projects = [], isFetching } = useGetBoardsSetByIdQuery({ id: _id });
   const [deleteProject] = useDeleteBoardByIdMutation();
-  console.log(projects);
   const { t } = useTranslation();
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
@@ -28,7 +26,7 @@ export const ProjectsPage = () => {
   const handleProjectIsActive = (value: boolean) => {
     setisProjectModalActive(value);
   };
-  const [createBoard, boardInfo] = useCreateBoardMutation();
+  const [createBoard] = useCreateBoardMutation();
   const handleDeleteIsActive = (value: boolean) => {
     setIsDeleteActive(value);
   };

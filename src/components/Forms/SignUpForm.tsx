@@ -1,7 +1,6 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { Controller } from 'react-hook-form';
-import { loginValidation, passwordValidation, nameValidation } from '../../helper/validation';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -22,7 +21,6 @@ export const SignUpForm: React.FC = () => {
     errors,
     control,
   } = useSubmit(async (name, login, password) => {
-    debugger;
     await registration(name as string, login as string, password as string);
     toast(t('signUp_success'), {
       containerId: 'success',

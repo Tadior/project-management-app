@@ -1,7 +1,6 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { Controller } from 'react-hook-form';
-import { loginValidation, passwordValidation, nameValidation } from '../../helper/validation';
 import { setUserToCookie } from '../../helper/Helper';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +20,6 @@ export const SignInForm: React.FC = () => {
     errors,
     control,
   } = useSubmit(async (_, login, password) => {
-    debugger;
     await authorization(login as string, password as string);
     const user = await getUserByLogin(login as string);
     user &&

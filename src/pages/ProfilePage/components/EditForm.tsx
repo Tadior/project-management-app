@@ -108,7 +108,7 @@ export const EditForm = () => {
               variant="outlined"
               label={t('sign_name')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               fullWidth={true}
               size="small"
               className="edit-form__input"
@@ -128,7 +128,7 @@ export const EditForm = () => {
               variant="outlined"
               label={t('sign_login')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               fullWidth={true}
               size="small"
               className="edit-form__input"
