@@ -3,6 +3,8 @@ import { deleteCookie, getCookie } from '../../helper/Helper';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setBurgerStatus } from '../../redux/reducer/UserSlice';
+import UserIcon from '../../assets/icons/user.svg';
+
 export const NavMenu = () => {
   const { isBurgerOpen } = useAppSelector((state) => state.userReducer);
   const dispatch = useAppDispatch();
@@ -34,7 +36,7 @@ export const NavMenu = () => {
             {t('header_signOut')}
           </button>
           <NavLink className="link-profile" to="profile">
-            <img className="lang__img" src="icons/user.svg" alt="user" />
+            <img className="lang__img" src={UserIcon} alt="user" />
           </NavLink>
         </>
       ) : (

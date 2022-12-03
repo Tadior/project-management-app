@@ -1,54 +1,53 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CreateProjectForm } from '../../components/CreateProjectForm/CreateProjectForm';
 import DeleteModal from '../../components/DeleteModal/DeleteModal';
 import NewProject from './components/NewProject/NewProject';
 import Project from './components/Project/Project';
 import { useTranslation } from 'react-i18next';
-import {
-  useCreateBoardMutation,
-  useDeleteBoardByIdMutation,
-  useGetBoardsSetByIdQuery,
-} from '../../redux/query/BoardsQuery';
-import { ICreateForm } from '../../types/types';
-import { SubmitHandler } from 'react-hook-form';
-import { useAppSelector } from '../../hooks/redux';
+import { useDeleteBoardByIdMutation } from '../../redux/query/BoardsQuery';
+import { useGetBoards } from '../../hooks/useGetBoards';
 import { getUserCookie } from '../../helper/Helper';
 import { Preloader } from '../../components/Preloader/Preloader';
+import { ReactComponent as PersonalIco } from '../../assets/icons/personal_icon.svg';
+import { ReactComponent as CommonIco } from '../../assets/icons/common_icon.svg';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { setPersonalProjects } from '../../redux/reducer/UserSlice';
+import { toast } from 'react-toastify';
 
 export const ProjectsPage = () => {
-  const { _id } = getUserCookie()!;
-
-  const { data: projects = [], isFetching } = useGetBoardsSetByIdQuery({ id: _id });
-  const [deleteProject] = useDeleteBoardByIdMutation();
-  console.log(projects);
-  const { t } = useTranslation();
-  const [isProjectModalActive, setisProjectModalActive] = useState(false);
+  const { personalProjects } = useAppSelector((state) => state.userReducer);
+  const dispatch = useAppDispatch();
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [currentIdToDelete, setCurrentIdToDelete] = useState('');
+  const [isProjectModalActive, setisProjectModalActive] = useState(false);
+  const { t } = useTranslation();
+  const { _id } = getUserCookie()!;
+  const [deleteProject] = useDeleteBoardByIdMutation();
+  const { data: projects = [], isFetching } = useGetBoards(personalProjects, _id);
   const handleProjectIsActive = (value: boolean) => {
     setisProjectModalActive(value);
   };
-  const [createBoard, boardInfo] = useCreateBoardMutation();
+
   const handleDeleteIsActive = (value: boolean) => {
     setIsDeleteActive(value);
   };
 
   const callbackDelete = () => {
-    deleteProject({ id: currentIdToDelete });
-    handleDeleteIsActive(false);
+    try {
+      deleteProject({ id: currentIdToDelete });
+      handleDeleteIsActive(false);
+      toast(t('deleteProject_success'), {
+        containerId: 'success',
+      });
+    } catch (error) {
+      toast(t('setData_error'), {
+        containerId: 'error',
+      });
+    }
   };
 
   const closeModal = () => {
     setIsDeleteActive(false);
-  };
-
-  const callbackToSubmit: SubmitHandler<ICreateForm> = async (data) => {
-    const newProject = await createBoard({
-      title: data.title,
-      owner: _id,
-      users: [data.text],
-    }).unwrap();
-    handleProjectIsActive(false);
   };
 
   return (
@@ -56,7 +55,13 @@ export const ProjectsPage = () => {
       {(isFetching && <Preloader />) || (
         <section className="projects">
           <div className="container">
-            <h2 className="title title__projects">{t('main_title')}</h2>
+            <div
+              onClick={() => dispatch(setPersonalProjects(!personalProjects))}
+              className="projects__toggler"
+            >
+              <h2 className="title title__projects">{t('main_title')}</h2>
+              {personalProjects ? <PersonalIco /> : <CommonIco />}
+            </div>
             <div className="projects__wrapper">
               <>
                 {projects.map((current) => {
