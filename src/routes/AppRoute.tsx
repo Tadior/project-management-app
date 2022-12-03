@@ -3,7 +3,6 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
-  useNavigate,
 } from 'react-router-dom';
 import { MainLayouts } from '../ layouts/MainLayouts';
 import { NotFound } from '../pages/NotFoundPage/NotFound';
@@ -14,28 +13,18 @@ import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 import WelcomePage from '../pages/WelcomePage/WelcomePage';
 import { getCookie, getUserCookie } from '../helper/Helper';
 import ProjectPage from '../pages/ProjectPage/ProjectPage';
-import { columnApi, TaskApi } from '../types/types';
+import { columnApi, PointApi, TaskApi } from '../types/types';
 import { ProtectedAuthUserRoute, ProtectedNotAuthUserRoute } from './ProtectedRoute/ProtectedRoute';
-import { createBrowserHistory } from 'history';
 
 export const AppRoutes = () => {
-  const projectsLoader = async () => {
-    try {
-      return;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const projectLoader = async () => {
     const projectId = getCookie('projectId');
     const { _id } = getUserCookie()!;
-    console.log('projectID', projectId);
     const token = getCookie('token');
 
     try {
       const responseColumns = await fetch(
-        `https://mana-project-back.up.railway.app/boards/${projectId}/columns`,
+        `https://mana-project-back.onrender.com/boards/${projectId}/columns`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -51,7 +40,7 @@ export const AppRoutes = () => {
       });
       const responseTasks = async (columnId: string) =>
         await fetch(
-          `https://mana-project-back.up.railway.app/boards/${projectId}/columns/${columnId}/tasks`,
+          `https://mana-project-back.onrender.com/boards/${projectId}/columns/${columnId}/tasks`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -61,13 +50,28 @@ export const AppRoutes = () => {
             },
           }
         );
+      const responsePoint = async (taskId: string) =>
+        await fetch(`https://mana-project-back.onrender.com/points/${taskId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`,
+            // 'Access-Control-Allow-Origin': 'http://localhost:3000',
+            // 'Access-Control-Allow-Credentials': 'true',
+          },
+        });
       const allTasks: TaskApi[][] = await Promise.all(
         allColumnsIds.map(async (item) => {
-          const response = await responseTasks(item);
-          return response.json();
+          const tasks = await responseTasks(item);
+          const tasksData: TaskApi[] = await tasks.json();
+          const updatedTasks = await tasksData.map(async (task, index) => {
+            const point = await responsePoint(task._id);
+            const pointData: PointApi[] = await point.json();
+            tasksData[index].point = await pointData[0];
+            return task;
+          });
+          return Promise.all(updatedTasks).then(() => tasksData);
         })
       ).then((data) => {
-        console.log('data', data);
         return data;
       });
       const sortedTasks = allTasks.map((item) => {
@@ -80,11 +84,14 @@ export const AppRoutes = () => {
         });
       });
       const out = allColumns.map((column, index) => {
-        return { ...column, tasks: sortedTasks[index] };
+        return {
+          ...column,
+          tasks: sortedTasks[index],
+        };
       });
       return out;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -97,7 +104,7 @@ export const AppRoutes = () => {
           <Route path="signUp" element={<SignUpPage />} />
         </Route>
         <Route element={<ProtectedNotAuthUserRoute />}>
-          <Route path="projects" element={<ProjectsPage />} loader={projectsLoader} />
+          <Route path="projects" element={<ProjectsPage />} />
           <Route path="projects/:title" element={<ProjectPage />} loader={projectLoader} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>

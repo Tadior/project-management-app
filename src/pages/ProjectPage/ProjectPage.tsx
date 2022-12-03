@@ -110,7 +110,7 @@ const ProjectPage = () => {
     const taskBody: ICreateTasksBody = {
       title: arg.title,
       order: columnCreateData.tasks.length ? columnCreateData.tasks.length : 0,
-      description: arg.text,
+      description: arg.text === '' ? ' ' : arg.text,
       userId: _id,
       users: [login],
     };

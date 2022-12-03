@@ -4,7 +4,7 @@ import { userApi, userProfileApi } from '../../types/types';
 export const UsersQuery = createApi({
   reducerPath: 'User',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mana-project-back.up.railway.app/users',
+    baseUrl: 'https://mana-project-back.onrender.com/users',
     prepareHeaders: (headers) => {
       const token = getCookie('token');
       if (token) {

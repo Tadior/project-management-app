@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import magicPenIcon from '../../../../assets/icons/stick_icon-small.png';
 import trashIcon from '../../../../assets/icons/trash_task.png';
-import checkbox from '../../../../assets/icons/checkbox.svg';
+import { ReactComponent as Checkbox } from '../../../../assets/icons/checkbox.svg';
 import DeleteModal from '../../../../components/DeleteModal/DeleteModal';
 import {
   useUpdateTaskByIdMutation,
@@ -18,6 +18,10 @@ import { SubmitHandler } from 'react-hook-form';
 import { getCookie, getUserCookie } from '../../../../helper/Helper';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { setCurrentColumn, setCurrentTask } from '../../../../redux/reducer/ProjectSlice';
+import {
+  useCreatePointMutation,
+  useUpdatePointByIdMutation,
+} from '../../../../redux/query/PointsQuery';
 interface IProps {
   // Стейт со всеми колонками и тасками
   columnsList: columnApiWithTasks[];
@@ -32,9 +36,14 @@ const Task = (props: IProps) => {
   const { isCurrentColumn } = useAppSelector((state) => state.ColumnSlice);
   const dispatch = useAppDispatch();
   const [updateTask, updateTaskData] = useUpdateTaskByIdMutation();
+  const [createPoint, createPointData] = useCreatePointMutation();
+  const [updatePoint, updatePointData] = useUpdatePointByIdMutation();
   const [updateTaskSet, updateTaskSetData] = useUpdateTasksSetMutation();
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [isModalActive, setIsModalActive] = useState(false);
+  const [isChecked, setIsChecked] = useState(
+    props.taskData.point ? props.taskData.point.done : false
+  );
   const { _id } = getUserCookie();
   const activeProjectId = getCookie('projectId')!;
   const closeDeleteModal = () => {
@@ -96,8 +105,6 @@ const Task = (props: IProps) => {
     const index = props.columnData.tasks.indexOf(props.taskData);
     const currentColumnIndex = props.columnsList.indexOf(props.columnData);
     const currentColumn = props.columnsList[currentColumnIndex];
-    const currentTaskIndex = currentColumn.tasks.indexOf(props.taskData);
-    const currentOrder = currentColumn.tasks[currentTaskIndex].order;
     const updatedTask = {
       boardId: activeProjectId,
       columnId: props.columnData._id,
@@ -286,6 +293,32 @@ const Task = (props: IProps) => {
     }
   };
 
+  const updateCheckbox = () => {
+    if (props.taskData.point) {
+      const body = {
+        title: props.taskData.title,
+        done: !isChecked,
+      };
+      try {
+        updatePoint({ pointId: props.taskData.point._id, body: body });
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      try {
+        createPoint({
+          title: props.taskData.title,
+          taskId: props.taskData._id,
+          boardId: props.taskData.boardId,
+          done: !isChecked,
+        });
+      } catch (error) {
+        throw error;
+      }
+    }
+    setIsChecked(!isChecked);
+  };
+
   return (
     <li
       draggable={true}
@@ -295,13 +328,22 @@ const Task = (props: IProps) => {
       onDragEnd={(event) => dragEndHandler(event)}
       onDrop={(event) => dropHandler(event, props.columnData, props.taskData)}
       id={props.taskData._id}
-      className="task"
+      className={`task ${isChecked ? 'task_active' : ''}`}
     >
-      <div className="task__checkbox">
-        <label htmlFor="checkbox">
-          <img src={checkbox} alt="task checkbox" />
+      <div className={'task__checkbox'}>
+        <label
+          className={`task__label`}
+          htmlFor={`${props.taskData.title}`}
+          onClick={updateCheckbox}
+        >
+          <Checkbox alt="task checkbox" />
         </label>
-        <input className="task__checkbox-input" type="checkbox" name="" id="checkbox" />
+        <input
+          className="task__checkbox-input"
+          type="checkbox"
+          name=""
+          id={`${props.taskData.title}`}
+        />
       </div>
       <div className="task__info">
         <div className="task__title">{props.taskData.title}</div>

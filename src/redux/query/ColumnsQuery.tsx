@@ -4,7 +4,7 @@ import { columnApi, createColumnApi, createColumnSetApi } from '../../types/type
 export const ColumnsQuery = createApi({
   reducerPath: 'Columns',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mana-project-back.up.railway.app/',
+    baseUrl: 'https://mana-project-back.onrender.com/',
     prepareHeaders: (headers) => {
       const token = getCookie('token');
       if (token) {

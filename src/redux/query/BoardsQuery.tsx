@@ -4,7 +4,7 @@ import { boardApi, boardsApi } from '../../types/types';
 export const BoardsQuery = createApi({
   reducerPath: 'Boards',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mana-project-back.up.railway.app/',
+    baseUrl: 'https://mana-project-back.onrender.com/',
     prepareHeaders: (headers) => {
       const token = getCookie('token');
       if (token) {

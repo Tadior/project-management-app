@@ -80,7 +80,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
         <Controller
           control={control}
           name="text"
-          rules={descriptionRules}
+          // rules={descriptionRules}
           render={({ field }) => (
             <TextField
               color="secondary"
