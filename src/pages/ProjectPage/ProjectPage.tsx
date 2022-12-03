@@ -16,6 +16,8 @@ import { useCreateTaskMutation } from '../../redux/query/TasksQuery';
 import { columnApiWithTasks } from '../../types/types';
 import { SubmitHandler } from 'react-hook-form';
 import { getCookie, getUserCookie } from '../../helper/Helper';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 const initial: columnApiWithTasks = {
   title: '',
   order: 0,
@@ -25,6 +27,7 @@ const initial: columnApiWithTasks = {
 };
 
 const ProjectPage = () => {
+  const { t } = useTranslation();
   const loaderData = useLoaderData() as columnApiWithTasks[];
   const title = useParams().title;
   const projectId = getCookie('projectId')!;
@@ -65,8 +68,13 @@ const ProjectPage = () => {
       const allColumns = [...columns];
       const newColumns = allColumns.filter((column) => column._id !== columnId);
       setColumns(newColumns);
+      toast(t('deleteColumn_success'), {
+        containerId: 'success',
+      });
     } catch (error) {
-      throw error;
+      toast(t('setData_error'), {
+        containerId: 'error',
+      });
     }
   };
   // Колбек, меняет порядок колонок и обновляет данные на сервере, передается в Column
@@ -110,7 +118,7 @@ const ProjectPage = () => {
     const taskBody: ICreateTasksBody = {
       title: arg.title,
       order: columnCreateData.tasks.length ? columnCreateData.tasks.length : 0,
-      description: arg.text,
+      description: arg.text === '' ? ' ' : arg.text,
       userId: _id,
       users: [login],
     };

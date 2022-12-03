@@ -1,3 +1,5 @@
+import LogoRSS from '../../assets/icons/logo-Rss.svg';
+
 export const Footer = () => {
   const linksGitHubCommand = [
     { text: '@ilonmakh', link: 'https://github.com/IlonMakh' },
@@ -14,7 +16,7 @@ export const Footer = () => {
           rel="noreferrer"
           className="logo-RSS"
         >
-          <img src="icons/logo-Rss.svg" />
+          <img src={LogoRSS} />
         </a>
         <p className="date">2022</p>
         <ul className="links-gitHub-command__list">

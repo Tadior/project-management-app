@@ -63,7 +63,6 @@ export const titleValidation = (text: IValidationProps) => {
 
 export const descriptionValidation = (text: IValidationProps) => {
   return {
-    required: text.required,
     validate: (value: string) => {
       if (value.length > 100) {
         return text.length;
