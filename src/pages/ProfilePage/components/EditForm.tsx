@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../../components/DeleteModal/DeleteModal';
 import { toast } from 'react-toastify';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { useFormValidationRules } from '../../../hooks/useFormValidationRules';
 
 interface IEditForm {
   login: string;
@@ -22,6 +23,7 @@ interface IEditForm {
 
 export const EditForm = () => {
   const [confirmStatus, setConfirmStatus] = useState(false);
+  const { loginRules, passwordRules, nameRules } = useFormValidationRules();
   const { _id, login, name, password } = getUserCookie()!;
   const [updateUser] = useUpdateUserByidMutation();
   const [deleteUser] = useDeleteUserByidMutation();
@@ -88,11 +90,6 @@ export const EditForm = () => {
       });
     }
   };
-
-  const nameRules = nameValidation(t('validation_name', { returnObjects: true }));
-  const loginRules = loginValidation(t('validation_login', { returnObjects: true }));
-  const passwordRules = passwordValidation(t('validation_password', { returnObjects: true }));
-
   return (
     <div className="edit-form">
       {confirmStatus && (
@@ -111,7 +108,7 @@ export const EditForm = () => {
               variant="outlined"
               label={t('sign_name')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               fullWidth={true}
               size="small"
               className="edit-form__input"
@@ -131,7 +128,7 @@ export const EditForm = () => {
               variant="outlined"
               label={t('sign_login')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               fullWidth={true}
               size="small"
               className="edit-form__input"

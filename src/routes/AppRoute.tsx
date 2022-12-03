@@ -3,7 +3,6 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
-  useNavigate,
 } from 'react-router-dom';
 import { MainLayouts } from '../ layouts/MainLayouts';
 import { NotFound } from '../pages/NotFoundPage/NotFound';
@@ -21,7 +20,6 @@ export const AppRoutes = () => {
   const projectLoader = async () => {
     const projectId = getCookie('projectId');
     const { _id } = getUserCookie()!;
-    console.log('projectID', projectId);
     const token = getCookie('token');
 
     try {
@@ -58,7 +56,6 @@ export const AppRoutes = () => {
           return response.json();
         })
       ).then((data) => {
-        console.log('data', data);
         return data;
       });
       const sortedTasks = allTasks.map((item) => {

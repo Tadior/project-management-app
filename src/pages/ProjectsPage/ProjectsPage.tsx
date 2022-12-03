@@ -10,9 +10,9 @@ import { getUserCookie } from '../../helper/Helper';
 import { Preloader } from '../../components/Preloader/Preloader';
 import { ReactComponent as PersonalIco } from '../../assets/icons/personal_icon.svg';
 import { ReactComponent as CommonIco } from '../../assets/icons/common_icon.svg';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setPersonalProjects } from '../../redux/reducer/UserSlice';
 import { toast } from 'react-toastify';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 export const ProjectsPage = () => {
   const { personalProjects } = useAppSelector((state) => state.userReducer);

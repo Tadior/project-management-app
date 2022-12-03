@@ -70,7 +70,7 @@ const ColumnModal = (props: IColumnModalProps) => {
               variant="outlined"
               label={t('create_title')}
               onChange={(e) => field.onChange(e)}
-              value={field.value}
+              value={field.value || ''}
               size="small"
               className="create-project-form__input"
               error={!!errors.title?.message}
