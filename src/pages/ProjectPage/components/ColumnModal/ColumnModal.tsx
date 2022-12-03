@@ -5,6 +5,7 @@ import { useCreateColumnMutation } from '../../../../redux/query/ColumnsQuery';
 import { columnApi } from '../../../../types/types';
 import { columnApiWithTasks } from '../../../../types/types';
 import { titleValidation } from '../../../../helper/validation';
+import { toast } from 'react-toastify';
 interface IColumnModalForm {
   title: string;
 }
@@ -28,20 +29,29 @@ const ColumnModal = (props: IColumnModalProps) => {
   const [createColumn, columnInfo] = useCreateColumnMutation();
   // Создает новую колонку, обновляет стейт с колонками, дописываем поле tasks так как без него ломается добавление задач в колонку при создании
   const onSubmit: SubmitHandler<IColumnModalForm> = async (data) => {
-    const newColumn = await createColumn({
-      id: props.currentId,
-      body: {
-        title: data.title,
-        order: props.columns.length + 1,
-      },
-    }).unwrap();
-    const allColumns = [...props.columns] as columnApiWithTasks[];
-    const resultColumns = allColumns.concat({
-      ...(newColumn as unknown as columnApiWithTasks),
-      tasks: [],
-    });
-    props.updateColumnsState(resultColumns);
-    props.updateModalState(false);
+    try {
+      const newColumn = await createColumn({
+        id: props.currentId,
+        body: {
+          title: data.title,
+          order: props.columns.length + 1,
+        },
+      }).unwrap();
+      const allColumns = [...props.columns] as columnApiWithTasks[];
+      const resultColumns = allColumns.concat({
+        ...(newColumn as unknown as columnApiWithTasks),
+        tasks: [],
+      });
+      props.updateColumnsState(resultColumns);
+      props.updateModalState(false);
+      toast(t('column_success'), {
+        containerId: 'success',
+      });
+    } catch (error) {
+      toast(t('setData_error'), {
+        containerId: 'error',
+      });
+    }
   };
 
   const titleRules = titleValidation(t('validation_title', { returnObjects: true }));

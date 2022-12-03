@@ -18,6 +18,8 @@ import { SubmitHandler } from 'react-hook-form';
 import { getCookie, getUserCookie } from '../../../../helper/Helper';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { setCurrentColumn, setCurrentTask } from '../../../../redux/reducer/ProjectSlice';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 interface IProps {
   // Стейт со всеми колонками и тасками
   columnsList: columnApiWithTasks[];
@@ -28,6 +30,7 @@ interface IProps {
   updateColumnsData: (newColumns: columnApiWithTasks[]) => void;
 }
 const Task = (props: IProps) => {
+  const { t } = useTranslation();
   const { currentColumn, currentTask } = useAppSelector((state) => state.ProjectSlice);
   const { isCurrentColumn } = useAppSelector((state) => state.ColumnSlice);
   const dispatch = useAppDispatch();
@@ -41,41 +44,52 @@ const Task = (props: IProps) => {
     setIsDeleteActive(!isDeleteActive);
   };
   const deleteTask = () => {
-    const index = props.columnData.tasks.indexOf(props.taskData);
-    const updatedColumn: columnApiWithTasks = JSON.parse(JSON.stringify(props.columnData));
-    const startIndex = updatedColumn.tasks.findIndex((task) => {
-      if (task._id === props.taskData._id) {
-        return true;
-      }
-    });
-    const body = updatedColumn.tasks.filter((item, index) => {
-      if (index < startIndex + 1) {
-        return false;
-      }
-      return true;
-    });
-    const updateBody = body.map((item) => {
-      return {
-        _id: item._id,
-        order: item.order - 1,
-        columnId: updatedColumn._id,
-      };
-    });
     try {
-      updateTaskSet({ body: updateBody });
-    } catch (error) {
-      throw error;
-    }
-    updatedColumn.tasks.splice(index, 1);
-    const out = props.columnsList.map((column) => {
-      if (column._id === updatedColumn._id) {
-        return updatedColumn;
+      const index = props.columnData.tasks.indexOf(props.taskData);
+      const updatedColumn: columnApiWithTasks = JSON.parse(JSON.stringify(props.columnData));
+      const startIndex = updatedColumn.tasks.findIndex((task) => {
+        if (task._id === props.taskData._id) {
+          return true;
+        }
+      });
+      const body = updatedColumn.tasks.filter((item, index) => {
+        if (index < startIndex + 1) {
+          return false;
+        }
+        return true;
+      });
+      const updateBody = body.map((item) => {
+        return {
+          _id: item._id,
+          order: item.order - 1,
+          columnId: updatedColumn._id,
+        };
+      });
+      try {
+        updateTaskSet({ body: updateBody });
+      } catch (error) {
+        toast(t('setData_error'), {
+          containerId: 'error',
+        });
       }
-      return column;
-    });
-    props.updateColumnsData(out);
-    props.callbackDelete(props.taskData._id);
-    closeDeleteModal();
+      updatedColumn.tasks.splice(index, 1);
+      const out = props.columnsList.map((column) => {
+        if (column._id === updatedColumn._id) {
+          return updatedColumn;
+        }
+        return column;
+      });
+      props.updateColumnsData(out);
+      props.callbackDelete(props.taskData._id);
+      closeDeleteModal();
+      toast(t('deleteTask_success'), {
+        containerId: 'success',
+      });
+    } catch (error) {
+      toast(t('setData_error'), {
+        containerId: 'error',
+      });
+    }
   };
   const updateTaskCallback: SubmitHandler<ICreateForm> = async (arg) => {
     const taskBody: updateTaskByIdBody = {

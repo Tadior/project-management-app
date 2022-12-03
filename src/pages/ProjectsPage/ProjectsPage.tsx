@@ -12,6 +12,7 @@ import { ReactComponent as PersonalIco } from '../../assets/icons/personal_icon.
 import { ReactComponent as CommonIco } from '../../assets/icons/common_icon.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setPersonalProjects } from '../../redux/reducer/UserSlice';
+import { toast } from 'react-toastify';
 
 export const ProjectsPage = () => {
   const { personalProjects } = useAppSelector((state) => state.userReducer);
@@ -21,9 +22,8 @@ export const ProjectsPage = () => {
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
   const { t } = useTranslation();
   const { _id } = getUserCookie()!;
-  const { data: projects = [], isFetching } = useGetBoards(personalProjects, _id);
   const [deleteProject] = useDeleteBoardByIdMutation();
-
+  const { data: projects = [], isFetching, error } = useGetBoards(personalProjects, _id);
   const handleProjectIsActive = (value: boolean) => {
     setisProjectModalActive(value);
   };
@@ -33,8 +33,17 @@ export const ProjectsPage = () => {
   };
 
   const callbackDelete = () => {
-    deleteProject({ id: currentIdToDelete });
-    handleDeleteIsActive(false);
+    try {
+      deleteProject({ id: currentIdToDelete });
+      handleDeleteIsActive(false);
+      toast(t('deleteProject_success'), {
+        containerId: 'success',
+      });
+    } catch (error) {
+      toast(t('setData_error'), {
+        containerId: 'error',
+      });
+    }
   };
 
   const closeModal = () => {
