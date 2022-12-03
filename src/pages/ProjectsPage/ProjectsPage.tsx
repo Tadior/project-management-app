@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CreateProjectForm } from '../../components/CreateProjectForm/CreateProjectForm';
 import DeleteModal from '../../components/DeleteModal/DeleteModal';
 import NewProject from './components/NewProject/NewProject';
@@ -23,7 +23,7 @@ export const ProjectsPage = () => {
   const { t } = useTranslation();
   const { _id } = getUserCookie()!;
   const [deleteProject] = useDeleteBoardByIdMutation();
-  const { data: projects = [], isFetching, error } = useGetBoards(personalProjects, _id);
+  const { data: projects = [], isFetching } = useGetBoards(personalProjects, _id);
   const handleProjectIsActive = (value: boolean) => {
     setisProjectModalActive(value);
   };
