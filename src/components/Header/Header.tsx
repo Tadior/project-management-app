@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Burger } from '../Burger/Burger';
 import { Logo } from '../Logo/Logo';
-import { useActiveHeader } from '../../hooks/сustomHooks';
+import { useActiveHeader } from '../../hooks/useActiveHeader';
+import LangIcon from '../../assets/icons/lang.svg';
 
 export const Header = () => {
   const languageRef = useRef<HTMLSpanElement>(null);
@@ -26,7 +27,7 @@ export const Header = () => {
         <div className="menu-lang__wrapper">
           <NavMenu />
           <div onClick={handleChangeLang} className="lang en">
-            <img className="lang__img" src="icons/lang.svg"></img>
+            <img className="lang__img" src={LangIcon}></img>
             <span ref={languageRef} className="lang__text">
               {t('header_lang')}
             </span>

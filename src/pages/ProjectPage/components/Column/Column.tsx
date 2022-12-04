@@ -9,8 +9,8 @@ import {
   useDeleteTaskByIdMutation,
   useUpdateTaskByIdMutation,
 } from '../../../../redux/query/TasksQuery';
-import backIcon from '../../../../assets/icons/back.png';
-import checkIcon from '../../../../assets/icons/check.png';
+import { ReactComponent as BackIcon } from '../../../../assets/icons/back.svg';
+import { ReactComponent as CheckIcon } from '../../../../assets/icons/check.svg';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { setIsCurrentColumn } from '../../../../redux/reducer/ColumnSlice';
 import { setCurrentTask } from '../../../../redux/reducer/ProjectSlice';
@@ -69,10 +69,10 @@ const Column = (props: IProps) => {
       <>
         <input className="column__input" type="text" defaultValue={title} ref={inputRef} />
         <button onClick={changeEditMode}>
-          <img src={backIcon} alt="Close" />
+          <BackIcon />
         </button>
         <button onClick={updateValue}>
-          <img src={checkIcon} alt="Submit" />
+          <CheckIcon />
         </button>
       </>
     );

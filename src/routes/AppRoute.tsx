@@ -24,7 +24,7 @@ export const AppRoutes = () => {
 
     try {
       const responseColumns = await fetch(
-        `https://mana-project-back.onrender.com/boards/${projectId}/columns`,
+        `https://mana-project-back.up.railway.app/boards/${projectId}/columns`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export const AppRoutes = () => {
       });
       const responseTasks = async (columnId: string) =>
         await fetch(
-          `https://mana-project-back.onrender.com/boards/${projectId}/columns/${columnId}/tasks`,
+          `https://mana-project-back.up.railway.app/boards/${projectId}/columns/${columnId}/tasks`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export const AppRoutes = () => {
           }
         );
       const responsePoint = async (taskId: string) =>
-        await fetch(`https://mana-project-back.onrender.com/points/${taskId}`, {
+        await fetch(`https://mana-project-back.up.railway.app/points/${taskId}`, {
           headers: {
             'Content-Type': 'application/json',
             authorization: `Bearer ${token}`,

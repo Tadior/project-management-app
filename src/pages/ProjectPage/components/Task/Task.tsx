@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import magicPenIcon from '../../../../assets/icons/stick_icon-small.png';
-import trashIcon from '../../../../assets/icons/trash_task.png';
+import { useState } from 'react';
+import { ReactComponent as MagicPenIcon } from '../../../../assets/icons/stick_icon-small.svg';
+import { ReactComponent as TrashIcon } from '../../../../assets/icons/trash_task.svg';
 import { ReactComponent as Checkbox } from '../../../../assets/icons/checkbox.svg';
 import DeleteModal from '../../../../components/DeleteModal/DeleteModal';
 import {
@@ -22,6 +22,8 @@ import {
   useCreatePointMutation,
   useUpdatePointByIdMutation,
 } from '../../../../redux/query/PointsQuery';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 interface IProps {
   // Стейт со всеми колонками и тасками
   columnsList: columnApiWithTasks[];
@@ -32,6 +34,7 @@ interface IProps {
   updateColumnsData: (newColumns: columnApiWithTasks[]) => void;
 }
 const Task = (props: IProps) => {
+  const { t } = useTranslation();
   const { currentColumn, currentTask } = useAppSelector((state) => state.ProjectSlice);
   const { isCurrentColumn } = useAppSelector((state) => state.ColumnSlice);
   const dispatch = useAppDispatch();
@@ -50,41 +53,52 @@ const Task = (props: IProps) => {
     setIsDeleteActive(!isDeleteActive);
   };
   const deleteTask = () => {
-    const index = props.columnData.tasks.indexOf(props.taskData);
-    const updatedColumn: columnApiWithTasks = JSON.parse(JSON.stringify(props.columnData));
-    const startIndex = updatedColumn.tasks.findIndex((task) => {
-      if (task._id === props.taskData._id) {
-        return true;
-      }
-    });
-    const body = updatedColumn.tasks.filter((item, index) => {
-      if (index < startIndex + 1) {
-        return false;
-      }
-      return true;
-    });
-    const updateBody = body.map((item) => {
-      return {
-        _id: item._id,
-        order: item.order - 1,
-        columnId: updatedColumn._id,
-      };
-    });
     try {
-      updateTaskSet({ body: updateBody });
-    } catch (error) {
-      throw error;
-    }
-    updatedColumn.tasks.splice(index, 1);
-    const out = props.columnsList.map((column) => {
-      if (column._id === updatedColumn._id) {
-        return updatedColumn;
+      const index = props.columnData.tasks.indexOf(props.taskData);
+      const updatedColumn: columnApiWithTasks = JSON.parse(JSON.stringify(props.columnData));
+      const startIndex = updatedColumn.tasks.findIndex((task) => {
+        if (task._id === props.taskData._id) {
+          return true;
+        }
+      });
+      const body = updatedColumn.tasks.filter((item, index) => {
+        if (index < startIndex + 1) {
+          return false;
+        }
+        return true;
+      });
+      const updateBody = body.map((item) => {
+        return {
+          _id: item._id,
+          order: item.order - 1,
+          columnId: updatedColumn._id,
+        };
+      });
+      try {
+        updateTaskSet({ body: updateBody });
+      } catch (error) {
+        toast(t('setData_error'), {
+          containerId: 'error',
+        });
       }
-      return column;
-    });
-    props.updateColumnsData(out);
-    props.callbackDelete(props.taskData._id);
-    closeDeleteModal();
+      updatedColumn.tasks.splice(index, 1);
+      const out = props.columnsList.map((column) => {
+        if (column._id === updatedColumn._id) {
+          return updatedColumn;
+        }
+        return column;
+      });
+      props.updateColumnsData(out);
+      props.callbackDelete(props.taskData._id);
+      closeDeleteModal();
+      toast(t('deleteTask_success'), {
+        containerId: 'success',
+      });
+    } catch (error) {
+      toast(t('setData_error'), {
+        containerId: 'error',
+      });
+    }
   };
   const updateTaskCallback: SubmitHandler<ICreateForm> = async (arg) => {
     const taskBody: updateTaskByIdBody = {
@@ -289,8 +303,24 @@ const Task = (props: IProps) => {
         updatePreviousTasks(currentColumnData, currentIndex);
         updatePortableTasks(columnClone, task);
       }
+      console.log(out);
       props.updateColumnsData(out);
     }
+  };
+
+  const setPoint = () => {
+    const taskClone: TaskApi = JSON.parse(JSON.stringify(props.taskData));
+    const columnClone: columnApiWithTasks = JSON.parse(JSON.stringify(props.columnData));
+    taskClone.point!.done = !isChecked;
+    const currentIndex = columnClone.tasks.indexOf(taskClone);
+    columnClone.tasks.splice(currentIndex, 1, taskClone);
+    const sortedColumns = props.columnsList.map((column) => {
+      if (column._id === columnClone._id) {
+        return columnClone;
+      }
+      return column;
+    });
+    props.updateColumnsData(sortedColumns);
   };
 
   const updateCheckbox = () => {
@@ -301,6 +331,7 @@ const Task = (props: IProps) => {
       };
       try {
         updatePoint({ pointId: props.taskData.point._id, body: body });
+        setPoint();
       } catch (error) {
         throw error;
       }
@@ -312,6 +343,7 @@ const Task = (props: IProps) => {
           boardId: props.taskData.boardId,
           done: !isChecked,
         });
+        setPoint();
       } catch (error) {
         throw error;
       }
@@ -351,10 +383,10 @@ const Task = (props: IProps) => {
       </div>
       <div className="task__buttons">
         <button className="task__button" onClick={handleEdit}>
-          <img className="task__button-icon" src={magicPenIcon} alt="magic pen" />
+          <MagicPenIcon />
         </button>
         <button className="task__button" onClick={closeDeleteModal}>
-          <img className="task__button-icon" src={trashIcon} alt="Delete task" />
+          <TrashIcon />
         </button>
       </div>
       {isDeleteActive && <DeleteModal callbackDelete={deleteTask} closeModal={closeDeleteModal} />}

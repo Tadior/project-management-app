@@ -4,7 +4,7 @@ import { boardApi, boardsApi } from '../../types/types';
 export const BoardsQuery = createApi({
   reducerPath: 'Boards',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mana-project-back.onrender.com/',
+    baseUrl: 'https://mana-project-back.up.railway.app/',
     prepareHeaders: (headers) => {
       const token = getCookie('token');
       if (token) {
@@ -15,11 +15,12 @@ export const BoardsQuery = createApi({
   }),
   tagTypes: ['Boards'],
   endpoints: (builder) => ({
-    getBoards: builder.mutation<boardsApi[], void>({
+    getBoards: builder.query<boardsApi[], void>({
       query: () => ({
         url: `boards`,
         method: 'GET',
       }),
+      providesTags: ['Boards'],
     }),
     createBoard: builder.mutation<boardsApi, boardApi>({
       query: (body) => ({
@@ -66,7 +67,7 @@ export const BoardsQuery = createApi({
 });
 
 export const {
-  useGetBoardsMutation,
+  useGetBoardsQuery,
   useCreateBoardMutation,
   useGetBoardByIdMutation,
   useUpdateBoardByIdMutation,

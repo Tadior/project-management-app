@@ -4,7 +4,7 @@ import { FileApi } from '../../types/types';
 export const FilesQuery = createApi({
   reducerPath: 'Files',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mana-project-back.onrender.com/',
+    baseUrl: 'https://mana-project-back.up.railway.app/',
     prepareHeaders: (headers) => {
       const token = getCookie('token');
       if (token) {

@@ -6,6 +6,7 @@ import { ICreateForm } from '../../types/types';
 import { titleValidation, descriptionValidation } from '../../helper/validation';
 import { useCreateBoardMutation } from '../../redux/query/BoardsQuery';
 import { getUserCookie } from '../../helper/Helper';
+import { toast } from 'react-toastify';
 
 interface CreateForm {
   title: string;
@@ -39,14 +40,45 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
 
   const onSubmit: SubmitHandler<CreateForm> = async (data) => {
     if (props.callbackTaskToSubmit) {
-      props.callbackTaskToSubmit(data);
+      if (props.defaultData) {
+        try {
+          props.callbackTaskToSubmit(data);
+          toast(t('updateTask_success'), {
+            containerId: 'success',
+          });
+        } catch (error) {
+          toast(t('setData_error'), {
+            containerId: 'error',
+          });
+        }
+      } else {
+        try {
+          props.callbackTaskToSubmit(data);
+          toast(t('task_success'), {
+            containerId: 'success',
+          });
+        } catch (error) {
+          toast(t('setData_error'), {
+            containerId: 'error',
+          });
+        }
+      }
     } else {
-      await createBoard({
-        title: data.title,
-        owner: _id,
-        users: [data.text],
-      }).unwrap();
-      props.updateState!(false);
+      try {
+        await createBoard({
+          title: data.title,
+          owner: _id,
+          users: [data.text],
+        }).unwrap();
+        props.updateState!(false);
+        toast(t('project_success'), {
+          containerId: 'success',
+        });
+      } catch (error) {
+        toast(t('setData_error'), {
+          containerId: 'error',
+        });
+      }
     }
   };
 
@@ -106,7 +138,7 @@ export const CreateProjectForm = (props: ICreateProjectFormProps) => {
           {t('cancel_btn')}
         </button>
         <button className="button-create button-black" type="submit">
-          {t('create_btn')}
+          {(props.defaultData && t('update_btn')) || t('create_btn')}
         </button>
       </form>
     </div>
