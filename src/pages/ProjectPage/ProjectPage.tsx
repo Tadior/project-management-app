@@ -18,6 +18,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { getCookie, getUserCookie } from '../../helper/Helper';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useCreatePointMutation } from '../../redux/query/PointsQuery';
 const initial: columnApiWithTasks = {
   title: '',
   order: 0,
@@ -40,6 +41,7 @@ const ProjectPage = () => {
   const [updateSetOfColumns, setOfColumnsData] = useUpdateColumnSetMutation();
   const [deleteColumnRequest, deleteColumnData] = useDeleteColumnByIdMutation();
   const [createTask, taskInfo] = useCreateTaskMutation();
+  const [createPoint, pointInfo] = useCreatePointMutation();
   // Сортирует колонки по порядку, используется только в компоненте
   const sortColumns = (columns: columnApiWithTasks[]) => {
     return columns.sort((a, b) => {
@@ -127,8 +129,16 @@ const ProjectPage = () => {
       columnId: columnActiveId,
       body: taskBody,
     }).unwrap();
+    const newTaskClone = JSON.parse(JSON.stringify(newTask));
+    const point = await createPoint({
+      title: newTask.title,
+      taskId: newTask._id,
+      boardId: newTask.boardId,
+      done: false,
+    }).unwrap();
+    newTaskClone.point = point;
     const allColumns = [...columns];
-    allColumns[allColumns.indexOf(columnCreateData)].tasks.push(newTask);
+    allColumns[allColumns.indexOf(columnCreateData)].tasks.push(newTaskClone);
     setColumns(allColumns);
     handleProjectIsActive(false);
   };

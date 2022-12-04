@@ -75,7 +75,9 @@ const Task = (props: IProps) => {
         };
       });
       try {
-        updateTaskSet({ body: updateBody });
+        if (updateBody.length !== 0) {
+          updateTaskSet({ body: updateBody });
+        }
       } catch (error) {
         toast(t('setData_error'), {
           containerId: 'error',
@@ -166,6 +168,7 @@ const Task = (props: IProps) => {
 
   const dragOverHandler = (event: React.DragEvent<HTMLLIElement>) => {
     event.preventDefault();
+    event.stopPropagation();
     const target = event.target as HTMLLIElement;
     if (target.classList.contains(`task`)) {
       target.classList.add('task_active');
@@ -186,7 +189,9 @@ const Task = (props: IProps) => {
       };
     });
     try {
-      updateTaskSet({ body: updateBody });
+      if (updateBody.length !== 0) {
+        updateTaskSet({ body: updateBody });
+      }
     } catch (error) {
       throw error;
     }
@@ -213,7 +218,9 @@ const Task = (props: IProps) => {
       columnId: task.columnId,
     });
     try {
-      updateTaskSet({ body: updateBody });
+      if (updateBody.length !== 0) {
+        updateTaskSet({ body: updateBody });
+      }
     } catch (error) {
       throw error;
     }
@@ -295,7 +302,9 @@ const Task = (props: IProps) => {
           columnId: currentTask.columnId,
         });
         try {
-          updateTaskSet({ body: updateBody });
+          if (updateBody.length !== 0) {
+            updateTaskSet({ body: updateBody });
+          }
         } catch (error) {
           throw error;
         }
@@ -303,17 +312,33 @@ const Task = (props: IProps) => {
         updatePreviousTasks(currentColumnData, currentIndex);
         updatePortableTasks(columnClone, task);
       }
-      console.log(out);
       props.updateColumnsData(out);
     }
+    dispatch(
+      setCurrentTask({
+        _id: '',
+        title: '',
+        order: 0,
+        boardId: '',
+        columnId: '',
+        description: '',
+        userId: '',
+        users: [],
+      })
+    );
   };
 
   const setPoint = () => {
     const taskClone: TaskApi = JSON.parse(JSON.stringify(props.taskData));
     const columnClone: columnApiWithTasks = JSON.parse(JSON.stringify(props.columnData));
     taskClone.point!.done = !isChecked;
-    const currentIndex = columnClone.tasks.indexOf(taskClone);
-    columnClone.tasks.splice(currentIndex, 1, taskClone);
+    const currentIndex = columnClone.tasks.findIndex((task) => {
+      if (task._id === taskClone._id) {
+        return true;
+      }
+      return false;
+    });
+    columnClone.tasks[currentIndex].point = taskClone.point;
     const sortedColumns = props.columnsList.map((column) => {
       if (column._id === columnClone._id) {
         return columnClone;
@@ -335,18 +360,6 @@ const Task = (props: IProps) => {
       } catch (error) {
         throw error;
       }
-    } else {
-      try {
-        createPoint({
-          title: props.taskData.title,
-          taskId: props.taskData._id,
-          boardId: props.taskData.boardId,
-          done: !isChecked,
-        });
-        setPoint();
-      } catch (error) {
-        throw error;
-      }
     }
     setIsChecked(!isChecked);
   };
@@ -360,7 +373,7 @@ const Task = (props: IProps) => {
       onDragEnd={(event) => dragEndHandler(event)}
       onDrop={(event) => dropHandler(event, props.columnData, props.taskData)}
       id={props.taskData._id}
-      className={`task ${isChecked ? 'task_active' : ''}`}
+      className={`task ${isChecked ? 'task_checked' : ''}`}
     >
       <div className={'task__checkbox'}>
         <label

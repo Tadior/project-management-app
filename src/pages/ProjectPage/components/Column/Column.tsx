@@ -94,7 +94,7 @@ const Column = (props: IProps) => {
   };
 
   const dragEndHandler = (event: React.DragEvent<HTMLDivElement>) => {
-    const target = event.target as HTMLDivElement;
+    const target = event.currentTarget as HTMLDivElement;
     if (target.classList.contains(`column_active`)) {
       target.classList.remove('column_active');
     }
@@ -102,7 +102,7 @@ const Column = (props: IProps) => {
 
   const dragOverHandler = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const target = event.target as HTMLDivElement;
+    const target = event.currentTarget as HTMLDivElement;
     if (target.classList.contains(`column`)) {
       target.classList.add('column_active');
     }
@@ -112,11 +112,11 @@ const Column = (props: IProps) => {
     event.preventDefault();
     event.stopPropagation();
     dispatch(setIsCurrentColumn(false));
-    const target = event.target as HTMLDivElement;
+    const target = event.currentTarget as HTMLDivElement;
     if (target.classList.contains(`column_active`)) {
       target.classList.remove('column_active');
     }
-    if (currentTask._id) {
+    if (currentTask._id && !column.tasks.includes(currentTask)) {
       column.tasks.push(currentTask);
       const currentColumnData: columnApiWithTasks = JSON.parse(JSON.stringify(currentColumn));
       const currentIndex = currentColumnData.tasks.findIndex((element: TaskApi) => {

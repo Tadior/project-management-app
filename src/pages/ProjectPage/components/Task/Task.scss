@@ -8,6 +8,7 @@
   display: flex;
   align-items: center;
   transition: all ease 0.3s;
+  background: #fff;
   &:first-child {
     margin-top: 0;
   }
@@ -69,6 +70,9 @@
     }
   }
   &_active {
+    background: $purple-light;
+  }
+  &_checked {
     border-color: $green;
     .task__label {
       fill: $green;
