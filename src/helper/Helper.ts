@@ -19,7 +19,7 @@ const setValueToCookie = (name: string, value: string) => {
 
 const setUserToCookie = (user: userApiState) => {
   const userData = JSON.stringify(user);
-  document.cookie = `userData=${userData}; path=/;`;
+  document.cookie = `userData=${userData}; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT`;
 };
 
 const getUserCookie = () => {
