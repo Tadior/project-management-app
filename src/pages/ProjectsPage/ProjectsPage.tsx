@@ -20,6 +20,7 @@ export const ProjectsPage = () => {
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [currentIdToDelete, setCurrentIdToDelete] = useState('');
   const [isProjectModalActive, setisProjectModalActive] = useState(false);
+  const [isPreloader, setPreloader] = useState(false);
   const { t } = useTranslation();
   const { _id } = getUserCookie()!;
   const [deleteProject] = useDeleteBoardByIdMutation();
@@ -27,7 +28,6 @@ export const ProjectsPage = () => {
   const handleProjectIsActive = (value: boolean) => {
     setisProjectModalActive(value);
   };
-
   const handleDeleteIsActive = (value: boolean) => {
     setIsDeleteActive(value);
   };
@@ -52,7 +52,7 @@ export const ProjectsPage = () => {
 
   return (
     <>
-      {(isFetching && <Preloader />) || (
+      {((isFetching || isPreloader) && <Preloader />) || (
         <section className="projects">
           <div className="container">
             <div
@@ -73,6 +73,7 @@ export const ProjectsPage = () => {
                       key={current._id}
                       title={current.title}
                       description={current.users[0]}
+                      updatePreloader={setPreloader}
                     />
                   );
                 })}

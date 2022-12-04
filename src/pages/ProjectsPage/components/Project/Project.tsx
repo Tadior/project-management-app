@@ -9,12 +9,20 @@ import { setValueToCookie } from '../../../../helper/Helper';
 interface IProjectProps {
   updateState: (value: boolean) => void;
   updateId: React.Dispatch<React.SetStateAction<string>>;
+  updatePreloader: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
   description: string;
   id?: string;
 }
 
-const Project = ({ updateState, title, description, id, updateId }: IProjectProps) => {
+const Project = ({
+  updateState,
+  title,
+  description,
+  id,
+  updateId,
+  updatePreloader,
+}: IProjectProps) => {
   const { setActiveProjectId } = userSlice.actions;
   const handleClick = (event: React.MouseEvent<EventTarget>) => {
     const target = event.target as HTMLElement;
@@ -27,7 +35,10 @@ const Project = ({ updateState, title, description, id, updateId }: IProjectProp
       className="project"
       to={`/projects/${title}`}
       id={id}
-      onClick={() => setValueToCookie('projectId', id!)}
+      onClick={() => {
+        updatePreloader(true);
+        setValueToCookie('projectId', id!);
+      }}
     >
       <div className="project__wrapper">
         <div className="project__picture">
