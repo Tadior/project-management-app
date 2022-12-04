@@ -1,0 +1,153 @@
+*,
+*:before,
+*:after {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+  font-size: inherit;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Inter-Regular';
+  font-size: 10px;
+}
+
+button {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#root {
+  height: 100%;
+}
+
+.App {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, transparent 0%, $purple-light 100%);
+}
+
+.main {
+  flex: 1 1 auto;
+  overflow: hidden;
+  min-height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1260px;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.scroll_blocked {
+  overflow: hidden;
+}
+
+.footer {
+  background-color: $background-footer;
+  color: $white-text;
+  flex: 0 0 auto;
+}
+
+.button-border {
+  transition: 0.4s;
+  height: 3.9rem;
+  padding: 1rem 2.4rem;
+  background: white;
+  border: 1px solid $black-text;
+  border-radius: 0.8rem;
+  color: $black-text;
+  font-size: 1.6rem;
+  font-family: 'Inter-Medium';
+  line-height: 1.9rem;
+  text-transform: capitalize;
+  line-height: 1.9rem;
+
+  &:active {
+    transform: translateY(3px);
+  }
+
+  &:hover {
+    background-color: $black-text;
+    color: white;
+  }
+}
+
+.button-black {
+  transition: 0.4s;
+  height: 3.9rem;
+  padding: 1rem 2.4rem;
+  background: $black-text;
+  border: 1px solid $black-text;
+  border-radius: 0.8rem;
+  color: $white-text;
+  font-size: 1.6rem;
+  line-height: 1.9rem;
+  font-family: 'Inter-Medium';
+  text-transform: capitalize;
+  line-height: 1.9rem;
+
+  &:active {
+    transform: translateY(3px);
+  }
+
+  &:hover {
+    background-color: white;
+    color: $black-text;
+  }
+}
+
+.active {
+  background-color: white;
+  color: $black-text;
+}
+
+@media only screen and (max-width: 768px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  html {
+    font-size: 7px;
+  }
+}

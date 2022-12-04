@@ -1,0 +1,132 @@
+.edit-form {
+  @include flex-column-center;
+  position: relative;
+  background-color: $white-text;
+  width: 45rem;
+  padding: 4rem 6rem;
+  text-align: center;
+  box-shadow: 0.5rem 0.4rem 1rem #97989f;
+  border-radius: 0.8rem;
+  margin: 4rem 0;
+
+  &__hat {
+    display: block;
+    position: absolute;
+    width: 22.3rem;
+    top: -13rem;
+    right: -11rem;
+  }
+
+  &__title {
+    font-family: 'Playfair-Medium';
+    font-size: 2rem;
+    line-height: 2.7rem;
+    margin-bottom: 3rem;
+    color: $grey-text;
+    text-transform: capitalize;
+    background-image: url('../../../assets/icons/stick_icon.png');
+    background-position: right;
+    padding-right: 3.5rem;
+    background-repeat: no-repeat;
+    background-size: 2.5rem;
+  }
+
+  &__form {
+    max-width: 29rem;
+
+    .edit-form__input {
+      margin-bottom: 3rem;
+      width: 29rem;
+
+      label {
+        font-family: 'Inter-SemiBold';
+        font-size: 1.4rem;
+        background-color: white;
+        padding: 0 0.5rem;
+      }
+
+      div {
+        height: 4rem;
+      }
+
+      input {
+        font-family: 'Inter-SemiBold';
+        color: $grey-text;
+        font-size: 1.6rem;
+
+        &:focus {
+          color: $purple-input;
+        }
+      }
+    }
+
+    .css-k4qjio-MuiFormHelperText-root {
+      font-family: 'Inter-Regular';
+      font-size: 1.2rem;
+    }
+  }
+
+  &__btns {
+    @include flex-column-center;
+  }
+
+  &__action-btns {
+    width: 100%;
+    @include flex-center-space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  &__delete-btn {
+    width: 100%;
+    padding: 1rem 2.4rem;
+    text-transform: capitalize;
+    border: 1px solid $red;
+    border-bottom: 5px solid $red;
+    border-radius: 0.8rem;
+    background-color: white;
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+    font-family: 'Inter-Medium';
+    color: $black-text;
+    transition: 0.4s;
+
+    &:hover {
+      background-color: $red;
+      color: white;
+    }
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .edit-form {
+    width: 38rem;
+    padding: 4rem 4rem;
+
+    &__form {
+      max-width: 26rem;
+
+      .edit-form__input {
+        width: 26rem;
+      }
+    }
+
+    &__action-btns {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+
+      .button-border {
+        order: 2;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .edit-form {
+    &__hat {
+      display: none;
+    }
+  }
+}

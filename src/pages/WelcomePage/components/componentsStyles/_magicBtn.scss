@@ -1,0 +1,84 @@
+.btn_magic {
+  position: relative;
+  padding: 1rem 2.4rem;
+  text-transform: capitalize;
+  border: 1px solid $purple-bright;
+  border-bottom: 5px solid $purple-bright;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  cursor: url('../../../../assets/icons/stick_icon.png'), auto;
+
+  &:active {
+    transform: translateY(3px);
+  }
+
+  &:hover .magic{
+    top: -16rem;
+  }
+
+  &:hover a {
+    color: white;
+  }
+
+  a {
+    position: relative;
+    font-size: 2rem;
+    font-family: 'Inter-Medium';
+    color: $black-text;
+    z-index: 1;
+    transition: 0.5s;
+    cursor: url('../../../../assets/icons/stick_icon.png'), auto;
+  }
+
+  .magic {
+    position: absolute;
+    top: -4rem;
+    left: 0;
+    width: 100%;
+    height: 20rem;
+    background: $purple-bright;
+    box-shadow:  rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
+  
+    &::after,
+    &::before {
+      content: '';
+      width: 200%;
+      height: 120%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-45%, -70%);
+      background-color: white;
+    }
+  
+    &::before {
+      border-radius: 45%;
+      background: white;
+      animation: magic 8s linear infinite;
+    }
+  
+    &::after {
+      border-radius: 40%;
+      background: rgba(255, 255, 255, 0.5);
+      animation: magic 14s linear infinite;
+    }
+  }
+}
+
+@keyframes magic {
+  0% {
+    transform: translate(-45%, -70%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-45%, -70%) rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .btn_magic {
+    &:hover .magic{
+      top: -14rem;
+    }
+  }
+}

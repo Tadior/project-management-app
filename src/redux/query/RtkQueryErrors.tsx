@@ -1,0 +1,16 @@
+import { isRejectedWithValue } from '@reduxjs/toolkit';
+import type { MiddlewareAPI, Middleware } from '@reduxjs/toolkit';
+import { deleteCookie } from '../../helper/Helper';
+import { setIsTokenExpired } from '../reducer/UserSlice';
+
+export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
+  if (isRejectedWithValue(action)) {
+    const { data } = action.payload;
+    if (data.statusCode === 403 && data.message === 'Invalid token') {
+      deleteCookie('token');
+      window.location.pathname = '/';
+      api.dispatch(setIsTokenExpired(true));
+    }
+  }
+  return next(action);
+};

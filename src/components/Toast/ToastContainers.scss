@@ -1,0 +1,19 @@
+.warnToastContainer,
+.errorToastContainer,
+.successToastContainer {
+	font-family: 'Inter-Medium';
+	font-size: 1.6rem;
+	line-height: 2rem;
+
+	.Toastify__toast-icon {
+		margin-right: 2rem;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.warnToastContainer,
+	.errorToastContainer,
+	.successToastContainer {
+		font-size: 1.8rem;
+	}
+}

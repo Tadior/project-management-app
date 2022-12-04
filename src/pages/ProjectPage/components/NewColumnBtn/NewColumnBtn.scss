@@ -1,0 +1,17 @@
+.new-column-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 8.3rem;
+  height: 8.3rem;
+  background-color: rgba($purple-bright, 0.4);
+  border-radius: 50%;
+  transition: all ease 0.5s;
+  &__img {
+    width: 3.9rem;
+    height: 3.9rem;
+  }
+  &:hover {
+    background-color: rgba($purple-bright, 1);
+  }
+}

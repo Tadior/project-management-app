@@ -1,0 +1,41 @@
+$purple-light: #d1c2e4;
+$purple-bright: #bb9ce3;
+$purple-input: #9c27b0;
+$green: #78ff8e;
+$yellow: #f7d56e;
+$red: rgba(240, 49, 49, 0.52);
+$black-title: #000000;
+$black-text: #191919;
+$white-text: #ffffff;
+$grey-text: #97989f;
+$grey-transparent: rgba(151, 152, 159, 0.52);
+$grey-cards: #f5f6f8;
+$background-footer: #050000;
+$background-scrollbar: #d9d9d9;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-center-space-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin fixed-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}

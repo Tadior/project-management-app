@@ -1,0 +1,48 @@
+.footer-wrapper {
+	@include flex-center-space-between;
+	padding: 1rem 2rem;
+}
+
+.link-gitHub {
+	color: $white-text;
+	font-weight: 500;
+	font-size: 1.6rem;
+	line-height: 1.9rem;
+	background: url(../../../public/icons/logo-github.svg) no-repeat 0px 0px;
+	background-size: 2rem;
+	padding-left: 2.5rem;
+}
+
+.date {
+	font-weight: 700;
+	font-size: 2rem;
+	line-height: 2.4rem;
+}
+
+.links-gitHub-command__item {
+	list-style: none;
+	padding-left: 2.4rem;
+	margin-bottom: 0.9rem;
+}
+
+.logo-RSS {
+		display: block;
+		width: fit-content;
+
+		img {
+			width: 15.3rem;
+		}
+}
+
+@media only screen and (max-width: 560px) {
+  .footer-wrapper {
+		@include flex-center;
+		flex-wrap: wrap;
+		column-gap: 40rem;
+		row-gap: 2rem;
+	}
+
+	.date {
+		order: 2;
+	}
+}
