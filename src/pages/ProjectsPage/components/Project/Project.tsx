@@ -30,16 +30,16 @@ const Project = ({
     updateState(true);
   };
 
+  const projectClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLElement;
+    if (!target.classList.contains('project__delete')) {
+      updatePreloader(true);
+      setValueToCookie('projectId', id!);
+    }
+  };
+
   return (
-    <NavLink
-      className="project"
-      to={`/projects/${title}`}
-      id={id}
-      onClick={() => {
-        updatePreloader(true);
-        setValueToCookie('projectId', id!);
-      }}
-    >
+    <NavLink className="project" to={`/projects/${title}`} id={id} onClick={projectClick}>
       <div className="project__wrapper">
         <div className="project__picture">
           <img src={projectImg} alt="project picture" className="project__img" />
@@ -55,7 +55,7 @@ const Project = ({
             handleClick(event);
           }}
         >
-          <img id={id} src={trashCan} alt="trash can" />
+          <img className="project__delete" id={id} src={trashCan} alt="trash can" />
         </div>
       </div>
     </NavLink>

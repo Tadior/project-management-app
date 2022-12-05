@@ -81,7 +81,7 @@ export const ProjectsPage = () => {
                 {isProjectModalActive && (
                   <CreateProjectForm
                     projects={projects}
-                    typeOfForm={''}
+                    typeOfForm={'create_project'}
                     updateState={handleProjectIsActive}
                   />
                 )}

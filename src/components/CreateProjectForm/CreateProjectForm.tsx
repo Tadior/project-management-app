@@ -16,7 +16,7 @@ interface ICreateProjectFormProps {
   projects?: boardsApi[];
   updateState?: (value: boolean) => void;
   updateProjects?: React.Dispatch<React.SetStateAction<boardsApi[]>>;
-  typeOfForm: 'create_project' | string;
+  typeOfForm: string;
   callbackToSubmit?: SubmitHandler<ICreateForm>;
   callbackTaskToSubmit?: SubmitHandler<ICreateForm>;
   defaultData?: ICreateForm;
