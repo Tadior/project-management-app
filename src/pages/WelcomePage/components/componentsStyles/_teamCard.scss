@@ -1,8 +1,12 @@
 .member {
   background-color: $grey-cards;
   width: 36rem;
+  height: 44rem;
   padding: 3rem 2rem;
   border-radius: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &__info {
     @include flex-center-space-between;

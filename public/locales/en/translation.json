@@ -20,7 +20,7 @@
       "name": "Ilona Makhnach",
       "position": "Frontend Developer",
       "github": "https://github.com/IlonMakh",
-      "role": "text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am "
+      "role": "Application design development, creation of Welcome page, Profile page, Not found page, preloader. Localization, form validation and error handling (toasts)."
     },
 
     {
@@ -28,7 +28,7 @@
       "name": "Dmitriy Zamulin",
       "position": "Frontend Developer",
       "github": "https://github.com/tadior",
-      "role": "text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am "
+      "role": "Creation of Main page, Project page, components Create modal, Delete modal. Implementation of drag-and-drop, functionality of tasks. Setting up a Redux environment (RTK Query). Application deployment."
     },
 
     {
@@ -36,7 +36,7 @@
       "name": "Andrei Matsiash",
       "position": "Frontend Developer",
       "github": "https://github.com/andrewmatsiash",
-      "role": "text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am text about how good I am "
+      "role": "Creation of Sign In and Sign Up page, header, footer components. Setting up application routing, error handling (toasts). Setting up a Redux environment (RTK Query)."
     }
   ],
   "sign_hello": "Hello, Wizard!",

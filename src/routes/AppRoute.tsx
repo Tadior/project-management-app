@@ -13,7 +13,7 @@ import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 import WelcomePage from '../pages/WelcomePage/WelcomePage';
 import { getCookie, getUserCookie } from '../helper/Helper';
 import ProjectPage from '../pages/ProjectPage/ProjectPage';
-import { columnApi, TaskApi } from '../types/types';
+import { columnApi, PointApi, TaskApi } from '../types/types';
 import { ProtectedAuthUserRoute, ProtectedNotAuthUserRoute } from './ProtectedRoute/ProtectedRoute';
 
 export const AppRoutes = () => {
@@ -50,10 +50,26 @@ export const AppRoutes = () => {
             },
           }
         );
+      const responsePoint = async (taskId: string) =>
+        await fetch(`https://mana-project-back.up.railway.app/points/${taskId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`,
+            // 'Access-Control-Allow-Origin': 'http://localhost:3000',
+            // 'Access-Control-Allow-Credentials': 'true',
+          },
+        });
       const allTasks: TaskApi[][] = await Promise.all(
         allColumnsIds.map(async (item) => {
-          const response = await responseTasks(item);
-          return response.json();
+          const tasks = await responseTasks(item);
+          const tasksData: TaskApi[] = await tasks.json();
+          const updatedTasks = await tasksData.map(async (task, index) => {
+            const point = await responsePoint(task._id);
+            const pointData: PointApi[] = await point.json();
+            tasksData[index].point = await pointData[0];
+            return task;
+          });
+          return Promise.all(updatedTasks).then(() => tasksData);
         })
       ).then((data) => {
         return data;
@@ -68,11 +84,14 @@ export const AppRoutes = () => {
         });
       });
       const out = allColumns.map((column, index) => {
-        return { ...column, tasks: sortedTasks[index] };
+        return {
+          ...column,
+          tasks: sortedTasks[index],
+        };
       });
       return out;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 

@@ -82,11 +82,10 @@ export const SignInForm: React.FC = () => {
         <button className="button-border" type="submit">
           {t('sign_signIn')}
         </button>
-        <div className="dividing-line">
-          <Link to="/signIn" className="sign-up-link">
-            {t('signIn_offer')}
-          </Link>
-        </div>
+        <div className="dividing-line"></div>
+        <Link to="/signUp" className="sign-up-link">
+          {t('signUp_offer')}
+        </Link>
       </form>
     </div>
   );

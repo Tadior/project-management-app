@@ -9,12 +9,20 @@ import { setValueToCookie } from '../../../../helper/Helper';
 interface IProjectProps {
   updateState: (value: boolean) => void;
   updateId: React.Dispatch<React.SetStateAction<string>>;
+  updatePreloader: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
   description: string;
   id?: string;
 }
 
-const Project = ({ updateState, title, description, id, updateId }: IProjectProps) => {
+const Project = ({
+  updateState,
+  title,
+  description,
+  id,
+  updateId,
+  updatePreloader,
+}: IProjectProps) => {
   const { setActiveProjectId } = userSlice.actions;
   const handleClick = (event: React.MouseEvent<EventTarget>) => {
     const target = event.target as HTMLElement;
@@ -22,13 +30,16 @@ const Project = ({ updateState, title, description, id, updateId }: IProjectProp
     updateState(true);
   };
 
+  const projectClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLElement;
+    if (!target.classList.contains('project__delete')) {
+      updatePreloader(true);
+      setValueToCookie('projectId', id!);
+    }
+  };
+
   return (
-    <NavLink
-      className="project"
-      to={`/projects/${title}`}
-      id={id}
-      onClick={() => setValueToCookie('projectId', id!)}
-    >
+    <NavLink className="project" to={`/projects/${title}`} id={id} onClick={projectClick}>
       <div className="project__wrapper">
         <div className="project__picture">
           <img src={projectImg} alt="project picture" className="project__img" />
@@ -44,7 +55,7 @@ const Project = ({ updateState, title, description, id, updateId }: IProjectProp
             handleClick(event);
           }}
         >
-          <img id={id} src={trashCan} alt="trash can" />
+          <img className="project__delete" id={id} src={trashCan} alt="trash can" />
         </div>
       </div>
     </NavLink>

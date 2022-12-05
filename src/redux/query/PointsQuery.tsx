@@ -11,8 +11,12 @@ interface updateSetOfPointsBody {
   _id: string;
   done: boolean;
 }
+interface updatePoint {
+  title: string;
+  done: boolean;
+}
 interface updatePointByIdBody {
-  _id: string;
+  title: string;
   done: boolean;
 }
 interface updatePointByIdResponse {
@@ -69,10 +73,7 @@ export const PointsQuery = createApi({
         method: 'GET',
       }),
     }),
-    updatePointById: builder.mutation<
-      updatePointByIdResponse,
-      { pointId: string; body: updatePointByIdBody }
-    >({
+    updatePointById: builder.mutation<updatePoint, { pointId: string; body: updatePointByIdBody }>({
       query: (args) => ({
         url: `points/${args.pointId}`,
         method: 'PATCH',

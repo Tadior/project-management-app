@@ -4,7 +4,7 @@ import { getCookie } from '../../helper/Helper';
 
 export const ProtectedAuthUserRoute = () => {
   const token = getCookie('token');
-  return token ? <Navigate to={'/'} /> : <Outlet />;
+  return token ? <Navigate to={'/projects'} /> : <Outlet />;
 };
 
 export const ProtectedNotAuthUserRoute = () => {

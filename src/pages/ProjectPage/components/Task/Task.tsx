@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ReactComponent as MagicPenIcon } from '../../../../assets/icons/stick_icon-small.svg';
 import { ReactComponent as TrashIcon } from '../../../../assets/icons/trash_task.svg';
-import checkbox from '../../../../assets/icons/checkbox.svg';
+import { ReactComponent as Checkbox } from '../../../../assets/icons/checkbox.svg';
 import DeleteModal from '../../../../components/DeleteModal/DeleteModal';
 import {
   useUpdateTaskByIdMutation,
@@ -18,6 +18,10 @@ import { SubmitHandler } from 'react-hook-form';
 import { getCookie, getUserCookie } from '../../../../helper/Helper';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { setCurrentColumn, setCurrentTask } from '../../../../redux/reducer/ProjectSlice';
+import {
+  useCreatePointMutation,
+  useUpdatePointByIdMutation,
+} from '../../../../redux/query/PointsQuery';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 interface IProps {
@@ -35,9 +39,14 @@ const Task = (props: IProps) => {
   const { isCurrentColumn } = useAppSelector((state) => state.ColumnSlice);
   const dispatch = useAppDispatch();
   const [updateTask, updateTaskData] = useUpdateTaskByIdMutation();
+  const [createPoint, createPointData] = useCreatePointMutation();
+  const [updatePoint, updatePointData] = useUpdatePointByIdMutation();
   const [updateTaskSet, updateTaskSetData] = useUpdateTasksSetMutation();
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [isModalActive, setIsModalActive] = useState(false);
+  const [isChecked, setIsChecked] = useState(
+    props.taskData.point ? props.taskData.point.done : false
+  );
   const { _id } = getUserCookie();
   const activeProjectId = getCookie('projectId')!;
   const closeDeleteModal = () => {
@@ -66,7 +75,9 @@ const Task = (props: IProps) => {
         };
       });
       try {
-        updateTaskSet({ body: updateBody });
+        if (updateBody.length !== 0) {
+          updateTaskSet({ body: updateBody });
+        }
       } catch (error) {
         toast(t('setData_error'), {
           containerId: 'error',
@@ -110,8 +121,6 @@ const Task = (props: IProps) => {
     const index = props.columnData.tasks.indexOf(props.taskData);
     const currentColumnIndex = props.columnsList.indexOf(props.columnData);
     const currentColumn = props.columnsList[currentColumnIndex];
-    const currentTaskIndex = currentColumn.tasks.indexOf(props.taskData);
-    const currentOrder = currentColumn.tasks[currentTaskIndex].order;
     const updatedTask = {
       boardId: activeProjectId,
       columnId: props.columnData._id,
@@ -159,6 +168,7 @@ const Task = (props: IProps) => {
 
   const dragOverHandler = (event: React.DragEvent<HTMLLIElement>) => {
     event.preventDefault();
+    event.stopPropagation();
     const target = event.target as HTMLLIElement;
     if (target.classList.contains(`task`)) {
       target.classList.add('task_active');
@@ -179,7 +189,9 @@ const Task = (props: IProps) => {
       };
     });
     try {
-      updateTaskSet({ body: updateBody });
+      if (updateBody.length !== 0) {
+        updateTaskSet({ body: updateBody });
+      }
     } catch (error) {
       throw error;
     }
@@ -206,7 +218,9 @@ const Task = (props: IProps) => {
       columnId: task.columnId,
     });
     try {
-      updateTaskSet({ body: updateBody });
+      if (updateBody.length !== 0) {
+        updateTaskSet({ body: updateBody });
+      }
     } catch (error) {
       throw error;
     }
@@ -288,7 +302,9 @@ const Task = (props: IProps) => {
           columnId: currentTask.columnId,
         });
         try {
-          updateTaskSet({ body: updateBody });
+          if (updateBody.length !== 0) {
+            updateTaskSet({ body: updateBody });
+          }
         } catch (error) {
           throw error;
         }
@@ -298,6 +314,54 @@ const Task = (props: IProps) => {
       }
       props.updateColumnsData(out);
     }
+    dispatch(
+      setCurrentTask({
+        _id: '',
+        title: '',
+        order: 0,
+        boardId: '',
+        columnId: '',
+        description: '',
+        userId: '',
+        users: [],
+      })
+    );
+  };
+
+  const setPoint = () => {
+    const taskClone: TaskApi = JSON.parse(JSON.stringify(props.taskData));
+    const columnClone: columnApiWithTasks = JSON.parse(JSON.stringify(props.columnData));
+    taskClone.point!.done = !isChecked;
+    const currentIndex = columnClone.tasks.findIndex((task) => {
+      if (task._id === taskClone._id) {
+        return true;
+      }
+      return false;
+    });
+    columnClone.tasks[currentIndex].point = taskClone.point;
+    const sortedColumns = props.columnsList.map((column) => {
+      if (column._id === columnClone._id) {
+        return columnClone;
+      }
+      return column;
+    });
+    props.updateColumnsData(sortedColumns);
+  };
+
+  const updateCheckbox = () => {
+    if (props.taskData.point) {
+      const body = {
+        title: props.taskData.title,
+        done: !isChecked,
+      };
+      try {
+        updatePoint({ pointId: props.taskData.point._id, body: body });
+        setPoint();
+      } catch (error) {
+        throw error;
+      }
+    }
+    setIsChecked(!isChecked);
   };
 
   return (
@@ -309,13 +373,22 @@ const Task = (props: IProps) => {
       onDragEnd={(event) => dragEndHandler(event)}
       onDrop={(event) => dropHandler(event, props.columnData, props.taskData)}
       id={props.taskData._id}
-      className="task"
+      className={`task ${isChecked ? 'task_checked' : ''}`}
     >
-      <div className="task__checkbox">
-        <label htmlFor="checkbox">
-          <img src={checkbox} alt="task checkbox" />
+      <div className={'task__checkbox'}>
+        <label
+          className={`task__label`}
+          htmlFor={`${props.taskData.title}`}
+          onClick={updateCheckbox}
+        >
+          <Checkbox alt="task checkbox" />
         </label>
-        <input className="task__checkbox-input" type="checkbox" name="" id="checkbox" />
+        <input
+          className="task__checkbox-input"
+          type="checkbox"
+          name=""
+          id={`${props.taskData.title}`}
+        />
       </div>
       <div className="task__info">
         <div className="task__title">{props.taskData.title}</div>

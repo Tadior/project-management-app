@@ -1,4 +1,5 @@
 .task {
+  cursor: grab;
   position: relative;
   padding: 1.2rem 1rem;
   border: 1px solid $purple-bright;
@@ -6,12 +7,29 @@
   margin-top: 1.5rem;
   display: flex;
   align-items: center;
+  transition: all ease 0.3s;
+  background: #fff;
   &:first-child {
     margin-top: 0;
   }
+  &__label {
+    cursor: pointer;
+    transition: all ease 0.3s;
+    fill: $purple-bright;
+    &:hover {
+      fill: $purple-input;
+    }
+  }
   &__checkbox {
+    transition: all ease 0.3s;
     &-input {
       display: none;
+
+      // &:checked {
+      //   ~ label {
+      //     background: red;
+      //   }
+      // }
     }
   }
   &__info {
@@ -41,17 +59,23 @@
   &__button {
     background: transparent;
     transition: all ease 0.5s;
-    
+
     svg {
       height: 1.8rem;
       width: 1.8rem;
 
-      &:hover path{
+      &:hover path {
         fill: $purple-input;
       }
     }
   }
   &_active {
     background: $purple-light;
+  }
+  &_checked {
+    border-color: $green;
+    .task__label {
+      fill: $green;
+    }
   }
 }

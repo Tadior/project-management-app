@@ -57,6 +57,13 @@ export interface TaskApi {
   description: string;
   userId: string;
   users: string[];
+  point?: {
+    _id: string;
+    done: boolean;
+    title: string;
+    taskId: string;
+    boardId: string;
+  };
 }
 export interface FileApi {
   _id: string;
@@ -68,7 +75,7 @@ export interface FileApi {
 export interface PointApi {
   _id: string;
   title: string;
-  taskId: number;
+  taskId: string;
   boardId: string;
   done: boolean;
 }

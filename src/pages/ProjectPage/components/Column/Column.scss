@@ -1,23 +1,24 @@
 .column {
+  cursor: grab;
   position: relative;
   background-color: $grey-cards;
   border-radius: 1.2rem;
   width: 37rem;
   min-width: 37rem;
-  height: calc(100vh - 13.1rem - 4rem - 4rem - 2rem - 3rem - 5.5rem - 10.4rem);
+  height: calc(100vh - 13.1rem - 4rem - 4rem - 2rem - 3rem - 5.5rem - 5.4rem);
   padding: 4.5rem 1.38rem 2rem 2.5rem;
   overflow: hidden;
   @media (max-width: 768px) {
-    height: calc(100vh - 13.1rem - 4rem - 4rem - 2rem - 4.5rem - 5.5rem - 10.4rem);
+    height: calc(100vh - 13.1rem - 4rem - 4rem - 2rem - 4.5rem - 5.5rem - 5.4rem);
   }
   @media (max-width: 660px) {
-    height: calc(100vh - 13.1rem - 4rem - 4rem - 2rem - 10.5rem - 5.5rem - 10.4rem);
+    height: calc(100vh - 13.1rem - 4rem - 4rem - 2rem - 10.5rem - 4.5rem);
   }
   @media (max-width: 546px) {
-    height: calc(100vh - 13.1rem - 4rem - 4rem - 2rem - 16rem - 5.5rem - 10.4rem);
+    height: calc(100vh - 13.1rem - 16rem - 10.4rem);
   }
   @media (max-width: 473px) {
-    height: calc(100vh - 13.1rem - 4rem - 4rem - 2rem - 20.5rem - 5.5rem - 10.4rem);
+    height: calc(100vh - 13.1rem - 20.5rem - 6.2rem);
   }
   &__header {
     display: flex;
@@ -34,12 +35,11 @@
         width: 2.5rem;
         height: 2.5rem;
 
-        &:hover path{
+        &:hover path {
           fill: $purple-input;
         }
       }
     }
-
   }
   &__title {
     font-size: 2rem;
@@ -68,6 +68,7 @@
     background-color: $purple-light;
     border-radius: 0.8rem;
     transition: all ease 0.5s;
+    line-height: normal;
     &:hover {
       background-color: $purple-bright;
     }
